@@ -27,21 +27,28 @@ export default class Chainscript {
    * Run the script.
    */
   run(cb) {
-    request.post(EXECUTE_URL, {body: this.script, json: true}, (err, resp, body) => {
-      if (err) {
-        cb && cb(err, this);
-        return;
+    request.post(
+      EXECUTE_URL,
+      {
+        body: this.script,
+        json: true
+      },
+      (err, resp, body) => {
+        if (err) {
+          cb && cb(err, this);
+          return;
+        }
+
+        if (resp.statusCode >= 400) {
+          cb && cb(new Error('Unexpected status: ' + resp.statusCode), this);
+          return;
+        }
+
+        this.script = body;
+
+        cb(null, this);
       }
-
-      if (resp.statusCode >= 400) {
-        cb && cb(new Error('Unexpected status: ' + resp.statusCode), this);
-        return;
-      }
-
-      this.script = body;
-
-      cb(null, this);
-    });
+    );
   }
 
 }
