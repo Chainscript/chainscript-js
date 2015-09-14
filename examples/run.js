@@ -1,11 +1,4 @@
-# Chainscript Client
-
-## Example
-
-```js
-var Chainscript = require('chainscript-client').Chainscript;
-
-// You pass the initial document
+var Chainscript = require('../lib').Chainscript;
 var script = new Chainscript('My Document');
 
 script.run(function(err) {
@@ -15,5 +8,3 @@ script.run(function(err) {
   }
   console.log(script.toJSON());
 });
-
-```

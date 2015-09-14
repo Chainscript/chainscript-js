@@ -48,5 +48,8 @@
   "bugs": {
     "url": "https://github.com/Coinhive/chainscript-client/issues"
   },
-  "homepage": "https://github.com/Coinhive/chainscript-client"
+  "homepage": "https://github.com/Coinhive/chainscript-client",
+  "dependencies": {
+    "request": "^2.61.0"
+  }
 }
