@@ -7,7 +7,7 @@ export default class Chainscript {
   /**
    * Construct a new chainscript.
    *
-   * @param {Object} [document={}] The initial document
+   * @param {Object | string} [document={}] The initial document
    */
   constructor(document = {}) {
     this.script = {document};
@@ -35,16 +35,15 @@ export default class Chainscript {
         json: true
       },
       (err, resp, body) => {
+        delete this.script.execute;
+        this.script.numCommands = 0;
+
         if (err) {
-          delete this.script.execute;
-          this.script.numCommands = 0;
           cb && cb(err, this);
           return;
         }
 
         if (resp.statusCode >= 400) {
-          delete this.script.execute;
-          this.script.numCommands = 0;
           cb && cb(new Error('Unexpected status: ' + resp.statusCode), this);
           return;
         }
