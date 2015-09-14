@@ -1,0 +1,26 @@
+{
+  "name": "chainscript-client",
+  "version": "0.1.0",
+  "description": "Client for chainscript.io",
+  "main": "lib/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Coinhive/chainscript-client.git"
+  },
+  "keywords": [
+    "chainscript",
+    "blockchain",
+    "contract",
+    "bitcoin",
+    "client"
+  ],
+  "author": "Stephan Florquin",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Coinhive/chainscript-client/issues"
+  },
+  "homepage": "https://github.com/Coinhive/chainscript-client"
+}
