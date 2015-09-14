@@ -11,6 +11,7 @@ export default class Chainscript {
    */
   constructor(document) {
     this.script = {document};
+    this.numCommands = 0;
   }
 
   /**
@@ -35,11 +36,15 @@ export default class Chainscript {
       },
       (err, resp, body) => {
         if (err) {
+          delete this.script.execute;
+          this.script.numCommands = 0;
           cb && cb(err, this);
           return;
         }
 
         if (resp.statusCode >= 400) {
+          delete this.script.execute;
+          this.script.numCommands = 0;
           cb && cb(new Error('Unexpected status: ' + resp.statusCode), this);
           return;
         }
@@ -49,6 +54,30 @@ export default class Chainscript {
         cb(null, this);
       }
     );
+
+    return this;
+  }
+
+  addCommand(command) {
+    this.script.execute = this.script.execute || {};
+    this.script.execute[this.numCommands] = command;
+    this.numCommands++;
+
+    return this;
+  }
+
+  /**
+   * Adds a snapshot command
+   */
+  snapshot() {
+    return this.addCommand({snapshot: {}});
+  }
+
+  /**
+   * Adds a send email command
+   */
+  email(to) {
+    return this.addCommand({send_email: {to}});
   }
 
 }
