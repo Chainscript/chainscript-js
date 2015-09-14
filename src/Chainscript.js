@@ -7,10 +7,10 @@ export default class Chainscript {
   /**
    * Construct a new chainscript.
    *
-   * @param {Object | string} [document={}] The initial document
+   * @param {Object | string} [document={}] The initial script
    */
-  constructor(document = {}) {
-    this.script = {document};
+  constructor(script = {}) {
+    this.script = script;
     this.numCommands = 0;
   }
 

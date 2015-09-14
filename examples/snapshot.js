@@ -1,6 +1,6 @@
 var Chainscript = require('../lib').Chainscript;
 
-new Chainscript('My Document')
+new Chainscript({document: 'My Document'})
   .snapshot()
   .run(function(err, script) {
     if (err) {
