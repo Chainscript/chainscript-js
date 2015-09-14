@@ -9,7 +9,7 @@ export default class Chainscript {
    *
    * @param {Object} [document={}] The initial document
    */
-  constructor(document) {
+  constructor(document = {}) {
     this.script = {document};
     this.numCommands = 0;
   }
