@@ -53,11 +53,14 @@ Chainscript.load('chainscript:document:3940c155-d17d-421a-b34e-8bf5a458299e')
 `Chainscript` **IS IMMUTABLE**. An instance is never modified after
 initialization. Adding commands to a script returns a new instance.
 
-#### new Chainscript(script)
+#### new Chainscript(script, immutable = true)
 
 Creates a new Chainscript from a JSON object.
 
-#### Chainscript.load(uuid)
+If `immutable` is `true`, **THE INSTANCE IS IMMUTABLE**. It is never modified
+after initialization. Adding commands to a script returns a new instance.
+
+#### Chainscript.load(uuid, immutable = true)
 
 Loads an existing script. Returns a promise that resolves with an instance of
 `Chainscript`.
@@ -77,25 +80,29 @@ console.log(value); // My Document
 
 #### Chainscript#snapshot()
 
-Adds a `snapshot` command to a script. Returns a new instance of `Chainscript`.
+Adds a `snapshot` command to a script. Returns a new instance of `Chainscript`
+if immutable, otherwise returns the instance.
 
 #### Chainscript#update(updates)
 
-Adds an `update` command to a script. Returns a new instance of `Chainscript`.
+Adds an `update` command to a script. Returns a new instance of `Chainscript`
+if immutable, otherwise returns the instance.
 
 #### Chainscript#notarize()
 
-Adds a `notarize` command to a script. Returns a new instance of `Chainscript`.
+Adds a `notarize` command to a script. Returns a new instance of `Chainscript`
+if immutable, otherwise returns the instance.
 
 #### Chainscript#email(to)
 
-Adds a `send_email` command to a script. Returns a new instance of
-`Chainscript`.
+Adds a `send_email` command to a script. Returns a new instance of `Chainscript`
+if immutable, otherwise returns the instance.
 
 #### Chainscript#change(fn)
 
 Adds an `update` command to a script that applies granular updates to the
-document. Returns a new instance of `Chainscript`.
+document. Returns a new instance of `Chainscript` if immutable, otherwise
+returns the instance.
 
 Ex:
 
@@ -122,7 +129,7 @@ new Chainscript({document: {content: {name: 'My Document', val: true}}})
 
 Adds an `update` command to a script that applies the necessary changes to
 update the current document to the given document. Returns a new instance of
-`Chainscript`.
+`Chainscript` if immutable, otherwise returns the instance.
 
 Ex:
 ```js
@@ -151,7 +158,7 @@ Returns the script as a JSON object.
 #### Chainscript#run()
 
 Runs the Chainscript. Returns a promise that resolves with a new instance of
-`Chainscript`.
+`Chainscript` if immutable, otherwise with the instance.
 
 #### Chainscript#clone()
 

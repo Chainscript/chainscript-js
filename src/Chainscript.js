@@ -10,10 +10,11 @@ export default class Chainscript {
   /**
    * Loads a script from an existing uuid
    *
-   * @param {String} uuid The uuid of the script
+   * @param {string} uuid The uuid of the script
+   * @param {bool} immutable Whether to create an immutable instance
    * @returns {Promise} A promise that resolves with a new Chainscript
    */
-  static load = uuid => {
+  static load = (uuid, immutable = true) => {
     const deferred = Q.defer();
 
     request
@@ -28,7 +29,7 @@ export default class Chainscript {
           return deferred.reject(new Error(res.text));
         }
 
-        deferred.resolve(new Chainscript(res.body));
+        deferred.resolve(new Chainscript(res.body, immutable));
       });
 
     return deferred.promise;
@@ -38,10 +39,12 @@ export default class Chainscript {
    * Construct a new chainscript.
    *
    * @param {Object | string} [document={}] The initial script
+   * @param {bool} [immutable=true] Whether to create an immutable instance
    */
-  constructor(script = {}) {
+  constructor(script = {}, immutable = true) {
     // Clone the script for safety
     this.script = JSON.parse(JSON.stringify(script));
+    this.immutable = immutable;
     this.numCommands = 0;
 
     if (typeof script.execute !== 'undefined') {
@@ -69,7 +72,7 @@ export default class Chainscript {
    * @returns {Chainscript} A clone of the script
    */
   clone() {
-    return new Chainscript(this.script);
+    return new Chainscript(this.script, this.immutable);
   }
 
   /**
@@ -93,19 +96,32 @@ export default class Chainscript {
           return deferred.reject(new Error(res.text));
         }
 
-        deferred.resolve(new Chainscript(res.body));
+        if (this.immutable) {
+          deferred.resolve(new Chainscript(res.body));
+        } else {
+          this.script = res.body;
+          deferred.resolve(this);
+        }
       });
 
     return deferred.promise;
   }
 
   addCommand(command) {
-    const script = JSON.parse(JSON.stringify(this.script));
+    if (this.immutable) {
+      const script = JSON.parse(JSON.stringify(this.script));
 
-    script.execute = script.execute || {};
+      script.execute = script.execute || {};
+      script.execute[this.numCommands] = command;
+
+      return new Chainscript(script);
+    }
+
+    this.script.execute = script.execute || {};
     script.execute[this.numCommands] = command;
+    this.numCommands++;
 
-    return new Chainscript(script);
+    return this;
   }
 
   /**
