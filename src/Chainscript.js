@@ -104,6 +104,13 @@ export default class Chainscript {
   }
 
   /**
+   * Adds a notarize command
+   */
+  notarize() {
+    return this.addCommand({notarize: {}});
+  }
+
+  /**
    * Adds a send email command
    */
   email(to) {

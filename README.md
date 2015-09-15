@@ -11,6 +11,8 @@ var Chainscript = require('chainscript-client').Chainscript;
 new Chainscript({document: 'My Document'})
   // Add a snapshot command
   .snapshot()
+  // Add a notarize command
+  .notarize()
   // Add a send mail command
   .email('stephan.florquin+test@gmail.com')
   // Run the script (returns a promise)
