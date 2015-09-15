@@ -92,7 +92,7 @@ Ex:
 
 ```js
 new Chainscript({document: {content: {name: 'My Document'}}})
-  .change(function(get, set) {
+  .change(function(get, set, remove) {
     set('name', get('name') + ' V2');
     set('meta.author', 'Stephan Florquin');
     set('meta.time', Date.now());

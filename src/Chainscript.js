@@ -155,8 +155,8 @@ export default class Chainscript {
       const contentValue = objectPath.get(content, path);
       const updatesValue = objectPath.get(updates, path);
 
-      if (typeof contentValue === 'object' &&
-          typeof updatesValue === 'object') {
+      if (typeof contentValue === 'object' && contentValue &&
+          typeof updatesValue === 'object' && updatesValue) {
         return deepMerge(contentValue, updatesValue);
       }
 
@@ -175,15 +175,28 @@ export default class Chainscript {
       objectPath.set(updates, path, value);
     }
 
-    fn(get, set);
+    function remove(path) {
+      const contentValue = objectPath.get(content, path);
+      const updatesValue = objectPath.get(updates, path);
+
+      if (typeof updatesValue !== 'undefined') {
+        objectPath.del(updates, path);
+      }
+
+      if (typeof contentValue !== 'undefined') {
+        set(path, null);
+      }
+    }
+
+    fn(get, set, remove);
 
     for (const s in updates) {
       if (updates.hasOwnProperty(s)) {
         const contentValue = content[s];
         const updatesValue = updates[s];
 
-        if (typeof contentValue === 'object' &&
-            typeof updatesValue === 'object') {
+        if (typeof contentValue === 'object' && contentValue &&
+            typeof updatesValue === 'object' && updatesValue) {
           updates[s] = deepMerge(contentValue, updatesValue);
         }
       }

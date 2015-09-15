@@ -17,6 +17,22 @@ new Chainscript({document: {content: {name: 'My Document'}}})
   })
   .then(function(script) {
     console.log(script.get('document.content'));
+    return script
+      .change(function(get, set, remove) {
+        remove('meta.time');
+      })
+      .run();
+  })
+  .then(function(script) {
+    console.log(script.get('document.content'));
+    return script
+      .change(function(get, set, remove) {
+        remove('meta');
+      })
+      .run();
+  })
+  .then(function(script) {
+    console.log(script.get('document.content'));
   })
   .fail(function(err) {
     console.error(err.message);
