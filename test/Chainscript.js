@@ -41,7 +41,7 @@ describe('Chainscript', () => {
     beforeEach(() => {
       sinon.stub(request, 'get', () => methods);
       Chainscript
-        .load('1234')
+        .load('chainscript:document:1234')
         .then(s => afterEnd(s));
     });
 
