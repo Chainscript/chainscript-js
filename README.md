@@ -50,7 +50,7 @@ Chainscript.load('3940c155-d17d-421a-b34e-8bf5a458299e')
 
 ### new Chainscript(script)
 
-Creates a new chainscript from a JSON object.
+Creates a new Chainscript from a JSON object.
 
 ### Chainscript.load(uuid)
 
