@@ -122,6 +122,7 @@ export default class Chainscript {
           this.content = JSON.parse(
             JSON.stringify(objectPath.get(this.script, 'document.content', {}))
           );
+          this.numCommands = 0;
           deferred.resolve(this);
         }
       });
