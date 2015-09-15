@@ -6,14 +6,14 @@ module.exports = {
   module: {
     loaders: [
       {
-        test: /\.js?$/,
+        test: /\.js$/,
         loader: 'babel?stage=0',
         include: path.join(__dirname, 'src')
       }
     ],
   },
   output: {
-    library: 'Chainscript',
+    library: 'chainscript',
     libraryTarget: 'umd'
   },
   resolve: {

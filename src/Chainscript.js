@@ -1,4 +1,4 @@
-import request from 'request';
+import request from 'superagent';
 import Q from 'q';
 
 const EXECUTE_URL = 'http://agent.chainscript.io/execute';
@@ -15,23 +15,20 @@ export default class Chainscript {
   static load = uuid => {
     const deferred = Q.defer();
 
-    request.get(
-      SNAPSHOTS_URL + 'chainscript-document-' + uuid + '.json',
-      {json: true},
-      (err, resp, body) => {
+    request
+      .get(SNAPSHOTS_URL + 'chainscript-document-' + uuid + '.json')
+      .set('Accept', 'application/json')
+      .end((err, res) => {
         if (err) {
           return deferred.reject(err);
         }
 
-        if (resp.statusCode >= 400) {
-          return deferred.reject(
-            new Error('Unexpected status: ' + resp.statusCode)
-          );
+        if (!res.ok) {
+          return deferred.reject(new Error(res.text));
         }
 
-        deferred.resolve(new Chainscript(body));
-      }
-    );
+        deferred.resolve(new Chainscript(res.body));
+      });
 
     return deferred.promise;
   };
@@ -82,26 +79,21 @@ export default class Chainscript {
   run() {
     const deferred = Q.defer();
 
-    request.post(
-      EXECUTE_URL,
-      {
-        body: this.script,
-        json: true
-      },
-      (err, resp, body) => {
+    request
+      .post(EXECUTE_URL)
+      .send(this.script)
+      .set('Accept', 'application/json')
+      .end((err, res) => {
         if (err) {
           return deferred.reject(err);
         }
 
-        if (resp.statusCode >= 400) {
-          return deferred.reject(
-            new Error('Unexpected status: ' + resp.statusCode)
-          );
+        if (!res.ok) {
+          return deferred.reject(new Error(res.text));
         }
 
-        deferred.resolve(new Chainscript(body));
-      }
-    );
+        deferred.resolve(new Chainscript(res.body));
+      });
 
     return deferred.promise;
   }

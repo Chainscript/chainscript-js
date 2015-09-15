@@ -6,7 +6,7 @@
   "scripts": {
     "build:lib": "babel src --out-dir lib",
     "build:umd": "webpack src/index.js dist/chainscript.js --config webpack.dev.config.js",
-    "build:umd:min": "webpack src/index.js dist/chainscript.min.js --config webpack.prod.config.js",
+    "build:umd:min": "webpack src/index.js dist/chainscript.min.js -p --config webpack.prod.config.js",
     "build": "npm run build:lib && npm run build:umd && npm run build:umd:min",
     "check": "npm run lint && npm run test",
     "clean": "rimraf lib dist coverage",
@@ -51,6 +51,6 @@
   "homepage": "https://github.com/Coinhive/chainscript-client",
   "dependencies": {
     "q": "^1.4.1",
-    "request": "^2.61.0"
+    "superagent": "^1.4.0"
   }
 }
