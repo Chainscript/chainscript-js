@@ -70,7 +70,7 @@ Ex:
 
 ```js
 var value = new Chainscript({document: {content: {name: 'My Document'}}})
-  get('document.content.name'));
+  .get('document.content.name'));
 
 console.log(value); // My Document
 ```
