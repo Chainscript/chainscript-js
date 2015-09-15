@@ -1,5 +1,5 @@
 {
-  "name": "chainscript-client",
+  "name": "chainscript",
   "version": "0.3.0",
   "description": "Client for chainscript.io",
   "main": "lib/index.js",
