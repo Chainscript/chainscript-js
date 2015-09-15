@@ -5,10 +5,10 @@
 ### Creating a new script
 
 ```js
-var Chainscript = require('chainscript-client').Chainscript;
+var Chainscript = require('chainscript-client');
 
 // You pass the initial script
-new Chainscript({document: 'My Document'})
+new Chainscript({document: {content: {name: 'My Document'}}})
   // Add a snapshot command
   .snapshot()
   // Add a notarize command
@@ -28,7 +28,7 @@ new Chainscript({document: 'My Document'})
 ### Starting from an existing script
 
 ```js
-var Chainscript = require('chainscript-client').Chainscript;
+var Chainscript = require('chainscript-client');
 
 Chainscript.load('3940c155-d17d-421a-b34e-8bf5a458299e')
   .then(function(script) {

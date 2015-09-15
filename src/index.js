@@ -1,1 +1,1 @@
-export Chainscript from './Chainscript';
+export default from './Chainscript';

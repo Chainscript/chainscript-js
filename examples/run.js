@@ -1,6 +1,6 @@
-var Chainscript = require('../lib').Chainscript;
+var Chainscript = require('../lib');
 
-new Chainscript({document: 'My Document'})
+new Chainscript({document: {content: {name: 'My Document'}}})
   .run()
   .then(function(script) {
     console.log(script.toJSON());

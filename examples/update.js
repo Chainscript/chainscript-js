@@ -1,4 +1,4 @@
-var Chainscript = require('../lib').Chainscript;
+var Chainscript = require('../lib');
 
 new Chainscript({document: {content: {name: 'My Document'}}})
   .update({time: Date.now()})
