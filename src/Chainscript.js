@@ -1,6 +1,7 @@
 import request from 'superagent';
 import Q from 'q';
 import objectPath from 'object-path';
+import deepMerge from 'deepmerge';
 
 const EXECUTE_URL = 'http://agent.chainscript.io/execute';
 const SNAPSHOTS_URL = 'https://chainscript.firebaseio.com/snapshots/';
@@ -151,7 +152,23 @@ export default class Chainscript {
     const updates = {};
 
     function get(path) {
-      return objectPath.get(updates, path, objectPath.get(content, path));
+      const contentValue = objectPath.get(content, path);
+      const updatesValue = objectPath.get(updates, path);
+
+      if (typeof contentValue === 'object' &&
+          typeof updatesValue === 'object') {
+        return deepMerge(contentValue, updatesValue);
+      }
+
+      if (typeof updatesValue === 'undefined') {
+        if (typeof contentValue !== 'undefined') {
+          return JSON.parse(JSON.stringify(contentValue));
+        }
+
+        return undefined;
+      }
+
+      return JSON.parse(JSON.stringify(updatesValue));
     }
 
     function set(path, value) {
@@ -159,6 +176,18 @@ export default class Chainscript {
     }
 
     fn(get, set);
+
+    for (const s in updates) {
+      if (updates.hasOwnProperty(s)) {
+        const contentValue = content[s];
+        const updatesValue = updates[s];
+
+        if (typeof contentValue === 'object' &&
+            typeof updatesValue === 'object') {
+          updates[s] = deepMerge(contentValue, updatesValue);
+        }
+      }
+    }
 
     return this.update(updates);
   }

@@ -9,6 +9,14 @@ new Chainscript({document: {content: {name: 'My Document'}}})
   .run()
   .then(function(script) {
     console.log(script.get('document.content'));
+    return script
+      .change(function(get, set) {
+        set('meta.author', 'SF');
+      })
+      .run();
+  })
+  .then(function(script) {
+    console.log(script.get('document.content'));
   })
   .fail(function(err) {
     console.error(err.message);
