@@ -59,22 +59,17 @@ export default class Chainscript {
         json: true
       },
       (err, resp, body) => {
-        delete this.script.execute;
-        this.script.numCommands = 0;
-
         if (err) {
-          cb && cb(err, this);
+          cb && cb(err);
           return;
         }
 
         if (resp.statusCode >= 400) {
-          cb && cb(new Error('Unexpected status: ' + resp.statusCode), this);
+          cb && cb(new Error('Unexpected status: ' + resp.statusCode));
           return;
         }
 
-        this.script = body;
-
-        cb(null, this);
+        cb(null, new Chainscript(body));
       }
     );
 
