@@ -28,7 +28,7 @@ new Chainscript({document: 'My Document'})
 ```js
 var Chainscript = require('chainscript-client').Chainscript;
 
-Chainscript.load('chainscript:document:e1bdb650-1172-4d36-95c4-cef0f57c3a6f')
+Chainscript.load('3940c155-d17d-421a-b34e-8bf5a458299e')
   .then(function(script) {
     console.log(script.toJSON());
     // You can add commands to the loaded script and run the script

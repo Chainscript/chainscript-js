@@ -16,7 +16,7 @@ export default class Chainscript {
     const deferred = Q.defer();
 
     request.get(
-      SNAPSHOTS_URL + uuid + '.json',
+      SNAPSHOTS_URL + 'chainscript-document-' + uuid + '.json',
       {json: true},
       (err, resp, body) => {
         if (err) {
