@@ -2,6 +2,7 @@ import request from 'superagent';
 import Q from 'q';
 import objectPath from 'object-path';
 import deepMerge from 'deepmerge';
+import deepEmpty from 'deep-empty';
 
 const EXECUTE_URL = 'http://agent.chainscript.io/execute';
 const SNAPSHOTS_URL = 'https://chainscript.firebaseio.com/snapshots/';
@@ -142,6 +143,25 @@ export default class Chainscript {
   }
 
   /**
+   * Adds a notarize command
+   *
+   * @returns {Chainscript} A new instance of Chainscript
+   */
+  notarize() {
+    return this.addCommand({notarize: {}});
+  }
+
+  /**
+   * Adds a send email command
+   *
+   * @param {string} to Destination email address
+   * @returns {Chainscript} A new instance of Chainscript
+   */
+  email(to) {
+    return this.addCommand({send_email: {to}});
+  }
+
+  /**
    * Adds an update command to change a document value at specified path.
    *
    * @param {string} fn A function that changes the document
@@ -149,7 +169,7 @@ export default class Chainscript {
    */
   change(fn) {
     const content = this.get('document.content');
-    const updates = {};
+    let updates = {};
 
     function get(path) {
       const contentValue = objectPath.get(content, path);
@@ -190,6 +210,8 @@ export default class Chainscript {
 
     fn(get, set, remove);
 
+    updates = deepEmpty(updates);
+
     for (const s in updates) {
       if (updates.hasOwnProperty(s)) {
         const contentValue = content[s];
@@ -203,25 +225,6 @@ export default class Chainscript {
     }
 
     return this.update(updates);
-  }
-
-  /**
-   * Adds a notarize command
-   *
-   * @returns {Chainscript} A new instance of Chainscript
-   */
-  notarize() {
-    return this.addCommand({notarize: {}});
-  }
-
-  /**
-   * Adds a send email command
-   *
-   * @param {string} to Destination email address
-   * @returns {Chainscript} A new instance of Chainscript
-   */
-  email(to) {
-    return this.addCommand({send_email: {to}});
   }
 
 }
