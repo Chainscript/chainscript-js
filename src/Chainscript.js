@@ -1,5 +1,6 @@
 import request from 'superagent';
 import Q from 'q';
+import objectPath from 'object-path';
 
 const EXECUTE_URL = 'http://agent.chainscript.io/execute';
 const SNAPSHOTS_URL = 'https://chainscript.firebaseio.com/snapshots/';
@@ -105,6 +106,19 @@ export default class Chainscript {
     script.execute[this.numCommands] = command;
 
     return new Chainscript(script);
+  }
+
+  /**
+   * Returns the value at specified path.
+   */
+  get(path) {
+    const value = objectPath.get(this.script, path);
+
+    if (typeof value === 'undefined') {
+      return undefined;
+    }
+
+    return JSON.parse(JSON.stringify(value));
   }
 
   /**

@@ -62,6 +62,19 @@ Creates a new Chainscript from a JSON object.
 Loads an existing script. Returns a promise that resolves with an instance of
 `Chainscript`.
 
+#### Chainscript#get(path)
+
+Returns the value at specified path, or `undefined` if the path doesn't exist.
+
+Ex:
+
+```js
+var value = new Chainscript({document: {content: {name: 'My Document'}}})
+  get('document.content.name'));
+
+console.log(value); // My Document
+```
+
 #### Chainscript#snapshot()
 
 Adds a `snapshot` command to a script. Returns a new instance of `Chainscript`.
