@@ -83,6 +83,29 @@ Adds a `snapshot` command to a script. Returns a new instance of `Chainscript`.
 
 Adds an `update` command to a script. Returns a new instance of `Chainscript`.
 
+#### Chainscript#change(fn)
+
+Adds an `update` command to a script that applies granular updates to the
+document. Returns a new instance of `Chainscript`.
+
+Ex:
+
+```js
+new Chainscript({document: {content: {name: 'My Document'}}})
+  .change(function(get, set) {
+    set('name', get('name') + ' V2');
+    set('meta.author', 'Stephan Florquin');
+    set('meta.time', Date.now());
+  })
+  .run()
+  .then(function(script) {
+    console.log(script.get('document.content'));
+  })
+  .fail(function(err) {
+    console.error(err.message);
+  });
+```
+
 #### Chainscript#notarize()
 
 Adds a `notarize` command to a script. Returns a new instance of `Chainscript`.

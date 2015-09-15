@@ -141,6 +141,29 @@ export default class Chainscript {
   }
 
   /**
+   * Adds an update command to change a document value at specified path.
+   *
+   * @param {string} fn A function that changes the document
+   * @returns {Chainscript} A new instance of Chainscript
+   */
+  change(fn) {
+    const content = this.get('document.content');
+    const updates = {};
+
+    function get(path) {
+      return objectPath.get(updates, path, objectPath.get(content, path));
+    }
+
+    function set(path, value) {
+      objectPath.set(updates, path, value);
+    }
+
+    fn(get, set);
+
+    return this.update(updates);
+  }
+
+  /**
    * Adds a notarize command
    *
    * @returns {Chainscript} A new instance of Chainscript
