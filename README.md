@@ -100,11 +100,14 @@ document. Returns a new instance of `Chainscript`.
 Ex:
 
 ```js
-new Chainscript({document: {content: {name: 'My Document'}}})
-  .change(function(get, set, remove) {
-    set('name', get('name') + ' V2');
-    set('meta.author', 'Stephan Florquin');
-    set('meta.time', Date.now());
+new Chainscript({document: {content: {name: 'My Document', val: true}}})
+  .change(function(doc) {
+    delete doc.val;
+    doc.name += ' V2';
+    doc.meta = {
+      author: 'Stephan Florquin',
+      time: Date.now()
+    };
   })
   .run()
   .then(function(script) {

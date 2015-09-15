@@ -1,8 +1,6 @@
 import request from 'superagent';
 import Q from 'q';
 import objectPath from 'object-path';
-import deepMerge from 'deepmerge';
-import deepEmpty from 'deep-empty';
 
 const EXECUTE_URL = 'http://agent.chainscript.io/execute';
 const SNAPSHOTS_URL = 'https://chainscript.firebaseio.com/snapshots/';
@@ -168,63 +166,22 @@ export default class Chainscript {
    * @returns {Chainscript} A new instance of Chainscript
    */
   change(fn) {
-    const content = this.get('document.content');
-    let updates = {};
+    const prev = this.get('document.content');
+    const next = this.get('document.content');
 
-    function get(path) {
-      const contentValue = objectPath.get(content, path);
-      const updatesValue = objectPath.get(updates, path);
+    fn(next);
 
-      if (typeof contentValue === 'object' && contentValue &&
-          typeof updatesValue === 'object' && updatesValue) {
-        return deepMerge(contentValue, updatesValue);
-      }
-
-      if (typeof updatesValue === 'undefined') {
-        if (typeof contentValue !== 'undefined') {
-          return JSON.parse(JSON.stringify(contentValue));
-        }
-
-        return undefined;
-      }
-
-      return JSON.parse(JSON.stringify(updatesValue));
-    }
-
-    function set(path, value) {
-      objectPath.set(updates, path, value);
-    }
-
-    function remove(path) {
-      const contentValue = objectPath.get(content, path);
-      const updatesValue = objectPath.get(updates, path);
-
-      if (typeof updatesValue !== 'undefined') {
-        objectPath.del(updates, path);
-      }
-
-      if (typeof contentValue !== 'undefined') {
-        set(path, null);
-      }
-    }
-
-    fn(get, set, remove);
-
-    updates = deepEmpty(updates);
-
-    for (const s in updates) {
-      if (updates.hasOwnProperty(s)) {
-        const contentValue = content[s];
-        const updatesValue = updates[s];
-
-        if (typeof contentValue === 'object' && contentValue &&
-            typeof updatesValue === 'object' && updatesValue) {
-          updates[s] = deepMerge(contentValue, updatesValue);
+    for (const s in prev) {
+      if (prev.hasOwnProperty(s)) {
+        if (typeof next[s] === 'undefined') {
+          next[s] = null;
+        } else if (JSON.stringify(prev[s]) === JSON.stringify(next[s])) {
+          delete next[s];
         }
       }
     }
 
-    return this.update(updates);
+    return this.update(next);
   }
 
 }

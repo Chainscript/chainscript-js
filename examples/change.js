@@ -1,33 +1,35 @@
 var Chainscript = require('../lib');
 
 new Chainscript({document: {content: {name: 'My Document'}}})
-  .change(function(get, set) {
-    set('name', get('name') + ' V2');
-    set('meta.author', 'Stephan Florquin');
-    set('meta.time', Date.now());
+  .change(function(doc) {
+    doc.name += ' V2';
+    doc.meta = {
+      author: 'Stephan Florquin',
+      time: Date.now()
+    };
   })
   .run()
   .then(function(script) {
     console.log(script.get('document.content'));
     return script
-      .change(function(get, set) {
-        set('meta.author', 'SF');
+      .change(function(doc) {
+        doc.meta.author = 'SF';
       })
       .run();
   })
   .then(function(script) {
     console.log(script.get('document.content'));
     return script
-      .change(function(get, set, remove) {
-        remove('meta.time');
+      .change(function(doc) {
+        delete doc.meta.time;
       })
       .run();
   })
   .then(function(script) {
     console.log(script.get('document.content'));
     return script
-      .change(function(get, set, remove) {
-        remove('meta');
+      .change(function(doc) {
+        delete doc.meta;
       })
       .run();
   })

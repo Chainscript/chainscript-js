@@ -239,82 +239,33 @@ describe('Chainscript', () => {
       });
     });
 
-    it('should be able get a root key', () => {
-      script.change(get => {
-        get('name').should.be.exactly('Hello World');
-      });
-    });
-
-    it('should be able get a nested key', () => {
-      script.change(get => {
-        get('data.test').should.be.exactly(true);
-      });
-    });
-
-    it('should be able get an undefined root key', () => {
-      script.change(get => {
-        (get('author') === undefined).should.be.exactly(true);
-      });
-    });
-
-    it('should be able get an undefined nested key', () => {
-      script.change(get => {
-        (get('lol.author') === undefined).should.be.exactly(true);
-      });
-    });
 
     it('should be able to add a root key', () => {
       script
-        .change((get, set) => set('date', 'today'))
+        .change(doc => doc.date = 'today')
         .get('execute.0')
         .should.deepEqual({update: {date: 'today'}});
     });
 
     it('should be able to add a nested key', () => {
       script
-        .change((get, set) => set('meta.date', 'today'))
+        .change(doc => doc.meta = {date: 'today'})
         .get('execute.0')
         .should.deepEqual({update: {meta: {date: 'today'}}});
     });
 
-    it('should be able get a key after it is changed', () => {
-      script.change((get, set) => {
-        set('data.test', false);
-        get('data.test').should.be.exactly(false);
-      });
-    });
-
     it('should be able to remove a root key', () => {
       script
-        .change((get, set, remove) => remove('data'))
+        .change(doc => delete doc.data)
         .get('execute.0')
         .should.deepEqual({update: {data: null}});
     });
 
     it('should be able to remove a nested key', () => {
       script
-        .change((get, set, remove) => remove('data.test'))
+        .change(doc => delete doc.data.test)
         .get('execute.0')
-        .should.deepEqual({update: {data: {test: null}}});
-    });
-
-    it('should handle the case of removing an unsaved value', () => {
-      script
-        .change((get, set, remove) => {
-          set('data.new', true);
-          remove('data.new');
-        })
-        .get('execute.0')
-        .should.deepEqual({update: {}});
-    });
-
-    it('should merge properties if needed', () => {
-      script
-        .change((get, set) => {
-          set('data.test2', true);
-        })
-        .get('execute.0')
-        .should.deepEqual({update: {data: {test: true, test2: true}}});
+        .should.deepEqual({update: {data: {}}});
     });
 
   });
