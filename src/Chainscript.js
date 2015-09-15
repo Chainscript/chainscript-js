@@ -40,10 +40,11 @@ export default class Chainscript {
    * Construct a new chainscript.
    *
    * @param {Object | string} [document={}] The initial script
+   * @param {int} [numCommands={}] Private
    */
-  constructor(script = {}) {
+  constructor(script = {}, numCommands = 0) {
     this.script = script;
-    this.numCommands = 0;
+    this.numCommands = numCommands;
   }
 
   /**
@@ -54,6 +55,16 @@ export default class Chainscript {
   toJSON() {
     // Clone the script for safety
     return JSON.parse(JSON.stringify(this.script));
+  }
+
+  /**
+   * Clones the script.
+   *
+   * @returns {Chainscript} A clone of the script
+   */
+  clone() {
+    // Clone the script for safety
+    return new Chainscript(this.toJSON(), this.numCommands);
   }
 
   /**
@@ -89,11 +100,12 @@ export default class Chainscript {
   }
 
   addCommand(command) {
-    this.script.execute = this.script.execute || {};
-    this.script.execute[this.numCommands] = command;
-    this.numCommands++;
+    const script = JSON.parse(JSON.stringify(this.script));
+    const numCommands = this.numCommands;
+    script.execute = script.execute || {};
+    script.execute[numCommands] = command;
 
-    return this;
+    return new Chainscript(script, numCommands + 1);
   }
 
   /**

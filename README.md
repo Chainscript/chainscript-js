@@ -59,15 +59,16 @@ Loads an existing script. Returns a promise that resolves with an instance of
 
 ### Chainscript#snapshot()
 
-Adds a `snapshot` command to a script. Returns the `Chainscript`.
+Adds a `snapshot` command to a script. Returns a new instance of `Chainscript`.
 
 ### Chainscript#notarize()
 
-Adds a `notarize` command to a script. Returns the `Chainscript`.
+Adds a `notarize` command to a script. Returns a new instance of `Chainscript`.
 
 ### Chainscript#email(to)
 
-Adds a `send_email` command to a script. Returns the `Chainscript`.
+Adds a `send_email` command to a script. Returns a new instance of
+`Chainscript`.
 
 ### Chainscript#toJSON()
 
@@ -77,3 +78,7 @@ Returns the script as a JSON object.
 
 Runs the Chainscript. Returns a promise that resolves with a new instance of
 `Chainscript`.
+
+### Chainscript#clone()
+
+Clones Chainscript. Returns a new instance of `Chainscript`.
