@@ -83,6 +83,15 @@ Adds a `snapshot` command to a script. Returns a new instance of `Chainscript`.
 
 Adds an `update` command to a script. Returns a new instance of `Chainscript`.
 
+#### Chainscript#notarize()
+
+Adds a `notarize` command to a script. Returns a new instance of `Chainscript`.
+
+#### Chainscript#email(to)
+
+Adds a `send_email` command to a script. Returns a new instance of
+`Chainscript`.
+
 #### Chainscript#change(fn)
 
 Adds an `update` command to a script that applies granular updates to the
@@ -105,15 +114,6 @@ new Chainscript({document: {content: {name: 'My Document'}}})
     console.error(err.message);
   });
 ```
-
-#### Chainscript#notarize()
-
-Adds a `notarize` command to a script. Returns a new instance of `Chainscript`.
-
-#### Chainscript#email(to)
-
-Adds a `send_email` command to a script. Returns a new instance of
-`Chainscript`.
 
 #### Chainscript#toJSON()
 
