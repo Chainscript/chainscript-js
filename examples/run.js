@@ -1,10 +1,10 @@
 var Chainscript = require('../lib').Chainscript;
-var script = new Chainscript({document: 'My Document'});
 
-script.run(function(err) {
-  if (err) {
-    console.log(err.message);
-    return;
-  }
-  console.log(script.toJSON());
-});
+new Chainscript({document: 'My Document'})
+  .run()
+  .then(function(script) {
+    console.log(script.toJSON());
+  })
+  .catch(function(err) {
+    console.error(err.message);
+  });

@@ -1,31 +1,39 @@
 import request from 'request';
+import Q from 'q';
 
 const EXECUTE_URL = 'http://agent.chainscript.io/execute';
 const SNAPSHOTS_URL = 'https://chainscript.firebaseio.com/snapshots/';
 
 export default class Chainscript {
 
-  static load = (uuid, cb) => {
+  /**
+   * Loads a script from an existing uuid
+   *
+   * @param {String} uuid The uuid of the script
+   * @returns {Promise} A promise that resolves with a new Chainscript
+   */
+  static load = uuid => {
+    const deferred = Q.defer();
+
     request.get(
       SNAPSHOTS_URL + uuid + '.json',
       {json: true},
       (err, resp, body) => {
-        console.log(body, SNAPSHOTS_URL + uuid + '.json');
         if (err) {
-          cb && cb(err);
-          return;
+          return deferred.reject(err);
         }
 
         if (resp.statusCode >= 400) {
-          cb && cb(new Error('Unexpected status: ' + resp.statusCode));
-          return;
+          return deferred.reject(
+            new Error('Unexpected status: ' + resp.statusCode)
+          );
         }
 
-        cb && cb(null, new Chainscript(body));
+        deferred.resolve(new Chainscript(body));
       }
     );
 
-    return Chainscript;
+    return deferred.promise;
   };
 
   /**
@@ -50,8 +58,12 @@ export default class Chainscript {
 
   /**
    * Run the script.
+   *
+   * @returns {Promise} A promise that resolves with a new Chainscript
    */
-  run(cb) {
+  run() {
+    const deferred = Q.defer();
+
     request.post(
       EXECUTE_URL,
       {
@@ -60,20 +72,20 @@ export default class Chainscript {
       },
       (err, resp, body) => {
         if (err) {
-          cb && cb(err);
-          return;
+          return deferred.reject(err);
         }
 
         if (resp.statusCode >= 400) {
-          cb && cb(new Error('Unexpected status: ' + resp.statusCode));
-          return;
+          return deferred.reject(
+            new Error('Unexpected status: ' + resp.statusCode)
+          );
         }
 
-        cb(null, new Chainscript(body));
+        deferred.resolve(new Chainscript(body));
       }
     );
 
-    return this;
+    return deferred.promise;
   }
 
   addCommand(command) {

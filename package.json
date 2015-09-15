@@ -50,6 +50,7 @@
   },
   "homepage": "https://github.com/Coinhive/chainscript-client",
   "dependencies": {
+    "q": "^1.4.1",
     "request": "^2.61.0"
   }
 }
