@@ -50,8 +50,8 @@ Chainscript.load('3940c155-d17d-421a-b34e-8bf5a458299e')
 
 ### Chainscript
 
-`Chainscript` **is immutable**. Adding commands to a script returns a new
-instance.
+`Chainscript` **IS IMMUTABLE**. An instance is never modified after
+initialization. Adding commands to a script returns a new instance.
 
 #### new Chainscript(script)
 
