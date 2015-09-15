@@ -48,37 +48,42 @@ Chainscript.load('3940c155-d17d-421a-b34e-8bf5a458299e')
 
 ## API
 
-### new Chainscript(script)
+### Chainscript
+
+`Chainscript` **is immutable**. Adding commands to a script returns a new
+instance.
+
+#### new Chainscript(script)
 
 Creates a new Chainscript from a JSON object.
 
-### Chainscript.load(uuid)
+#### Chainscript.load(uuid)
 
 Loads an existing script. Returns a promise that resolves with an instance of
 `Chainscript`.
 
-### Chainscript#snapshot()
+#### Chainscript#snapshot()
 
 Adds a `snapshot` command to a script. Returns a new instance of `Chainscript`.
 
-### Chainscript#notarize()
+#### Chainscript#notarize()
 
 Adds a `notarize` command to a script. Returns a new instance of `Chainscript`.
 
-### Chainscript#email(to)
+#### Chainscript#email(to)
 
 Adds a `send_email` command to a script. Returns a new instance of
 `Chainscript`.
 
-### Chainscript#toJSON()
+#### Chainscript#toJSON()
 
 Returns the script as a JSON object.
 
-### Chainscript#run()
+#### Chainscript#run()
 
 Runs the Chainscript. Returns a promise that resolves with a new instance of
 `Chainscript`.
 
-### Chainscript#clone()
+#### Chainscript#clone()
 
 Clones Chainscript. Returns a new instance of `Chainscript`.
