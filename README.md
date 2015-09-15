@@ -66,6 +66,10 @@ Loads an existing script. Returns a promise that resolves with an instance of
 
 Adds a `snapshot` command to a script. Returns a new instance of `Chainscript`.
 
+#### Chainscript#update(updates)
+
+Adds an `update` command to a script. Returns a new instance of `Chainscript`.
+
 #### Chainscript#notarize()
 
 Adds a `notarize` command to a script. Returns a new instance of `Chainscript`.

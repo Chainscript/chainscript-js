@@ -109,13 +109,27 @@ export default class Chainscript {
 
   /**
    * Adds a snapshot command
+   *
+   * @returns {Chainscript} A new instance of Chainscript
    */
   snapshot() {
     return this.addCommand({snapshot: {}});
   }
 
   /**
+   * Adds an update command
+   *
+   * @param {Object} updates An object with updates to apply
+   * @returns {Chainscript} A new instance of Chainscript
+   */
+  update(updates) {
+    return this.addCommand({update: updates});
+  }
+
+  /**
    * Adds a notarize command
+   *
+   * @returns {Chainscript} A new instance of Chainscript
    */
   notarize() {
     return this.addCommand({notarize: {}});
@@ -123,6 +137,9 @@ export default class Chainscript {
 
   /**
    * Adds a send email command
+   *
+   * @param {string} to Destination email address
+   * @returns {Chainscript} A new instance of Chainscript
    */
   email(to) {
     return this.addCommand({send_email: {to}});
