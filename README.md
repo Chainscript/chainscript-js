@@ -160,3 +160,29 @@ Runs the Chainscript. Returns a promise that resolves with a new instance of
 #### Chainscript#clone()
 
 Clones Chainscript. Returns a new instance of `Chainscript`.
+
+#### Mutable extensions
+
+This only applies when `immutable` is `false`.
+
+You can change the document directly, and an update command will be issued when
+you call `run`.
+
+```js
+var script = new Chainscript(
+  {document: {content: {name: 'My Document'}}},
+  false
+);
+
+script.content.name += ' V2';
+script.content.meta = {
+  author: 'Stephan Florquin',
+  time: Date.now()
+};
+
+script
+  .run()
+  .then(function() {
+    console.log(script.toJSON());
+  });
+```

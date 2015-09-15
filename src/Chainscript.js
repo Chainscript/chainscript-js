@@ -54,6 +54,12 @@ export default class Chainscript {
         }
       }
     }
+
+    if (!immutable) {
+      this.content = JSON.parse(
+        JSON.stringify(objectPath.get(script, 'document.content', {}))
+      );
+    }
   }
 
   /**
@@ -72,7 +78,13 @@ export default class Chainscript {
    * @returns {Chainscript} A clone of the script
    */
   clone() {
-    return new Chainscript(this.script, this.immutable);
+    const clone = new Chainscript(this.script, this.immutable);
+
+    if (!this.immutable) {
+      clone.content = JSON.parse(JSON.stringify(this.content));
+    }
+
+    return clone;
   }
 
   /**
@@ -82,6 +94,13 @@ export default class Chainscript {
    */
   run() {
     const deferred = Q.defer();
+
+    if (!this.immutable) {
+      if (JSON.stringify(this.get('document.content', {})) !==
+          JSON.stringify(this.content)) {
+        this.delta(this.content);
+      }
+    }
 
     request
       .post(EXECUTE_URL)
@@ -100,6 +119,9 @@ export default class Chainscript {
           deferred.resolve(new Chainscript(res.body));
         } else {
           this.script = res.body;
+          this.content = JSON.parse(
+            JSON.stringify(objectPath.get(this.script, 'document.content', {}))
+          );
           deferred.resolve(this);
         }
       });

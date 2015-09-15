@@ -5,18 +5,14 @@ var script = new Chainscript(
   false
 );
 
+script.content.name += ' V2';
+script.content.meta = {
+  author: 'Stephan Florquin',
+  time: Date.now()
+};
+
 script
-  .change(function(doc) {
-    doc.name += ' V2';
-    doc.meta = {
-      author: 'Stephan Florquin',
-      time: Date.now()
-    };
-  })
   .run()
   .then(function() {
-    console.log(script.get('document.content'));
-  })
-  .fail(function(err) {
-    console.error(err.message);
+    console.log(script.toJSON());
   });
