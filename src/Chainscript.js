@@ -162,14 +162,25 @@ export default class Chainscript {
   /**
    * Adds an update command to change a document value at specified path.
    *
-   * @param {string} fn A function that changes the document
+   * @param {function} fn A function that changes the document
    * @returns {Chainscript} A new instance of Chainscript
    */
   change(fn) {
-    const prev = this.get('document.content');
     const next = this.get('document.content');
 
     fn(next);
+
+    return this.delta(next);
+  }
+
+  /**
+   * Adds an update command to change a document to the given document.
+   *
+   * @param {Object} next The new document
+   * @returns {Chainscript} A new instance of Chainscript
+   */
+  delta(next) {
+    const prev = this.get('document.content');
 
     for (const s in prev) {
       if (prev.hasOwnProperty(s)) {

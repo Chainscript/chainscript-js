@@ -270,4 +270,57 @@ describe('Chainscript', () => {
 
   });
 
+  describe('#delta()', () => {
+
+    let doc;
+
+    beforeEach(() => {
+      script = new Chainscript({
+        document: {
+          content: {
+            name: 'Hello World',
+            data: {
+              test: true
+            }
+          }
+        }
+      });
+      doc = script.get('document.content');
+    });
+
+
+    it('should be able to add a root key', () => {
+      doc.date = 'today';
+      script
+        .delta(doc)
+        .get('execute.0')
+        .should.deepEqual({update: {date: 'today'}});
+    });
+
+    it('should be able to add a nested key', () => {
+      doc.data.test2 = true;
+      script
+        .delta(doc)
+        .get('execute.0')
+        .should.deepEqual({update: {data: {test: true, test2: true}}});
+    });
+
+    it('should be able to remove a root key', () => {
+      delete doc.data;
+      script
+        .delta(doc)
+        .get('execute.0')
+        .should.deepEqual({update: {data: null}});
+    });
+
+    it('should be able to remove a nested key', () => {
+      delete doc.data.test;
+      script
+        .delta(doc)
+        .get('execute.0')
+        .should.deepEqual({update: {data: {}}});
+    });
+
+  });
+
 });

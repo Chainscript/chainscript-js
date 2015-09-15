@@ -118,6 +118,32 @@ new Chainscript({document: {content: {name: 'My Document', val: true}}})
   });
 ```
 
+#### Chainscript#delta(document)
+
+Adds an `update` command to a script that applies the necessary changes to
+update the current document to the given document. Returns a new instance of
+`Chainscript`.
+
+Ex:
+```js
+var doc = {
+  name: 'My Document'
+};
+
+var script = new Chainscript({document: {content: doc}});
+
+doc.name = 'My Document V2';
+doc.meta = {
+  author: 'Stephan Florquin',
+  time: Date.now()
+};
+
+script.delta(doc).run().then(function(s) {
+  script = s;
+  console.log(script.get('document.content'));
+});
+```
+
 #### Chainscript#toJSON()
 
 Returns the script as a JSON object.
