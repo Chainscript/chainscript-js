@@ -117,8 +117,8 @@ export default class Chainscript {
       return new Chainscript(script);
     }
 
-    this.script.execute = script.execute || {};
-    script.execute[this.numCommands] = command;
+    this.script.execute = this.script.execute || {};
+    this.script.execute[this.numCommands] = command;
     this.numCommands++;
 
     return this;
