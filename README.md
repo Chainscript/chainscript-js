@@ -165,8 +165,8 @@ Clones Chainscript. Returns a new instance of `Chainscript`.
 
 This only applies when `immutable` is `false`.
 
-You can change the document directly, and an update command will be issued when
-you call `run`.
+You can change the document content directly, and an update command will be
+issued if needed when you call `run`.
 
 ```js
 var script = new Chainscript(
