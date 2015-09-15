@@ -1,7 +1,15 @@
 var Chainscript = require('../lib');
 
-new Chainscript({document: {content: {name: 'My Document'}}})
-  .snapshot()
+new Chainscript({
+  document: {
+    content: {
+      name: 'My Document'
+    }
+  },
+  x_chainscript : {
+    snapshots_enabled: true
+  }
+}).snapshot()
   .run()
   .then(function(script) {
     console.log(script.toJSON());

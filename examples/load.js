@@ -1,6 +1,6 @@
 var Chainscript = require('../lib');
 
-Chainscript.load('3940c155-d17d-421a-b34e-8bf5a458299e')
+Chainscript.load('chainscript:document:3940c155-d17d-421a-b34e-8bf5a458299e')
   .then(function(script) {
     console.log(script.toJSON());
     return script
