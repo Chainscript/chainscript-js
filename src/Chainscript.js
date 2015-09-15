@@ -43,7 +43,8 @@ export default class Chainscript {
    * @param {int} [numCommands={}] Private
    */
   constructor(script = {}, numCommands = 0) {
-    this.script = script;
+    // Clone the script for safety
+    this.script = JSON.parse(JSON.stringify(script));
     this.numCommands = numCommands;
   }
 
@@ -63,8 +64,7 @@ export default class Chainscript {
    * @returns {Chainscript} A clone of the script
    */
   clone() {
-    // Clone the script for safety
-    return new Chainscript(this.toJSON(), this.numCommands);
+    return new Chainscript(this.script, this.numCommands);
   }
 
   /**
