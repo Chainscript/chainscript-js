@@ -1,4 +1,4 @@
-# Chainscript Client
+# Chainscript Javascript Client
 
 ## Example
 
@@ -45,3 +45,35 @@ Chainscript.load('3940c155-d17d-421a-b34e-8bf5a458299e')
     console.error(err.message);
   });
 ```
+
+## API
+
+### new Chainscript(script)
+
+Creates a new chainscript.
+
+### Chainscript.load(uuid)
+
+Loads an existing script. Returns a promise that resolves with an instance of
+`Chainscript`.
+
+### Chainscript#snapshot()
+
+Adds a `snapshot` command to a script. Returns the `Chainscript`.
+
+### Chainscript#notarize()
+
+Adds a `notarize` command to a script. Returns the `Chainscript`.
+
+### Chainscript#email(to)
+
+Adds a `send_email` command to a script. Returns the `Chainscript`.
+
+### Chainscript#toJSON()
+
+Returns the script as a JSON object.
+
+### Chainscript#run()
+
+Runs the Chainscript. Returns a promise that resolves with a new instance of
+`Chainscript`.
