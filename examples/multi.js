@@ -7,6 +7,6 @@ new Chainscript({document: 'My Document'})
   .then(function(script) {
     console.log(script.toJSON());
   })
-  .catch(function(err) {
+  .fail(function(err) {
     console.error(err.message);
   });

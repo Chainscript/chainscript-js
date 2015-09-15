@@ -18,7 +18,7 @@ new Chainscript({document: 'My Document'})
   .then(function(script) {
     console.log(script.toJSON());
   })
-  .catch(function(err) {
+  .fail(function(err) {
     console.error(err.message);
   });
 ```
@@ -39,7 +39,7 @@ Chainscript.load('chainscript:document:e1bdb650-1172-4d36-95c4-cef0f57c3a6f')
     // New script executed with added commands
     console.log(script.toJSON());
   })
-  .catch(function(err) {
+  .fail(function(err) {
     console.error(err.message);
   });
 ```
