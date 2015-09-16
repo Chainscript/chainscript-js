@@ -9,9 +9,17 @@ var bitcoreExternal = {
   amd: 'bitcore'
 };
 
+var bitcoreMessageExternal = {
+  root: 'BitcoreMessage',
+  commonjs2: 'bitcore-message',
+  commonjs: 'bitcore-message',
+  amd: 'bitcore-message'
+};
+
 module.exports = {
   externals: {
-    'bitcore': bitcoreExternal
+    'bitcore': bitcoreExternal,
+    'bitcore-message': bitcoreMessageExternal
   },
   module: {
     loaders: [
