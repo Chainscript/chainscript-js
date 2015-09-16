@@ -8,6 +8,26 @@ var Chainscript = require(path.resolve(__dirname, '../lib'));
 
 function run(cs) {
 
+  function postfix() {
+    if(commander.notarize) {
+      cs.notarize();
+    }
+
+    if(commander.email) {
+      cs.email(commander.email);
+    }
+
+    cs
+      .run()
+      .then(function() {
+        console.log(JSON.stringify(cs.toJSON(), null, '\t'));
+        process.exit(0);
+      }).fail(function(err) {
+        console.error(err.message);
+        process.exit(1);
+      });
+  }
+
   if(commander.update) {
     cs.update(JSON.parse(commander.update));
   }
@@ -18,23 +38,20 @@ function run(cs) {
     cs.snapshot();
   }
 
-  if(commander.notarize) {
-    cs.notarize();
-  }
+  if(commander.sign) {
+    cs
+      .run()
+      .then(function() {
+        cs.sign(commander.sign);
+        postfix();
+      }).fail(function(err) {
+        console.error(err.message);
+        process.exit(1);
+      });
 
-  if(commander.email) {
-    cs.email(commander.email);
+  } else {
+    postfix();
   }
-
-  cs
-    .run()
-    .then(function() {
-      console.log(JSON.stringify(cs.toJSON(), null, '\t'));
-      process.exit(0);
-    }).fail(function(err) {
-      console.error(err.message);
-      process.exit(1);
-    });
 }
 
 commander
@@ -44,6 +61,7 @@ commander
   .option('-s, --snapshot', 'Snapshot script')
   .option('-n, --notarize', 'Notarize script')
   .option('-e, --email <email>', 'Email')
+  .option('-S, --sign <wif>', 'Sign the digest')
   .option('-K, --genkey', 'Generate and print a key pair and address')
   .option('-T, --testnet', 'Use testnet')
   .parse(process.argv);

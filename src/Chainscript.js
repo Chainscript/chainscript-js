@@ -1,6 +1,8 @@
 import request from 'superagent';
 import Q from 'q';
 import objectPath from 'object-path';
+import { PrivateKey } from 'bitcore';
+import Message from 'bitcore-message';
 
 const EXECUTE_URL = 'http://agent.chainscript.io/execute';
 const SNAPSHOTS_URL = 'https://chainscript.firebaseio.com/snapshots/';
@@ -108,7 +110,7 @@ export default class Chainscript {
         }
 
         if (this.immutable) {
-          deferred.resolve(new Chainscript(res.body));
+          deferred.resolve(new Chainscript(res.body, true));
         } else {
           this.script = res.body;
           this.initial = JSON.parse(JSON.stringify(this.script));
@@ -146,7 +148,7 @@ export default class Chainscript {
     script.execute[index] = command;
 
     if (this.immutable) {
-      return new Chainscript(script);
+      return new Chainscript(script, true);
     }
 
     return this;
@@ -239,6 +241,43 @@ export default class Chainscript {
     }
 
     return this.update(next, first);
+  }
+
+  /**
+   * Signs the digest.
+   *
+   * @param {string} wif A private key in WIF format
+   * @returns {Chainscript} A new instance of Chainscript
+   */
+  sign(wif) {
+    if (typeof this.script.x_chainscript === 'undefined' ||
+        typeof this.script.x_chainscript.digest === 'undefined') {
+      throw new Error('Script has no digest');
+    }
+
+    const digest = this.script.x_chainscript.digest;
+    const privateKey = PrivateKey.fromWIF(wif);
+    const address = privateKey.toPublicKey().toAddress().toString();
+    const message = new Message(digest);
+    const signature = message.sign(privateKey);
+
+    let script;
+
+    if (this.immutable) {
+      script = JSON.parse(JSON.stringify(this.script));
+    } else {
+      script = this.script;
+    }
+
+    const xChainscript = script.x_chainscript;
+    xChainscript.signatures = xChainscript.signatures || {};
+    xChainscript.signatures[address] = {digest, signature};
+
+    if (this.immutable) {
+      return new Chainscript(script, true);
+    }
+
+    return this;
   }
 
   getNumCommands() {
