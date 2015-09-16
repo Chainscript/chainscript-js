@@ -17,15 +17,17 @@ $ chainscript
 
   Options:
 
-    -h, --help              output usage information
-    -V, --version           output the version number
-    -u, --update <updates>  Update script
-    -s, --snapshot          Snapshot script
-    -n, --notarize          Notarize script
-    -e, --email <email>     Email
-    -S, --sign <wif>        Sign the digest
-    -K, --genkey            Generate and print a key pair and address
-    -T, --testnet           Use testnet
+    -h, --help                  output usage information
+    -V, --version               output the version number
+    -u, --update <string>       Update script
+    -s, --snapshot              Snapshot script
+    -n, --notarize              Notarize script
+    -e, --email <string>        Email
+    -S, --sign <string>         Sign the digest
+    --command-auditing <bool>   Enable or disable command auditing
+    --revision-auditing <bool>  Enable or disable revision auditing
+    -K, --genkey                Generate and print a key pair and address
+    -T, --testnet               Use testnet
 ```
 
 ### Examples
