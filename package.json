@@ -54,6 +54,7 @@
   },
   "homepage": "https://github.com/Coinhive/chainscript-client",
   "dependencies": {
+    "bitcore": "^0.13.3",
     "commander": "^2.8.1",
     "object-path": "^0.9.2",
     "q": "^1.4.1",

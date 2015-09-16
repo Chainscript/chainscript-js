@@ -2,7 +2,17 @@
 
 var path = require('path');
 
+var bitcoreExternal = {
+  root: 'Bitcore',
+  commonjs2: 'bitcore',
+  commonjs: 'bitcore',
+  amd: 'bitcore'
+};
+
 module.exports = {
+  externals: {
+    'bitcore': bitcoreExternal
+  },
   module: {
     loaders: [
       {
