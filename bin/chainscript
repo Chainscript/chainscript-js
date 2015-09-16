@@ -1,0 +1,67 @@
+#!/usr/bin/env node
+/*eslint-disable */
+
+var path = require('path');
+var commander = require('commander');
+var Chainscript = require(path.resolve(__dirname, '../lib'));
+
+function run(cs) {
+
+  if(commander.update) {
+    cs.update(JSON.parse(commander.update));
+  }
+
+  if(commander.snapshot) {
+    cs.script.x_chainscript = cs.script.x_chainscript || {};
+    cs.script.x_chainscript.snapshots_enabled = true;
+    cs.snapshot();
+  }
+
+  if(commander.notarize) {
+    cs.notarize();
+  }
+
+  if(commander.email) {
+    cs.email(commander.email);
+  }
+
+  cs
+    .run()
+    .then(function() {
+      console.log(JSON.stringify(cs.toJSON(), null, '\t'));
+      process.exit(0);
+    }).fail(function(err) {
+      console.error(err.message);
+      process.exit(1);
+    });
+}
+
+commander
+  .version('0.9.0')
+  .usage('[options] <script | uuid>')
+  .option('-u, --update <updates>', 'Update script')
+  .option('-s, --snapshot', 'Snapshot script')
+  .option('-n, --notarize', 'Notarize script')
+  .option('-e, --email <email>', 'Email')
+  .parse(process.argv);
+
+if (!commander.args.length) {
+  commander.outputHelp();
+  process.exit(1);
+}
+
+if (commander.args[0].match(/^chainscript:/)) {
+  Chainscript.load(commander.args[0])
+    .then(run)
+    .fail(function(err) {
+      console.error(err.message);
+      process.exit(1);
+    });
+} else {
+  try {
+    run (new Chainscript(JSON.parse(commander.args[0])));
+  } catch (e) {
+    commander.outputHelp();
+    process.exit(1);
+  }
+}

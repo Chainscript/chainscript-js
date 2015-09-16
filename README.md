@@ -1,6 +1,156 @@
 # Chainscript Javascript Client
 
-## Example
+## Command line
+
+### Install
+
+```bash
+$ npm install -g chainscript
+```
+
+### Usage
+
+```bash
+$ chainscript
+
+  Usage: chainscript [options] <script | uuid>
+
+  Options:
+
+    -h, --help              output usage information
+    -V, --version           output the version number
+    -u, --update <updates>  Update script
+    -s, --snapshot          Snapshot script
+    -n, --notarize          Notarize script
+    -e, --email <email>     Email
+```
+
+### Examples
+
+#### Dry run
+
+```bash
+$ chainscript '{"body": {"content": {"title": "Hello, World!"}}}'
+```
+
+Output:
+
+```json
+{
+  "body": {
+    "content": {
+      "title": "Hello, World!"
+    },
+    "x_meta": {
+      "uuid": "chainscript:envelope:f9355225-8aaa-4313-8cb1-abff1fbe2052"
+    }
+  },
+  "x_chainscript": {
+    "validation": {
+      "agent": "io.chainscript.agent",
+      "version": "0.1.alpha",
+      "result": "valid",
+      "validated_on": "2015-09-16T13:50:49+00:00",
+      "message": "Envelope was executed without a command."
+    },
+    "digest": "ce3249e52174914ee5fd98f4e74923947601b4d1"
+  }
+}
+```
+
+#### Snapshot
+
+```bash
+$ chainscript -s '{"body": {"content": {"title": "Hello, World!"}}}'
+```
+
+Output:
+
+```json
+{
+  "body": {
+    "content": {
+      "title": "Hello, World!"
+    },
+    "x_meta": {
+      "uuid": "chainscript:envelope:c586af82-568b-4920-8cd2-7963c54ff448"
+    }
+  },
+  "x_chainscript": {
+    "snapshots_enabled": true,
+    "validation": {
+      "agent": "io.chainscript.agent",
+      "version": "0.1.alpha",
+      "result": "success",
+      "validated_on": "2015-09-16T13:52:34+00:00"
+    },
+    "digest": "8e16e37a945f5d15546a8a5e4f302fa2e392011e",
+    "snapshot_url": "https://chainscript.firebaseio.com/snapshots/chainscript-envelope-c586af82-568b-4920-8cd2-7963c54ff448.json"
+  }
+}
+```
+
+#### Multiple commands
+
+```bash
+$ chainscript -s -n '{"body": {"content": {"title": "Hello, World!"}}}'
+```
+
+Output:
+
+```json
+{
+  "body": {
+    "content": {
+      "title": "Hello, World!"
+    },
+    "x_meta": {
+      "uuid": "chainscript:envelope:6efe306c-1d68-4762-ab93-51e49ee12915"
+    }
+  },
+  "x_chainscript": {
+    "snapshots_enabled": true,
+    "validation": {
+      "agent": "io.chainscript.agent",
+      "version": "0.1.alpha",
+      "result": "success",
+      "validated_on": "2015-09-16T13:54:54+00:00"
+    },
+    "digest": "8cda8c896a89830611667008f90aa6ff914b7a60",
+    "snapshot_url": "https://chainscript.firebaseio.com/snapshots/chainscript-envelope-6efe306c-1d68-4762-ab93-51e49ee12915.json",
+    "transactions": {
+      "chainscript:testnet3:tx:579781f31f217644d30490eb0de466f4c687f7cc2832221da8d128680dac535a": {
+        "status": "broadcasted",
+        "op_return": "8cda8c896a89830611667008f90aa6ff914b7a60",
+        "blockchain": "testnet3",
+        "reference": "chainscript:notarization:f6bc32a3-2b60-48b9-bb0c-5880736a293d",
+        "broadcasted_on": "2015-09-16T13:54:54+00:00"
+      }
+    },
+    "notarizations": {
+      "chainscript:notarization:f6bc32a3-2b60-48b9-bb0c-5880736a293d": {
+        "digest": "8cda8c896a89830611667008f90aa6ff914b7a60",
+        "evidence": "chainscript:testnet3:tx:579781f31f217644d30490eb0de466f4c687f7cc2832221da8d128680dac535a",
+        "notarized_at": "2015-09-16T13:54:54+00:00"
+      }
+    },
+    "notarized": true
+  }
+}
+```
+
+#### Use existing script
+
+Simply pass a Chainscript UUID instead of a script
+(ex: chainscript:envelope:6efe306c-1d68-4762-ab93-51e49ee12915).
+
+## API
+
+### Install
+
+```bash
+$ npm install chainscript
+```
 
 ### Creating a new script
 
@@ -46,7 +196,7 @@ Chainscript.load('chainscript:document:3940c155-d17d-421a-b34e-8bf5a458299e')
   });
 ```
 
-## API
+## Reference
 
 ### Chainscript
 

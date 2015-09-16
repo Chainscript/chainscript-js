@@ -19,6 +19,9 @@
     "test:watch": "npm test -- --watch",
     "test:cov": "babel-node ./node_modules/isparta/bin/isparta cover ./node_modules/mocha/bin/_mocha -- --recursive --require should"
   },
+  "bin": {
+    "chainscript": "bin/chainscript"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/Coinhive/chainscript-client.git"
@@ -51,6 +54,7 @@
   },
   "homepage": "https://github.com/Coinhive/chainscript-client",
   "dependencies": {
+    "commander": "^2.8.1",
     "object-path": "^0.9.2",
     "q": "^1.4.1",
     "superagent": "^1.4.0"
