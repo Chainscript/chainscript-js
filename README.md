@@ -23,6 +23,9 @@ $ chainscript
     -s, --snapshot          Snapshot script
     -n, --notarize          Notarize script
     -e, --email <email>     Email
+    -S, --sign <wif>        Sign the digest
+    -K, --genkey            Generate and print a key pair and address
+    -T, --testnet           Use testnet
 ```
 
 ### Examples
@@ -296,6 +299,12 @@ cs.delta(content).run().then(function() {
   console.log(cs.get('body.content'));
 });
 ```
+
+#### Chainscript#sign(wif)
+
+Adds a signature of the digest to a script. The private key must be in WIF
+format. Returns a new instance of `Chainscript` if immutable, otherwise
+returns the instance.
 
 #### Chainscript#toJSON()
 
