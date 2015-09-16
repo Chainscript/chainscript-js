@@ -3,6 +3,7 @@
 
 var path = require('path');
 var commander = require('commander');
+var Bitcore = require('bitcore');
 var Chainscript = require(path.resolve(__dirname, '../lib'));
 
 function run(cs) {
@@ -43,7 +44,28 @@ commander
   .option('-s, --snapshot', 'Snapshot script')
   .option('-n, --notarize', 'Notarize script')
   .option('-e, --email <email>', 'Email')
+  .option('-K, --genkey', 'Generate and print a key pair and address')
+  .option('-T, --testnet', 'Use testnet')
   .parse(process.argv);
+
+if (commander.genkey) {
+  var privateKey = new Bitcore.PrivateKey();
+  var publicKey = privateKey.toPublicKey();
+
+  if (commander.testnet) {
+    var address = publicKey.toAddress(Bitcore.Networks.testnet);
+  } else {
+    address = publicKey.toAddress(Bitcore.Networks.livenet);
+  }
+
+  console.log(JSON.stringify({
+    private: privateKey.toWIF(),
+    public: publicKey.toString(),
+    address: address.toString()
+  }, null, '\t'));
+
+  process.exit(0);
+}
 
 if (!commander.args.length) {
   commander.outputHelp();
