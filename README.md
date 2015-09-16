@@ -17,8 +17,8 @@ new Chainscript({body: {content: {name: 'My Document'}}})
   .email('stephan.florquin+test@gmail.com')
   // Run the script (returns a promise)
   .run()
-  .then(function(script) {
-    console.log(script.toJSON());
+  .then(function(cs) {
+    console.log(cs.toJSON());
   })
   .fail(function(err) {
     console.error(err.message);
@@ -31,15 +31,15 @@ new Chainscript({body: {content: {name: 'My Document'}}})
 var Chainscript = require('chainscript-client');
 
 Chainscript.load('chainscript:document:3940c155-d17d-421a-b34e-8bf5a458299e')
-  .then(function(script) {
-    console.log(script.toJSON());
+  .then(function(cs) {
+    console.log(cs.toJSON());
     // You can add commands to the loaded script and run the script
-    return script
+    return cs
       .email('stephan.florquin+test@gmail.com')
       .run();
-  }).then(function(script) {
+  }).then(function(cs) {
     // New script executed with added commands
-    console.log(script.toJSON());
+    console.log(cs.toJSON());
   })
   .fail(function(err) {
     console.error(err.message);
@@ -50,14 +50,14 @@ Chainscript.load('chainscript:document:3940c155-d17d-421a-b34e-8bf5a458299e')
 
 ### Chainscript
 
-#### new Chainscript(script, immutable = true)
+#### new Chainscript(script, immutable = false)
 
 Creates a new Chainscript from a JSON object.
 
 If `immutable` is `true`, **THE INSTANCE IS IMMUTABLE**. It is never modified
 after initialization. Adding commands to a script returns a new instance.
 
-#### Chainscript.load(uuid, immutable = true)
+#### Chainscript.load(uuid, immutable = false)
 
 Loads an existing script. Returns a promise that resolves with an instance of
 `Chainscript`.
@@ -114,8 +114,8 @@ new Chainscript({body: {content: {name: 'My Document', val: true}}})
     };
   })
   .run()
-  .then(function(script) {
-    console.log(script.get('body.content'));
+  .then(function(cs) {
+    console.log(cs.get('body.content'));
   })
   .fail(function(err) {
     console.error(err.message);
@@ -134,7 +134,7 @@ var content = {
   name: 'My Document'
 };
 
-var script = new Chainscript({body: {content: doc}});
+var cs = new Chainscript({body: {content: content}});
 
 content.name = 'My Document V2';
 content.meta = {
@@ -142,9 +142,8 @@ content.meta = {
   time: Date.now()
 };
 
-script.delta(content).run().then(function(s) {
-  script = s;
-  console.log(script.get('body.content'));
+cs.delta(content).run().then(function() {
+  console.log(cs.get('body.content'));
 });
 ```
 
@@ -163,17 +162,14 @@ Clones Chainscript. Returns a new instance of `Chainscript`.
 
 #### Mutable extensions
 
-This only applies when `immutable` is `false`.
+This only applies when `immutable` is `false` (the default value).
 
 You may change the script directly via `Chainscript#script`. If you can change
 the body content directly, an update command will be issued if needed when you
 call `run`.
 
 ```js
-var cs = new Chainscript(
-  {body: {content: {name: 'My Document'}}},
-  false
-);
+var cs = new Chainscript({body: {content: {name: 'My Document'}}});
 
 cs.script.body.content.name += ' V2';
 cs.script.body.content.meta = {

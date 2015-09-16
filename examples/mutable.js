@@ -1,18 +1,15 @@
 var Chainscript = require('../lib');
 
-var script = new Chainscript(
-  {body: {content: {name: 'My Document'}}},
-  false
-);
+var cs = new Chainscript({body: {content: {name: 'My Document'}}});
 
-script.content.name += ' V2';
-script.content.meta = {
+cs.script.body.content.name += ' V2';
+cs.script.body.content.meta = {
   author: 'Stephan Florquin',
   time: Date.now()
 };
 
-script
+cs
   .run()
   .then(function() {
-    console.log(script.toJSON());
+    console.log(cs.toJSON());
   });

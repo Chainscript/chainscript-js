@@ -1,10 +1,10 @@
 var Chainscript = require('../lib');
 
-new Chainscript({body: {content: {name: 'My Document'}}})
+new Chainscript({body: {content: {name: 'My Document'}}}, true)
   .snapshot()
   .run()
-  .then(function(script) {
-    console.log(script.get('body.content.name'));
+  .then(function(cs) {
+    console.log(cs.get('body.content.name'));
   })
   .fail(function(err) {
     console.error(err.message);

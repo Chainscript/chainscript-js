@@ -1,6 +1,6 @@
 var Chainscript = require('../lib');
 
-new Chainscript({body: {content: {name: 'My Document'}}})
+new Chainscript({body: {content: {name: 'My Document'}}}, true)
   .change(function(content) {
     content.name += ' V2';
     content.meta = {
@@ -9,32 +9,32 @@ new Chainscript({body: {content: {name: 'My Document'}}})
     };
   })
   .run()
-  .then(function(script) {
-    console.log(script.get('body.content'));
-    return script
+  .then(function(cs) {
+    console.log(cs.get('body.content'));
+    return cs
       .change(function(content) {
         content.meta.author = 'SF';
       })
       .run();
   })
-  .then(function(script) {
-    console.log(script.get('body.content'));
-    return script
+  .then(function(cs) {
+    console.log(cs.get('body.content'));
+    return cs
       .change(function(content) {
         delete content.meta.time;
       })
       .run();
   })
-  .then(function(script) {
-    console.log(script.get('body.content'));
-    return script
+  .then(function(cs) {
+    console.log(cs.get('body.content'));
+    return cs
       .change(function(content) {
         delete content.meta;
       })
       .run();
   })
-  .then(function(script) {
-    console.log(script.get('body.content'));
+  .then(function(cs) {
+    console.log(cs.get('body.content'));
   })
   .fail(function(err) {
     console.error(err.message);

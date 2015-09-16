@@ -1,18 +1,17 @@
 var Chainscript = require('../lib');
 
-var doc = {
+var content = {
   name: 'My Document'
 };
 
-var script = new Chainscript({body: {content: doc}});
+var cs = new Chainscript({body: {content: content}});
 
-doc.name = 'My Document V2';
-doc.meta = {
+content.name = 'My Document V2';
+content.meta = {
   author: 'Stephan Florquin',
   time: Date.now()
 };
 
-script.delta(doc).run().then(function(s) {
-  script = s;
-  console.log(script.get('body.content'));
+cs.delta(content).run().then(function() {
+  console.log(cs.get('body.content'));
 });

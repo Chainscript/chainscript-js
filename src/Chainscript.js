@@ -11,10 +11,10 @@ export default class Chainscript {
    * Loads a script from an existing uuid
    *
    * @param {string} uuid The uuid of the script
-   * @param {bool} immutable Whether to create an immutable instance
+   * @param {bool} [immutable=false] Whether to create an immutable instance
    * @returns {Promise} A promise that resolves with a new Chainscript
    */
-  static load = (uuid, immutable = true) => {
+  static load = (uuid, immutable = false) => {
     const deferred = Q.defer();
 
     request
@@ -39,9 +39,9 @@ export default class Chainscript {
    * Construct a new chainscript.
    *
    * @param {Object | string} [script={}] The initial script
-   * @param {bool} [immutable=true] Whether to create an immutable instance
+   * @param {bool} [immutable=false] Whether to create an immutable instance
    */
-  constructor(script = {}, immutable = true) {
+  constructor(script = {}, immutable = false) {
     // Clone the script for safety
     this.script = JSON.parse(JSON.stringify(script));
     this.immutable = immutable;

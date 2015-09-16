@@ -9,10 +9,10 @@ new Chainscript({
   x_chainscript : {
     snapshots_enabled: true
   }
-}).snapshot()
+}, true).snapshot()
   .run()
-  .then(function(script) {
-    console.log(script.toJSON());
+  .then(function(cs) {
+    console.log(cs.toJSON());
   })
   .fail(function(err) {
     console.error(err.message);
