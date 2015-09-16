@@ -10,11 +10,11 @@ function run(cs) {
 
   function exec() {
     function postfix() {
-      if(commander.notarize) {
+      if (commander.notarize) {
         cs.notarize();
       }
 
-      if(commander.email) {
+      if (commander.email) {
         cs.email(commander.email);
       }
 
@@ -29,7 +29,15 @@ function run(cs) {
         });
     }
 
-    if(commander.update) {
+    if (typeof commander.commandAuditing !== 'undefined') {
+      cs.script.x_chainscript.command_auditing = commander.commandAuditing;
+    }
+
+    if (typeof commander.revisionAuditing !== 'undefined') {
+      cs.script.x_chainscript.revision_auditing = commander.revisionAuditing;
+    }
+
+    if (commander.update) {
       try {
         cs.update(JSON.parse(commander.update));
       } catch(e) {
@@ -37,13 +45,13 @@ function run(cs) {
       }
     }
 
-    if(commander.snapshot) {
+    if (commander.snapshot) {
       cs.script.x_chainscript = cs.script.x_chainscript || {};
       cs.script.x_chainscript.snapshots_enabled = true;
       cs.snapshot();
     }
 
-    if(commander.sign) {
+    if (commander.sign) {
       cs
         .run()
         .then(function() {
@@ -71,14 +79,20 @@ function run(cs) {
   }
 }
 
+function parseBool(v) {
+  return v === 'true' || v === '1' ? true : false;
+}
+
 commander
   .version('0.9.0')
   .usage('[options] <script | uuid>')
-  .option('-u, --update <updates>', 'Update script')
+  .option('-u, --update <string>', 'Update script')
   .option('-s, --snapshot', 'Snapshot script')
   .option('-n, --notarize', 'Notarize script')
-  .option('-e, --email <email>', 'Email')
-  .option('-S, --sign <wif>', 'Sign the digest')
+  .option('-e, --email <string>', 'Email')
+  .option('-S, --sign <string>', 'Sign the digest')
+  .option('--command-auditing <bool>', 'Enable or disable command auditing', parseBool)
+  .option('--revision-auditing <bool>', 'Enable or disable revision auditing', parseBool)
   .option('-K, --genkey', 'Generate and print a key pair and address')
   .option('-T, --testnet', 'Use testnet')
   .parse(process.argv);
