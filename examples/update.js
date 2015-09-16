@@ -1,6 +1,6 @@
 var Chainscript = require('../lib');
 
-new Chainscript({document: {content: {name: 'My Document'}}})
+new Chainscript({body: {content: {name: 'My Document'}}})
   .update({time: Date.now()})
   .run()
   .then(function(script) {

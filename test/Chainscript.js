@@ -5,7 +5,7 @@ import Chainscript from '../src/Chainscript';
 const testResponse = {
   ok: true,
   body: {
-    document: {
+    body: {
       content: {
         name: 'Hello World'
       },
@@ -79,14 +79,14 @@ describe('Chainscript', () => {
 
         beforeEach(() => {
           script = new Chainscript(
-            {document: {content: {name: 'Hello World'}}},
+            {body: {content: {name: 'Hello World'}}},
             immutable
           );
         });
 
         it('should return the script as JSON', () => {
           script.toJSON().should.deepEqual(
-            {document: {content: {name: 'Hello World'}}}
+            {body: {content: {name: 'Hello World'}}}
           );
         });
 
@@ -96,7 +96,7 @@ describe('Chainscript', () => {
 
         beforeEach(() => {
           script = new Chainscript(
-            {document: {content: {name: 'Hello World'}}},
+            {body: {content: {name: 'Hello World'}}},
             immutable
           );
         });
@@ -120,7 +120,7 @@ describe('Chainscript', () => {
         beforeEach(() => {
           sinon.stub(request, 'post', () => methods);
           new Chainscript(
-            {document: {content: {name: 'Hello World'}}},
+            {body: {content: {name: 'Hello World'}}},
             immutable
           ) .snapshot()
             .run()
@@ -147,7 +147,7 @@ describe('Chainscript', () => {
               execute: {
                 0: {snapshot: {}}
               },
-              document: {
+              body: {
                 content: {
                   name: 'Hello World'
                 }
@@ -170,17 +170,17 @@ describe('Chainscript', () => {
 
         beforeEach(() => {
           script = new Chainscript(
-            {document: {content: {name: 'Hello World'}}},
+            {body: {content: {name: 'Hello World'}}},
             immutable
           );
         });
 
         it('should return the value if the path exists', () => {
-          script.get('document.content.name').should.be.exactly('Hello World');
+          script.get('body.content.name').should.be.exactly('Hello World');
         });
 
         it('should return undefined if the path does not exist', () => {
-          (script.get('document.content.time') === undefined)
+          (script.get('body.content.time') === undefined)
             .should.be.exactly(true);
         });
 
@@ -190,7 +190,7 @@ describe('Chainscript', () => {
 
         beforeEach(() => {
           script = new Chainscript(
-            {document: {content: {name: 'Hello World'}}},
+            {body: {content: {name: 'Hello World'}}},
             immutable
           )
             .snapshot();
@@ -206,7 +206,7 @@ describe('Chainscript', () => {
 
         beforeEach(() => {
           script = new Chainscript(
-            {document: {content: {name: 'Hello World'}}},
+            {body: {content: {name: 'Hello World'}}},
             immutable
           )
             .update({name: 'Hey!'});
@@ -222,7 +222,7 @@ describe('Chainscript', () => {
 
         beforeEach(() => {
           script = new Chainscript(
-            {document: {content: {name: 'Hello World'}}},
+            {body: {content: {name: 'Hello World'}}},
             immutable
           )
             .notarize();
@@ -238,7 +238,7 @@ describe('Chainscript', () => {
 
         beforeEach(() => {
           script = new Chainscript(
-            {document: {content: {name: 'Hello World'}}},
+            {body: {content: {name: 'Hello World'}}},
             immutable
           )
             .email('test@example.com');
@@ -255,7 +255,7 @@ describe('Chainscript', () => {
 
         beforeEach(() => {
           script = new Chainscript({
-            document: {
+            body: {
               content: {
                 name: 'Hello World',
                 data: {
@@ -269,28 +269,28 @@ describe('Chainscript', () => {
 
         it('should be able to add a root key', () => {
           script
-            .change(doc => doc.date = 'today')
+            .change(content => content.date = 'today')
             .get('execute.0')
             .should.deepEqual({update: {date: 'today'}});
         });
 
         it('should be able to add a nested key', () => {
           script
-            .change(doc => doc.meta = {date: 'today'})
+            .change(content => content.meta = {date: 'today'})
             .get('execute.0')
             .should.deepEqual({update: {meta: {date: 'today'}}});
         });
 
         it('should be able to remove a root key', () => {
           script
-            .change(doc => delete doc.data)
+            .change(content => delete content.data)
             .get('execute.0')
             .should.deepEqual({update: {data: null}});
         });
 
         it('should be able to remove a nested key', () => {
           script
-            .change(doc => delete doc.data.test)
+            .change(content => delete content.data.test)
             .get('execute.0')
             .should.deepEqual({update: {data: {}}});
         });
@@ -299,11 +299,11 @@ describe('Chainscript', () => {
 
       describe('#delta()', () => {
 
-        let doc;
+        let content;
 
         beforeEach(() => {
           script = new Chainscript({
-            document: {
+            body: {
               content: {
                 name: 'Hello World',
                 data: {
@@ -312,38 +312,38 @@ describe('Chainscript', () => {
               }
             }
           }, immutable);
-          doc = script.get('document.content');
+          content = script.get('body.content');
         });
 
 
         it('should be able to add a root key', () => {
-          doc.date = 'today';
+          content.date = 'today';
           script
-            .delta(doc)
+            .delta(content)
             .get('execute.0')
             .should.deepEqual({update: {date: 'today'}});
         });
 
         it('should be able to add a nested key', () => {
-          doc.data.test2 = true;
+          content.data.test2 = true;
           script
-            .delta(doc)
+            .delta(content)
             .get('execute.0')
             .should.deepEqual({update: {data: {test: true, test2: true}}});
         });
 
         it('should be able to remove a root key', () => {
-          delete doc.data;
+          delete content.data;
           script
-            .delta(doc)
+            .delta(content)
             .get('execute.0')
             .should.deepEqual({update: {data: null}});
         });
 
         it('should be able to remove a nested key', () => {
-          delete doc.data.test;
+          delete content.data.test;
           script
-            .delta(doc)
+            .delta(content)
             .get('execute.0')
             .should.deepEqual({update: {data: {}}});
         });

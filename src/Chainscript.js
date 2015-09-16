@@ -38,7 +38,7 @@ export default class Chainscript {
   /**
    * Construct a new chainscript.
    *
-   * @param {Object | string} [document={}] The initial script
+   * @param {Object | string} [script={}] The initial script
    * @param {bool} [immutable=true] Whether to create an immutable instance
    */
   constructor(script = {}, immutable = true) {
@@ -57,7 +57,7 @@ export default class Chainscript {
 
     if (!immutable) {
       this.content = JSON.parse(
-        JSON.stringify(objectPath.get(script, 'document.content', {}))
+        JSON.stringify(objectPath.get(script, 'body.content', {}))
       );
     }
   }
@@ -96,7 +96,7 @@ export default class Chainscript {
     const deferred = Q.defer();
 
     if (!this.immutable) {
-      if (JSON.stringify(this.get('document.content', {})) !==
+      if (JSON.stringify(this.get('body.content', {})) !==
           JSON.stringify(this.content)) {
         this.delta(this.content);
       }
@@ -120,7 +120,7 @@ export default class Chainscript {
         } else {
           this.script = res.body;
           this.content = JSON.parse(
-            JSON.stringify(objectPath.get(this.script, 'document.content', {}))
+            JSON.stringify(objectPath.get(this.script, 'body.content', {}))
           );
           this.numCommands = 0;
           deferred.resolve(this);
@@ -199,13 +199,13 @@ export default class Chainscript {
   }
 
   /**
-   * Adds an update command to change a document value at specified path.
+   * Adds an update command to change the content at specified path.
    *
-   * @param {function} fn A function that changes the document
+   * @param {function} fn A function that changes the content
    * @returns {Chainscript} A new instance of Chainscript
    */
   change(fn) {
-    const next = this.get('document.content');
+    const next = this.get('body.content');
 
     fn(next);
 
@@ -213,13 +213,13 @@ export default class Chainscript {
   }
 
   /**
-   * Adds an update command to change a document to the given document.
+   * Adds an update command to change the content to the given content.
    *
-   * @param {Object} next The new document
+   * @param {Object} next The new content
    * @returns {Chainscript} A new instance of Chainscript
    */
   delta(next) {
-    const prev = this.get('document.content');
+    const prev = this.get('body.content');
 
     for (const s in prev) {
       if (prev.hasOwnProperty(s)) {

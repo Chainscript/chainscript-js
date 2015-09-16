@@ -4,7 +4,7 @@ var doc = {
   name: 'My Document'
 };
 
-var script = new Chainscript({document: {content: doc}});
+var script = new Chainscript({body: {content: doc}});
 
 doc.name = 'My Document V2';
 doc.meta = {
@@ -14,5 +14,5 @@ doc.meta = {
 
 script.delta(doc).run().then(function(s) {
   script = s;
-  console.log(script.get('document.content'));
+  console.log(script.get('body.content'));
 });

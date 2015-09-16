@@ -1,7 +1,7 @@
 var Chainscript = require('../lib');
 
 var script = new Chainscript(
-  {document: {content: {name: 'My Document'}}},
+  {body: {content: {name: 'My Document'}}},
   false
 );
 

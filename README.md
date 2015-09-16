@@ -8,7 +8,7 @@
 var Chainscript = require('chainscript-client');
 
 // You pass the initial script
-new Chainscript({document: {content: {name: 'My Document'}}})
+new Chainscript({body: {content: {name: 'My Document'}}})
   // Add a snapshot command
   .snapshot()
   // Add a notarize command
@@ -69,8 +69,8 @@ Returns the value at specified path, or `undefined` if the path doesn't exist.
 Ex:
 
 ```js
-var value = new Chainscript({document: {content: {name: 'My Document'}}})
-  .get('document.content.name'));
+var value = new Chainscript({body: {content: {name: 'My Document'}}})
+  .get('body.content.name'));
 
 console.log(value); // My Document
 ```
@@ -98,53 +98,53 @@ if immutable, otherwise returns the instance.
 #### Chainscript#change(fn)
 
 Adds an `update` command to a script that applies granular updates to the
-document. Returns a new instance of `Chainscript` if immutable, otherwise
+content. Returns a new instance of `Chainscript` if immutable, otherwise
 returns the instance.
 
 Ex:
 
 ```js
-new Chainscript({document: {content: {name: 'My Document', val: true}}})
-  .change(function(doc) {
-    delete doc.val;
-    doc.name += ' V2';
-    doc.meta = {
+new Chainscript({body: {content: {name: 'My Document', val: true}}})
+  .change(function(content) {
+    delete content.val;
+    content.name += ' V2';
+    content.meta = {
       author: 'Stephan Florquin',
       time: Date.now()
     };
   })
   .run()
   .then(function(script) {
-    console.log(script.get('document.content'));
+    console.log(script.get('body.content'));
   })
   .fail(function(err) {
     console.error(err.message);
   });
 ```
 
-#### Chainscript#delta(document)
+#### Chainscript#delta(body)
 
 Adds an `update` command to a script that applies the necessary changes to
-update the current document to the given document. Returns a new instance of
+update the current content to the given content. Returns a new instance of
 `Chainscript` if immutable, otherwise returns the instance.
 
 Ex:
 ```js
-var doc = {
+var content = {
   name: 'My Document'
 };
 
-var script = new Chainscript({document: {content: doc}});
+var script = new Chainscript({body: {content: doc}});
 
-doc.name = 'My Document V2';
-doc.meta = {
+content.name = 'My Document V2';
+content.meta = {
   author: 'Stephan Florquin',
   time: Date.now()
 };
 
-script.delta(doc).run().then(function(s) {
+script.delta(content).run().then(function(s) {
   script = s;
-  console.log(script.get('document.content'));
+  console.log(script.get('body.content'));
 });
 ```
 
@@ -165,12 +165,12 @@ Clones Chainscript. Returns a new instance of `Chainscript`.
 
 This only applies when `immutable` is `false`.
 
-You can change the document content directly, and an update command will be
+You can change the body content directly, and an update command will be
 issued if needed when you call `run`.
 
 ```js
 var script = new Chainscript(
-  {document: {content: {name: 'My Document'}}},
+  {body: {content: {name: 'My Document'}}},
   false
 );
 

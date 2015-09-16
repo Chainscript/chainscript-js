@@ -1,7 +1,7 @@
 var Chainscript = require('../lib');
 
 new Chainscript({
-  document: {
+  body: {
     content: {
       name: 'My Document'
     }

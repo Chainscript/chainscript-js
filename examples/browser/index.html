@@ -12,7 +12,7 @@
   <button id="run">run</button>
 
   <script>
-    var script = new Chainscript({document: 'New Document'});
+    var script = new Chainscript({body: {content: {name: 'New Document'}}});
     var output = document.getElementById('output');
 
     function render() {
