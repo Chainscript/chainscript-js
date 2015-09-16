@@ -8,49 +8,62 @@ var Chainscript = require(path.resolve(__dirname, '../lib'));
 
 function run(cs) {
 
-  function postfix() {
-    if(commander.notarize) {
-      cs.notarize();
+  function exec() {
+    function postfix() {
+      if(commander.notarize) {
+        cs.notarize();
+      }
+
+      if(commander.email) {
+        cs.email(commander.email);
+      }
+
+      cs
+        .run()
+        .then(function() {
+          console.log(JSON.stringify(cs.toJSON(), null, '\t'));
+          process.exit(0);
+        }).fail(function(err) {
+          console.error(err.message);
+          process.exit(1);
+        });
     }
 
-    if(commander.email) {
-      cs.email(commander.email);
+    if(commander.update) {
+      cs.update(JSON.parse(commander.update));
     }
 
+    if(commander.snapshot) {
+      cs.script.x_chainscript = cs.script.x_chainscript || {};
+      cs.script.x_chainscript.snapshots_enabled = true;
+      cs.snapshot();
+    }
+
+    if(commander.sign) {
+      cs
+        .run()
+        .then(function() {
+          cs.sign(commander.sign);
+          postfix();
+        }).fail(function(err) {
+          console.error(err.message);
+          process.exit(1);
+        });
+
+    } else {
+      postfix();
+    }
+  }
+
+  if (typeof cs.script.x_chainscript === 'undefined') {
     cs
       .run()
-      .then(function() {
-        console.log(JSON.stringify(cs.toJSON(), null, '\t'));
-        process.exit(0);
-      }).fail(function(err) {
+      .then(exec).fail(function(err) {
         console.error(err.message);
         process.exit(1);
       });
-  }
-
-  if(commander.update) {
-    cs.update(JSON.parse(commander.update));
-  }
-
-  if(commander.snapshot) {
-    cs.script.x_chainscript = cs.script.x_chainscript || {};
-    cs.script.x_chainscript.snapshots_enabled = true;
-    cs.snapshot();
-  }
-
-  if(commander.sign) {
-    cs
-      .run()
-      .then(function() {
-        cs.sign(commander.sign);
-        postfix();
-      }).fail(function(err) {
-        console.error(err.message);
-        process.exit(1);
-      });
-
   } else {
-    postfix();
+    exec();
   }
 }
 
