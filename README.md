@@ -122,7 +122,7 @@ new Chainscript({body: {content: {name: 'My Document', val: true}}})
   });
 ```
 
-#### Chainscript#delta(body)
+#### Chainscript#delta(content)
 
 Adds an `update` command to a script that applies the necessary changes to
 update the current content to the given content. Returns a new instance of
