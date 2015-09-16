@@ -94,7 +94,10 @@ Output:
 Snapshot a script, sign it, notarize it, an email it. Like a boss.
 
 ```bash
-$ chainscript -sn -S Kx5CcMYfJchiTt7H16BeorBJEvoCbHuCzSBynH6d4Zgdh8Uk384B -e test@email.address '{"content": "Hello, World!"}'
+$ chainscript -sn \
+  -S Kx5CcMYfJchiTt7H16BeorBJEvoCbHuCzSBynH6d4Zgdh8Uk384B \
+  -e test@email.address \
+  '{"content": "Hello, World!"}'
 ```
 
 Output:
