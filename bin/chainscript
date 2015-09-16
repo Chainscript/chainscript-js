@@ -118,7 +118,6 @@ if (commander.args[0].match(/^chainscript:/)) {
   try {
     run (new Chainscript(JSON.parse(commander.args[0])));
   } catch (e) {
-    commander.outputHelp();
-    process.exit(1);
+    run (new Chainscript({content: commander.args[0]}));
   }
 }

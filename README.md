@@ -36,6 +36,12 @@ $ chainscript
 $ chainscript '{"content": "Hello, World!"}'
 ```
 
+Or, simply:
+
+```bash
+$ chainscript "Hello, World!"
+```
+
 Output:
 
 ```json
