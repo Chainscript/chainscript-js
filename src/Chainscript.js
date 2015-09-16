@@ -233,12 +233,14 @@ export default class Chainscript {
   delta(next, first = false) {
     const prev = this.get('body.content');
 
-    for (const s in prev) {
-      if (prev.hasOwnProperty(s)) {
-        if (typeof next[s] === 'undefined') {
-          next[s] = null;
-        } else if (JSON.stringify(prev[s]) === JSON.stringify(next[s])) {
-          delete next[s];
+    if (typeof prev === 'object' && prev && typeof next === 'object' && next) {
+      for (const s in prev) {
+        if (prev.hasOwnProperty(s)) {
+          if (typeof next[s] === 'undefined') {
+            next[s] = null;
+          } else if (JSON.stringify(prev[s]) === JSON.stringify(next[s])) {
+            delete next[s];
+          }
         }
       }
     }

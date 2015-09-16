@@ -30,7 +30,11 @@ function run(cs) {
     }
 
     if(commander.update) {
-      cs.update(JSON.parse(commander.update));
+      try {
+        cs.update(JSON.parse(commander.update));
+      } catch(e) {
+        cs.update(commander.update);
+      }
     }
 
     if(commander.snapshot) {
