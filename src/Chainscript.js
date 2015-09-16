@@ -56,9 +56,7 @@ export default class Chainscript {
     }
 
     if (!immutable) {
-      this.content = JSON.parse(
-        JSON.stringify(objectPath.get(script, 'body.content', {}))
-      );
+      this.initial = JSON.parse(JSON.stringify(script));
     }
   }
 
@@ -81,7 +79,7 @@ export default class Chainscript {
     const clone = new Chainscript(this.script, this.immutable);
 
     if (!this.immutable) {
-      clone.content = JSON.parse(JSON.stringify(this.content));
+      clone.initial = JSON.parse(JSON.stringify(this.initial));
     }
 
     return clone;
@@ -96,9 +94,10 @@ export default class Chainscript {
     const deferred = Q.defer();
 
     if (!this.immutable) {
-      if (JSON.stringify(this.get('body.content', {})) !==
-          JSON.stringify(this.content)) {
-        this.delta(this.content);
+      const initialContent = objectPath.get(this.initial, 'body.content', {});
+      const currentContent = objectPath.get(this.script, 'body.content', {});
+      if (JSON.stringify(initialContent) !== JSON.stringify(currentContent)) {
+        this.delta(currentContent, initialContent);
       }
     }
 
@@ -119,9 +118,7 @@ export default class Chainscript {
           deferred.resolve(new Chainscript(res.body));
         } else {
           this.script = res.body;
-          this.content = JSON.parse(
-            JSON.stringify(objectPath.get(this.script, 'body.content', {}))
-          );
+          this.initial = JSON.parse(JSON.stringify(this.script));
           this.numCommands = 0;
           deferred.resolve(this);
         }
@@ -218,8 +215,8 @@ export default class Chainscript {
    * @param {Object} next The new content
    * @returns {Chainscript} A new instance of Chainscript
    */
-  delta(next) {
-    const prev = this.get('body.content');
+  delta(next, from) {
+    const prev = from || this.get('body.content');
 
     for (const s in prev) {
       if (prev.hasOwnProperty(s)) {
