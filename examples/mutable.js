@@ -11,5 +11,15 @@ cs.script.body.content.meta = {
 cs
   .run()
   .then(function() {
-    console.log(cs.toJSON());
+    console.log(cs.toJSON().body.content);
+    cs.script.body.content.meta.genre = 'comedy';
+    return cs.run();
+  })
+  .then(function() {
+    console.log(cs.toJSON().body.content);
+    delete cs.script.body.content.meta.time;
+    return cs.run();
+  })
+  .then(function() {
+    console.log(cs.toJSON().body.content);
   });

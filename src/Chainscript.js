@@ -88,7 +88,9 @@ export default class Chainscript {
       const initialContent = objectPath.get(this.initial, 'body.content', {});
       const currentContent = objectPath.get(this.script, 'body.content', {});
       if (JSON.stringify(initialContent) !== JSON.stringify(currentContent)) {
-        this.delta(currentContent, initialContent);
+        this.script.body = this.script.body || {};
+        this.script.body.content = initialContent;
+        this.delta(currentContent);
       }
     }
 
@@ -206,8 +208,8 @@ export default class Chainscript {
    * @param {Object} next The new content
    * @returns {Chainscript} A new instance of Chainscript
    */
-  delta(next, from) {
-    const prev = from || this.get('body.content');
+  delta(next) {
+    const prev = this.get('body.content');
 
     for (const s in prev) {
       if (prev.hasOwnProperty(s)) {
