@@ -33,7 +33,7 @@ $ chainscript
 #### Dry run
 
 ```bash
-$ chainscript '{"body": {"content": {"title": "Hello, World!"}}}'
+$ chainscript '{"content": "Hello, World!"}'
 ```
 
 Output:
@@ -41,11 +41,9 @@ Output:
 ```json
 {
   "body": {
-    "content": {
-      "title": "Hello, World!"
-    },
+    "content": "Hello, World!",
     "x_meta": {
-      "uuid": "chainscript:envelope:f9355225-8aaa-4313-8cb1-abff1fbe2052"
+      "uuid": "chainscript:envelope:70b7094d-6391-4bee-95b9-a554a00be417"
     }
   },
   "x_chainscript": {
@@ -53,10 +51,10 @@ Output:
       "agent": "io.chainscript.agent",
       "version": "0.1.alpha",
       "result": "valid",
-      "validated_on": "2015-09-16T13:50:49+00:00",
+      "validated_on": "2015-09-16T21:00:02+00:00",
       "message": "Envelope was executed without a command."
     },
-    "digest": "ce3249e52174914ee5fd98f4e74923947601b4d1"
+    "digest": "1743420f00b7b1ec478844a7fcd4a9030066059b"
   }
 }
 ```
@@ -64,39 +62,39 @@ Output:
 #### Snapshot
 
 ```bash
-$ chainscript -s '{"body": {"content": {"title": "Hello, World!"}}}'
+$ chainscript -s '{"content": "Hello, World!"}'
 ```
 
 Output:
 
 ```json
 {
-  "body": {
-    "content": {
-      "title": "Hello, World!"
-    },
-    "x_meta": {
-      "uuid": "chainscript:envelope:c586af82-568b-4920-8cd2-7963c54ff448"
-    }
-  },
   "x_chainscript": {
     "snapshots_enabled": true,
     "validation": {
       "agent": "io.chainscript.agent",
       "version": "0.1.alpha",
       "result": "success",
-      "validated_on": "2015-09-16T13:52:34+00:00"
+      "validated_on": "2015-09-16T21:00:30+00:00"
     },
-    "digest": "8e16e37a945f5d15546a8a5e4f302fa2e392011e",
-    "snapshot_url": "https://chainscript.firebaseio.com/snapshots/chainscript-envelope-c586af82-568b-4920-8cd2-7963c54ff448.json"
+    "digest": "7903464ac9c9d1fa268efc9e8264b476483251c5",
+    "snapshot_url": "https://chainscript.firebaseio.com/snapshots/chainscript-envelope-d7fee738-958f-42bb-9e43-2fa00d071bef.json"
+  },
+  "body": {
+    "content": "Hello, World!",
+    "x_meta": {
+      "uuid": "chainscript:envelope:d7fee738-958f-42bb-9e43-2fa00d071bef"
+    }
   }
 }
 ```
 
-#### Multiple commands
+#### Multi Command Awesomeness
+
+Snapshot a script, sign it, notarize it, an email it. Like a boss.
 
 ```bash
-$ chainscript -s -n '{"body": {"content": {"title": "Hello, World!"}}}'
+$ chainscript -sn -S Kx5CcMYfJchiTt7H16BeorBJEvoCbHuCzSBynH6d4Zgdh8Uk384B -e test@email.address '{"content": "Hello, World!"}'
 ```
 
 Output:
@@ -104,37 +102,42 @@ Output:
 ```json
 {
   "body": {
-    "content": {
-      "title": "Hello, World!"
-    },
+    "content": "Hello, World!",
     "x_meta": {
-      "uuid": "chainscript:envelope:6efe306c-1d68-4762-ab93-51e49ee12915"
+      "uuid": "chainscript:envelope:db138976-72a3-4eea-b534-9a8ab0e4ae7b"
     }
   },
   "x_chainscript": {
-    "snapshots_enabled": true,
     "validation": {
       "agent": "io.chainscript.agent",
       "version": "0.1.alpha",
       "result": "success",
-      "validated_on": "2015-09-16T13:54:54+00:00"
+      "validated_on": "2015-09-16T21:03:57+00:00"
     },
-    "digest": "8cda8c896a89830611667008f90aa6ff914b7a60",
-    "snapshot_url": "https://chainscript.firebaseio.com/snapshots/chainscript-envelope-6efe306c-1d68-4762-ab93-51e49ee12915.json",
+    "digest": "08ded1c29581d66ba5bbe1fbca5906b0eb2449b6",
+    "snapshots_enabled": true,
+    "snapshot_url": "https://chainscript.firebaseio.com/snapshots/chainscript-envelope-db138976-72a3-4eea-b534-9a8ab0e4ae7b.json",
+    "signatures": {
+      "1HvXn4RGQYhBSbECs29LohXJAgmNUcsXYT": {
+        "digest": "08ded1c29581d66ba5bbe1fbca5906b0eb2449b6",
+        "signature": "ICGirBtu/gycrw0gQnlMJsw7waSlZqYrGppj3tkHhDqef2XOtUIAh8XDi8KdzJfz/OeqCqpTxv64kJXhhw0AfG0="
+      }
+    },
+    "signatures_valid": true,
     "transactions": {
-      "chainscript:testnet3:tx:579781f31f217644d30490eb0de466f4c687f7cc2832221da8d128680dac535a": {
+      "chainscript:testnet3:tx:8895f3e890d36dfdae6ba67d4169f3125a67f1d7d6a7fed36a22fe3909228919": {
         "status": "broadcasted",
-        "op_return": "8cda8c896a89830611667008f90aa6ff914b7a60",
+        "op_return": "08ded1c29581d66ba5bbe1fbca5906b0eb2449b6",
         "blockchain": "testnet3",
-        "reference": "chainscript:notarization:f6bc32a3-2b60-48b9-bb0c-5880736a293d",
-        "broadcasted_on": "2015-09-16T13:54:54+00:00"
+        "reference": "chainscript:notarization:0fea9345-27f1-4f44-875d-35f2e89f178c",
+        "broadcasted_on": "2015-09-16T21:03:57+00:00"
       }
     },
     "notarizations": {
-      "chainscript:notarization:f6bc32a3-2b60-48b9-bb0c-5880736a293d": {
-        "digest": "8cda8c896a89830611667008f90aa6ff914b7a60",
-        "evidence": "chainscript:testnet3:tx:579781f31f217644d30490eb0de466f4c687f7cc2832221da8d128680dac535a",
-        "notarized_at": "2015-09-16T13:54:54+00:00"
+      "chainscript:notarization:0fea9345-27f1-4f44-875d-35f2e89f178c": {
+        "digest": "08ded1c29581d66ba5bbe1fbca5906b0eb2449b6",
+        "evidence": "chainscript:testnet3:tx:8895f3e890d36dfdae6ba67d4169f3125a67f1d7d6a7fed36a22fe3909228919",
+        "notarized_at": "2015-09-16T21:03:57+00:00"
       }
     },
     "notarized": true
@@ -167,7 +170,7 @@ new Chainscript({body: {content: {name: 'My Document'}}})
   // Add a notarize command
   .notarize()
   // Add a send mail command
-  .email('stephan.florquin+test@gmail.com')
+  .email('test@email.address')
   // Run the script (returns a promise)
   .run()
   .then(function(cs) {
@@ -188,7 +191,7 @@ Chainscript.load('chainscript:document:3940c155-d17d-421a-b34e-8bf5a458299e')
     console.log(cs.toJSON());
     // You can add commands to the loaded script and run the script
     return cs
-      .email('stephan.florquin+test@gmail.com')
+      .email('test@email.address')
       .run();
   }).then(function(cs) {
     // New script executed with added commands
