@@ -91,7 +91,7 @@ Output:
 
 #### Multi Command Awesomeness
 
-Snapshot a script, sign it, notarize it, an email it. Like a boss.
+Snapshot a script, sign it, notarize it, then email it. Like a boss.
 
 ```bash
 $ chainscript -sn \
