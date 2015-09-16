@@ -90,7 +90,7 @@ export default class Chainscript {
       if (JSON.stringify(initialContent) !== JSON.stringify(currentContent)) {
         this.script.body = this.script.body || {};
         this.script.body.content = initialContent;
-        this.delta(currentContent);
+        this.delta(currentContent, true);
       }
     }
 
@@ -119,20 +119,35 @@ export default class Chainscript {
     return deferred.promise;
   }
 
-  addCommand(command) {
-    const numCommands = this.getNumCommands();
+  addCommand(command, first = false) {
+    const index = first ? 0 : this.getNumCommands();
+    let script;
 
     if (this.immutable) {
-      const script = JSON.parse(JSON.stringify(this.script));
-
-      script.execute = script.execute || {};
-      script.execute[numCommands] = command;
-
-      return new Chainscript(script);
+      script = JSON.parse(JSON.stringify(this.script));
+    } else {
+      script = this.script;
     }
 
-    this.script.execute = this.script.execute || {};
-    this.script.execute[numCommands] = command;
+    script.execute = script.execute || {};
+
+    if (first) {
+      const tmp = {};
+
+      for (const s in script.execute) {
+        if (script.execute.hasOwnProperty(s)) {
+          tmp[parseInt(s, 10) + 1] = script.execute[s];
+        }
+      }
+
+      script.execute = tmp;
+    }
+
+    script.execute[index] = command;
+
+    if (this.immutable) {
+      return new Chainscript(script);
+    }
 
     return this;
   }
@@ -163,10 +178,11 @@ export default class Chainscript {
    * Adds an update command
    *
    * @param {Object} updates An object with updates to apply
+   * @param {bool} [first=false] Whether to put the command first
    * @returns {Chainscript} A new instance of Chainscript
    */
-  update(updates) {
-    return this.addCommand({update: updates});
+  update(updates, first = false) {
+    return this.addCommand({update: updates}, first);
   }
 
   /**
@@ -206,9 +222,10 @@ export default class Chainscript {
    * Adds an update command to change the content to the given content.
    *
    * @param {Object} next The new content
+   * @param {bool} [first=false] Whether to put the command first
    * @returns {Chainscript} A new instance of Chainscript
    */
-  delta(next) {
+  delta(next, first = false) {
     const prev = this.get('body.content');
 
     for (const s in prev) {
@@ -221,7 +238,7 @@ export default class Chainscript {
       }
     }
 
-    return this.update(next);
+    return this.update(next, first);
   }
 
   getNumCommands() {

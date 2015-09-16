@@ -165,8 +165,8 @@ Clones Chainscript. Returns a new instance of `Chainscript`.
 This only applies when `immutable` is `false` (the default value).
 
 You may change the script directly via `Chainscript#script`. If you can change
-the body content directly, an update command will be issued if needed when you
-call `run`.
+the body content directly, an update command will be issued if needed **before
+other commands** when you call `run`.
 
 ```js
 var cs = new Chainscript({body: {content: {name: 'My Document'}}});
