@@ -1,5 +1,6 @@
 import sinon from 'sinon';
 import request from 'superagent';
+import Message from 'bitcore-message';
 import Chainscript from '../src/Chainscript';
 
 const testResponse = {
@@ -350,11 +351,33 @@ describe('Chainscript', () => {
 
       });
 
+      describe('#sign()', () => {
+
+        beforeEach(() => {
+          script = new Chainscript(
+            testResponse.body,
+            immutable
+          )
+            .sign('Kx1ofTinaoNEb74pU7sfmNsmpffXH8SRbtQF28EiZ9Vij5Kbh8s8');
+        });
+
+        it('should add a signature', () => {
+          const signature = script
+            .get('x_chainscript.signatures.1QAE28K4eD7TzkarH3b4FCtWE8nLizJKzZ');
+          signature.digest
+            .should.be.exactly(script.get('x_chainscript.digest'));
+          Message(script.get('x_chainscript.digest')).verify(
+            '1QAE28K4eD7TzkarH3b4FCtWE8nLizJKzZ',
+            signature.signature).should.be.exactly(true);
+        });
+
+      });
+
     });
 
   }
 
-  tests(true);
   tests(false);
+  tests(true);
 
 });

@@ -31,7 +31,10 @@ export default class Chainscript {
           return deferred.reject(new Error(res.text));
         }
 
-        deferred.resolve(new Chainscript(res.body, immutable));
+        deferred.resolve(new Chainscript(
+          JSON.parse(JSON.stringify(res.body)),
+          immutable
+        ));
       });
 
     return deferred.promise;
