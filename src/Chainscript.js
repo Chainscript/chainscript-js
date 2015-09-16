@@ -45,15 +45,6 @@ export default class Chainscript {
     // Clone the script for safety
     this.script = JSON.parse(JSON.stringify(script));
     this.immutable = immutable;
-    this.numCommands = 0;
-
-    if (typeof script.execute !== 'undefined') {
-      for (const s in script.execute) {
-        if (script.execute.hasOwnProperty(s)) {
-          this.numCommands++;
-        }
-      }
-    }
 
     if (!immutable) {
       this.initial = JSON.parse(JSON.stringify(script));
@@ -119,7 +110,6 @@ export default class Chainscript {
         } else {
           this.script = res.body;
           this.initial = JSON.parse(JSON.stringify(this.script));
-          this.numCommands = 0;
           deferred.resolve(this);
         }
       });
@@ -128,18 +118,19 @@ export default class Chainscript {
   }
 
   addCommand(command) {
+    const numCommands = this.getNumCommands();
+
     if (this.immutable) {
       const script = JSON.parse(JSON.stringify(this.script));
 
       script.execute = script.execute || {};
-      script.execute[this.numCommands] = command;
+      script.execute[numCommands] = command;
 
       return new Chainscript(script);
     }
 
     this.script.execute = this.script.execute || {};
-    this.script.execute[this.numCommands] = command;
-    this.numCommands++;
+    this.script.execute[numCommands] = command;
 
     return this;
   }
@@ -229,6 +220,20 @@ export default class Chainscript {
     }
 
     return this.update(next);
+  }
+
+  getNumCommands() {
+    let numCommands = 0;
+
+    if (typeof this.script.execute !== 'undefined') {
+      for (const s in this.script.execute) {
+        if (this.script.execute.hasOwnProperty(s)) {
+          numCommands++;
+        }
+      }
+    }
+
+    return numCommands;
   }
 
 }
