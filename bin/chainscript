@@ -91,8 +91,16 @@ commander
   .option('-n, --notarize', 'Notarize script')
   .option('-e, --email <string>', 'Email')
   .option('-S, --sign <string>', 'Sign the digest')
-  .option('--command-auditing <bool>', 'Enable or disable command auditing', parseBool)
-  .option('--revision-auditing <bool>', 'Enable or disable revision auditing', parseBool)
+  .option(
+    '--command-auditing <bool>',
+    'Enable or disable command auditing',
+    parseBool
+  )
+  .option(
+    '--revision-auditing <bool>',
+    'Enable or disable revision auditing',
+    parseBool
+  )
   .option('-K, --genkey', 'Generate and print a key pair and address')
   .option('-T, --testnet', 'Use testnet')
   .parse(process.argv);
