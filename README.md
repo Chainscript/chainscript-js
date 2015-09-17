@@ -11,23 +11,25 @@ $ npm install -g chainscript
 ### Usage
 
 ```bash
-$ chainscript
+$ chainscript --help
 
   Usage: chainscript [options] <script | uuid>
 
   Options:
 
-    -h, --help                  output usage information
-    -V, --version               output the version number
-    -u, --update <string>       Update script
-    -s, --snapshot              Snapshot script
-    -n, --notarize              Notarize script
-    -e, --email <string>        Email
-    -S, --sign <string>         Sign the digest
-    --command-auditing <bool>   Enable or disable command auditing
-    --revision-auditing <bool>  Enable or disable revision auditing
-    -K, --genkey                Generate and print a key pair and address
-    -T, --testnet               Use testnet
+    -h, --help                         output usage information
+    -V, --version                      output the version number
+    -u, --update <updates>             Update script
+    -s, --snapshot                     Snapshot script
+    -n, --notarize                     Notarize script
+    -e, --email <address>              Email
+    -S, --sign <wif>                   Sign the digest
+    --command-auditing <bool>          Enable or disable command auditing
+    --revision-auditing <bool>         Enable or disable revision auditing
+    -I, --input-format <json | list>   Set input format
+    -O, --output-format <json | list>  Set output format
+    -K, --gen-key                      Generate and print a key pair and address
+    -T, --testnet                      Use testnet
 ```
 
 ### Examples
@@ -160,6 +162,78 @@ Output:
 
 Simply pass a Chainscript UUID instead of a script
 (ex: chainscript:envelope:6efe306c-1d68-4762-ab93-51e49ee12915).
+
+#### Notarizing the contents of a directory
+
+```bash
+$ md5sum src/* | chainscript -sn -I list \
+  -S Kx5CcMYfJchiTt7H16BeorBJEvoCbHuCzSBynH6d4Zgdh8Uk384B
+```
+
+Output:
+
+```json
+{
+  "body": {
+    "content": {
+      "8e5d89a72b451607484446c66be84394": "src/Chainscript.js",
+      "30dde352b3a3d137036c55d12fee8d74": "src/index.js"
+    },
+    "x_meta": {
+      "uuid": "chainscript:envelope:10766f5d-e69a-495e-af2a-f6ea6863915b"
+    }
+  },
+  "x_chainscript": {
+    "validation": {
+      "agent": "io.chainscript.agent",
+      "version": "0.1.alpha",
+      "result": "success",
+      "validated_on": "2015-09-17T15:43:17+00:00"
+    },
+    "digest": "046d7e80a1af0173ea7db6d5aff1e7eead57a54a",
+    "snapshots_enabled": true,
+    "snapshot_url": "https://chainscript.firebaseio.com/snapshots/chainscript-envelope-10766f5d-e69a-495e-af2a-f6ea6863915b.json",
+    "signatures": {
+      "1HvXn4RGQYhBSbECs29LohXJAgmNUcsXYT": {
+        "digest": "046d7e80a1af0173ea7db6d5aff1e7eead57a54a",
+        "signature": "IFihhP6OYMdEcRfBXf3WrdQGBzCF0NV2Ml68m++gohgiLzt2Q/ehsPDhafEyXbd7WWC2OWzBuzqWMPGIaIG/QD8="
+      }
+    },
+    "signatures_valid": true,
+    "transactions": {
+      "chainscript:testnet3:tx:7029479ae07740783c9bb3367cb18d4b980fd19921815bc9313dd7b01ca27b2c": {
+        "status": "broadcasted",
+        "op_return": "046d7e80a1af0173ea7db6d5aff1e7eead57a54a",
+        "blockchain": "testnet3",
+        "reference": "chainscript:notarization:e05d742a-f3b8-4c5b-9fc0-d2198bd91420",
+        "broadcasted_on": "2015-09-17T15:43:17+00:00"
+      }
+    },
+    "notarizations": {
+      "chainscript:notarization:e05d742a-f3b8-4c5b-9fc0-d2198bd91420": {
+        "digest": "046d7e80a1af0173ea7db6d5aff1e7eead57a54a",
+        "evidence": "chainscript:testnet3:tx:7029479ae07740783c9bb3367cb18d4b980fd19921815bc9313dd7b01ca27b2c",
+        "notarized_at": "2015-09-17T15:43:17+00:00"
+      }
+    },
+    "notarized": true
+  }
+}
+```
+
+Now, you can validate the content of the directory:
+
+```bash
+$ chainscript chainscript:envelope:10766f5d-e69a-495e-af2a-f6ea6863915b -O list > checksum.md5
+$ md5sum -c checksum.md5
+```
+
+Output:
+
+```
+src/index.js: OK
+src/Chainscript.js: OK
+```
 
 ## API
 
