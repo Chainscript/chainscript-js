@@ -79,13 +79,30 @@ function run(cs) {
   }
 }
 
+function handleInput(input) {
+  if (input.match(/^chainscript:/)) {
+    Chainscript.load(input)
+      .then(run)
+      .fail(function(err) {
+        process.stderr.write(err.message + '\n');
+        process.exit(1);
+      });
+  } else {
+    try {
+      run (new Chainscript(JSON.parse(input)));
+    } catch (e) {
+      run (new Chainscript({content: input}));
+    }
+  }
+}
+
 function parseBool(v) {
   return v === 'true' || v === '1' ? true : false;
 }
 
 commander
   .version('0.9.0')
-  .usage('[options] <script | uuid>')
+  .usage('[options] [script | uuid]')
   .option('-u, --update <string>', 'Update script')
   .option('-s, --snapshot', 'Snapshot script')
   .option('-n, --notarize', 'Notarize script')
@@ -124,22 +141,33 @@ if (commander.genKey) {
   process.exit(0);
 }
 
-if (!commander.args.length) {
+if (commander.args.length > 1) {
   commander.outputHelp();
   process.exit(1);
 }
 
-if (commander.args[0].match(/^chainscript:/)) {
-  Chainscript.load(commander.args[0])
-    .then(run)
-    .fail(function(err) {
-      process.stderr.write(err.message + '\n');
+if (commander.args.length === 0) {
+  process.stdin.setEncoding('utf8');
+
+  var input = '';
+
+  process.stdin.on('readable', function() {
+    var chunk = process.stdin.read();
+    if (chunk !== null) {
+      input += chunk.toString();
+    }
+  });
+
+  process.stdin.on('end', function() {
+    input = input.replace(/\n$/, '');
+
+    if (input.length) {
+      handleInput(input);
+    } else {
+      commander.outputHelp();
       process.exit(1);
-    });
+    }
+  });
 } else {
-  try {
-    run (new Chainscript(JSON.parse(commander.args[0])));
-  } catch (e) {
-    run (new Chainscript({content: commander.args[0]}));
-  }
+  handleInput(commander.args[0]);
 }
