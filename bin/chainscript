@@ -88,11 +88,30 @@ function handleInput(input) {
         process.exit(1);
       });
   } else {
-    try {
-      run (new Chainscript(JSON.parse(input)));
-    } catch (e) {
-      run (new Chainscript({content: input}));
+    var json;
+
+    switch (commander.format) {
+    case 'list':
+      var lines = input.split('\n');
+      json = {content: {}};
+      lines.forEach(function(line) {
+        var parts = line.split(/\s+/);
+        if (parts.length > 1) {
+          json.content[parts[0]] = line
+            .substr(parts[0].length)
+            .replace(/^\s+/, '');
+        }
+      });
+    break;
+    default:
+      try {
+        json = JSON.parse(input);
+      } catch (e) {
+        json = {content: input};
+      }
     }
+
+    run(new Chainscript(json));
   }
 }
 
@@ -103,11 +122,11 @@ function parseBool(v) {
 commander
   .version('0.9.0')
   .usage('[options] [script | uuid]')
-  .option('-u, --update <string>', 'Update script')
+  .option('-u, --update <updates>', 'Update script')
   .option('-s, --snapshot', 'Snapshot script')
   .option('-n, --notarize', 'Notarize script')
-  .option('-e, --email <string>', 'Email')
-  .option('-S, --sign <string>', 'Sign the digest')
+  .option('-e, --email <address>', 'Email')
+  .option('-S, --sign <wif>', 'Sign the digest')
   .option(
     '--command-auditing <bool>',
     'Enable or disable command auditing',
@@ -118,6 +137,7 @@ commander
     'Enable or disable revision auditing',
     parseBool
   )
+  .option('-F, --format <json | list>', 'Set input format')
   .option('-K, --gen-key', 'Generate and print a key pair and address')
   .option('-T, --testnet', 'Use testnet')
   .parse(process.argv);
