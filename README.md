@@ -23,7 +23,7 @@ $ chainscript --help
     -s, --snapshot                     Snapshot script
     -n, --notarize                     Notarize script
     -e, --email <address>              Email
-    -S, --sign <wif>                   Sign the digest
+    -S, --sign <wif>                   Sign the hash
     --command-auditing <bool>          Enable or disable command auditing
     --revision-auditing <bool>         Enable or disable revision auditing
     -K, --gen-key                      Generate and print a key pair and address
@@ -62,7 +62,7 @@ Output:
       "validated_on": "2015-09-16T21:00:02+00:00",
       "message": "Envelope was executed without a command."
     },
-    "digest": "1743420f00b7b1ec478844a7fcd4a9030066059b"
+    "hash": "1743420f00b7b1ec478844a7fcd4a9030066059b"
   }
 }
 ```
@@ -85,7 +85,7 @@ Output:
       "result": "success",
       "validated_on": "2015-09-16T21:00:30+00:00"
     },
-    "digest": "7903464ac9c9d1fa268efc9e8264b476483251c5",
+    "hash": "7903464ac9c9d1fa268efc9e8264b476483251c5",
     "snapshot_url": "https://chainscript.firebaseio.com/snapshots/chainscript-envelope-d7fee738-958f-42bb-9e43-2fa00d071bef.json"
   },
   "body": {
@@ -125,12 +125,12 @@ Output:
       "result": "success",
       "validated_on": "2015-09-16T21:03:57+00:00"
     },
-    "digest": "08ded1c29581d66ba5bbe1fbca5906b0eb2449b6",
+    "hash": "08ded1c29581d66ba5bbe1fbca5906b0eb2449b6",
     "snapshots_enabled": true,
     "snapshot_url": "https://chainscript.firebaseio.com/snapshots/chainscript-envelope-db138976-72a3-4eea-b534-9a8ab0e4ae7b.json",
     "signatures": {
       "1HvXn4RGQYhBSbECs29LohXJAgmNUcsXYT": {
-        "digest": "08ded1c29581d66ba5bbe1fbca5906b0eb2449b6",
+        "hash": "08ded1c29581d66ba5bbe1fbca5906b0eb2449b6",
         "signature": "ICGirBtu/gycrw0gQnlMJsw7waSlZqYrGppj3tkHhDqef2XOtUIAh8XDi8KdzJfz/OeqCqpTxv64kJXhhw0AfG0="
       }
     },
@@ -146,7 +146,7 @@ Output:
     },
     "notarizations": {
       "chainscript:notarization:0fea9345-27f1-4f44-875d-35f2e89f178c": {
-        "digest": "08ded1c29581d66ba5bbe1fbca5906b0eb2449b6",
+        "hash": "08ded1c29581d66ba5bbe1fbca5906b0eb2449b6",
         "evidence": "chainscript:testnet3:tx:8895f3e890d36dfdae6ba67d4169f3125a67f1d7d6a7fed36a22fe3909228919",
         "notarized_at": "2015-09-16T21:03:57+00:00"
       }
@@ -316,7 +316,7 @@ cs.delta(content).run().then(function() {
 
 #### Chainscript#sign(wif)
 
-Adds a signature of the digest to a script. The private key must be in WIF
+Adds a signature of the hash to a script. The private key must be in WIF
 format. Returns a new instance of `Chainscript` if immutable, otherwise
 returns the instance.
 
@@ -359,7 +359,7 @@ script
 
 ## Extras
 
-There are two extra bundles executables:
+There are two extra bundled executables:
 
 ```bash
 $ cshashrec --help
@@ -440,3 +440,5 @@ $ chainscript chainscript:envelope:3bc3ea98-dc4f-4f1c-9def-a24331aa4b96 \
 Output:
 
 ```json
+Success
+``json
