@@ -101,11 +101,11 @@ commander
     'Enable or disable revision auditing',
     parseBool
   )
-  .option('-K, --genkey', 'Generate and print a key pair and address')
+  .option('-K, --gen-key', 'Generate and print a key pair and address')
   .option('-T, --testnet', 'Use testnet')
   .parse(process.argv);
 
-if (commander.genkey) {
+if (commander.genKey) {
   var privateKey = new Bitcore.PrivateKey();
   var publicKey = privateKey.toPublicKey();
 
