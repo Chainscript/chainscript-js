@@ -21,10 +21,10 @@ function run(cs) {
       cs
         .run()
         .then(function() {
-          console.log(JSON.stringify(cs.toJSON(), null, '\t'));
+          process.stdout.write(JSON.stringify(cs.toJSON(), null, '\t') + '\n');
           process.exit(0);
         }).fail(function(err) {
-          console.error(err.message);
+          process.stderr.write(err.message + '\n');
           process.exit(1);
         });
     }
@@ -58,7 +58,7 @@ function run(cs) {
           cs.sign(commander.sign);
           postfix();
         }).fail(function(err) {
-          console.error(err.message);
+          process.stderr.write(err.message + '\n');
           process.exit(1);
         });
 
@@ -71,7 +71,7 @@ function run(cs) {
     cs
       .run()
       .then(exec).fail(function(err) {
-        console.error(err.message);
+        process.stderr.write(err.message + '\n');
         process.exit(1);
       });
   } else {
@@ -115,11 +115,11 @@ if (commander.genkey) {
     address = publicKey.toAddress(Bitcore.Networks.livenet);
   }
 
-  console.log(JSON.stringify({
+  process.stdout.write(JSON.stringify({
     private: privateKey.toWIF(),
     public: publicKey.toString(),
     address: address.toString()
-  }, null, '\t'));
+  }, null, '\t') + '\n');
 
   process.exit(0);
 }
@@ -133,7 +133,7 @@ if (commander.args[0].match(/^chainscript:/)) {
   Chainscript.load(commander.args[0])
     .then(run)
     .fail(function(err) {
-      console.error(err.message);
+      process.stderr.write(err.message + '\n');
       process.exit(1);
     });
 } else {
