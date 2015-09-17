@@ -20,7 +20,9 @@
     "test:cov": "babel-node ./node_modules/isparta/bin/isparta cover ./node_modules/mocha/bin/_mocha -- --recursive --require should"
   },
   "bin": {
-    "chainscript": "bin/chainscript"
+    "chainscript": "bin/chainscript",
+    "cshashrec": "bin/cshashrec",
+    "csverifyrec": "bin/csverifyrec"
   },
   "repository": {
     "type": "git",
