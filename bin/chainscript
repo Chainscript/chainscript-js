@@ -3,6 +3,7 @@
 
 var path = require('path');
 var commander = require('commander');
+var objectPath = require('object-path');
 var Bitcore = require('bitcore');
 var Chainscript = require(path.resolve(__dirname, '../lib'));
 
@@ -28,32 +29,12 @@ commander
     'Enable or disable revision auditing',
     parseBool
   )
-  .option('-I, --input-format <json | list>', 'Set input format')
-  .option('-O, --output-format <json | list>', 'Set output format')
   .option('-K, --gen-key', 'Generate and print a key pair and address')
   .option('-T, --testnet', 'Use testnet')
   .parse(process.argv);
 
 function handleOutput(output) {
-  var str = '';
-
-  switch (commander.outputFormat) {
-  case 'list':
-    var target = output.body && output.body.content ?
-      output.body.content :
-      output;
-    if (typeof target === 'object' && target) {
-      Object.keys(target).forEach(function(key) {
-        str += key + '\t' + target[key] + '\n';
-      });
-    } else {
-      str = target + '\n';
-    }
-    break;
-  default:
-    str = JSON.stringify(output, null, '\t') + '\n';
-  }
-  process.stdout.write(str);
+  process.stdout.write(JSON.stringify(output, null, '\t') + '\n');
 }
 
 function run(cs) {
@@ -140,25 +121,10 @@ function handleInput(input) {
   } else {
     var json;
 
-    switch (commander.inputFormat) {
-    case 'list':
-      var lines = input.split('\n');
-      json = {content: {}};
-      lines.forEach(function(line) {
-        var parts = line.split(/\s+/);
-        if (parts.length > 1) {
-          json.content[parts[0]] = line
-            .substr(parts[0].length)
-            .replace(/^\s+/, '');
-        }
-      });
-    break;
-    default:
-      try {
-        json = JSON.parse(input);
-      } catch (e) {
-        json = {content: input};
-      }
+    try {
+      json = JSON.parse(input);
+    } catch (e) {
+      json = {content: input};
     }
 
     run(new Chainscript(json));
