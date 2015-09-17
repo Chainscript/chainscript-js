@@ -356,3 +356,87 @@ script
     console.log(script.toJSON());
   });
 ```
+
+## Extras
+
+There are two extra bundles executables:
+
+```bash
+$ cshashrec --help
+
+  Usage: cshashrec [options] [...path]
+
+  Options:
+
+    -h, --help              output usage information
+    -V, --version           output the version number
+    -a, --algorithm <name>  hash algorithm (default md5)
+    -r, --root <path>       JSON root path
+
+$ csverifyrec --help
+
+  Usage: csverifyrec [options]
+
+  Options:
+
+    -h, --help         output usage information
+    -V, --version      output the version number
+    -r, --root <path>  JSON root path
+```
+
+They can be used to verify files recusively.
+
+### Example
+
+Insert hashes of files into Chainscript (normally you would also sign it):
+
+```bash
+$ cshashrec src -r hashes -a sha256 | chainscript -s
+```
+
+Output:
+
+```json
+{
+  "body": {
+    "content": {
+      "hashes": {
+        "algorithm": "sha256",
+        "files": {
+          "edb4f912b789246dc16c37e842d80543df79a307fe59088534b63a3a1dba0164": "src/Chainscript.js",
+          "23949145cec009c2606323be55f9774af456677d824150f348d0b9265ea5312b": "src/index.js",
+          "aad9233e3bb695fa40c2861164801fbb2acf346768e33d359f892af29c3711e9": "src/utils/hashFile.js",
+          "1855a8034b683ee1a3a73ae1364362e3a73cc92ba709f0a5b096095e2f582943": "src/utils/hashFiles.js",
+          "83a669de48331cb7f965c16c494cccac9815b67335a80b38714d74c89212d055": "src/utils/verifyFiles.js"
+        }
+      }
+    },
+    "x_meta": {
+      "uuid": "chainscript:envelope:3bc3ea98-dc4f-4f1c-9def-a24331aa4b96",
+      "content_digest": "680ac249316d5f865b8d598f9da9a0b0e12a499c"
+    }
+  },
+  "x_chainscript": {
+    "validation": {
+      "agent": "io.chainscript.agent",
+      "version": "0.1.alpha",
+      "result": "success",
+      "validated_on": "2015-09-17T22:07:37+00:00"
+    },
+    "hash": "a81586b16ab7ee5d3d2f0356e62657ed758f5a53",
+    "snapshots_enabled": true,
+    "snapshot_url": "https://chainscript.firebaseio.com/snapshots/chainscript-envelope-3bc3ea98-dc4f-4f1c-9def-a24331aa4b96.json"
+  }
+}
+```
+
+Verify files:
+
+```bash
+$ chainscript chainscript:envelope:3bc3ea98-dc4f-4f1c-9def-a24331aa4b96 \
+  | csverifyrec -r hashes
+```
+
+Output:
+
+```json
