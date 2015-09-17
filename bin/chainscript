@@ -35,6 +35,12 @@ commander
 
 function handleOutput(output) {
   process.stdout.write(JSON.stringify(output, null, '\t') + '\n');
+  process.exit(0);
+}
+
+function handleError(error) {
+  process.stderr.write(err.message + '\n');
+  process.exit(1);
 }
 
 function run(cs) {
@@ -53,11 +59,7 @@ function run(cs) {
         .run()
         .then(function() {
           handleOutput(cs.toJSON());
-          process.exit(0);
-        }).fail(function(err) {
-          process.stderr.write(err.message + '\n');
-          process.exit(1);
-        });
+        }).fail(handleError);
     }
 
     if (typeof commander.commandAuditing !== 'undefined') {
@@ -88,10 +90,7 @@ function run(cs) {
         .then(function() {
           cs.sign(commander.sign);
           postfix();
-        }).fail(function(err) {
-          process.stderr.write(err.message + '\n');
-          process.exit(1);
-        });
+        }).fail(handleError);
 
     } else {
       postfix();
@@ -101,10 +100,8 @@ function run(cs) {
   if (typeof cs.script.x_chainscript === 'undefined') {
     cs
       .run()
-      .then(exec).fail(function(err) {
-        process.stderr.write(err.message + '\n');
-        process.exit(1);
-      });
+      .then(exec)
+      .fail(handleError);
   } else {
     exec();
   }
@@ -114,10 +111,7 @@ function handleInput(input) {
   if (input.match(/^chainscript:/)) {
     Chainscript.load(input)
       .then(run)
-      .fail(function(err) {
-        process.stderr.write(err.message + '\n');
-        process.exit(1);
-      });
+      .fail(handleError);
   } else {
     var json;
 
@@ -146,8 +140,6 @@ if (commander.genKey) {
     public: publicKey.toString(),
     address: address.toString()
   });
-
-  process.exit(0);
 }
 
 if (commander.args.length > 1) {
