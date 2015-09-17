@@ -6,6 +6,56 @@ var commander = require('commander');
 var Bitcore = require('bitcore');
 var Chainscript = require(path.resolve(__dirname, '../lib'));
 
+function parseBool(v) {
+  return v === 'true' || v === '1' ? true : false;
+}
+
+commander
+  .version('0.9.0')
+  .usage('[options] [script | uuid]')
+  .option('-u, --update <updates>', 'Update script')
+  .option('-s, --snapshot', 'Snapshot script')
+  .option('-n, --notarize', 'Notarize script')
+  .option('-e, --email <address>', 'Email')
+  .option('-S, --sign <wif>', 'Sign the digest')
+  .option(
+    '--command-auditing <bool>',
+    'Enable or disable command auditing',
+    parseBool
+  )
+  .option(
+    '--revision-auditing <bool>',
+    'Enable or disable revision auditing',
+    parseBool
+  )
+  .option('-I, --input-format <json | list>', 'Set input format')
+  .option('-O, --output-format <json | list>', 'Set output format')
+  .option('-K, --gen-key', 'Generate and print a key pair and address')
+  .option('-T, --testnet', 'Use testnet')
+  .parse(process.argv);
+
+function handleOutput(output) {
+  var str = '';
+
+  switch (commander.outputFormat) {
+  case 'list':
+    var target = output.body && output.body.content ?
+      output.body.content :
+      output;
+    if (typeof target === 'object' && target) {
+      Object.keys(target).forEach(function(key) {
+        str += key + '\t' + target[key] + '\n';
+      });
+    } else {
+      str = target + '\n';
+    }
+    break;
+  default:
+    str = JSON.stringify(output, null, '\t') + '\n';
+  }
+  process.stdout.write(str);
+}
+
 function run(cs) {
 
   function exec() {
@@ -21,7 +71,7 @@ function run(cs) {
       cs
         .run()
         .then(function() {
-          process.stdout.write(JSON.stringify(cs.toJSON(), null, '\t') + '\n');
+          handleOutput(cs.toJSON());
           process.exit(0);
         }).fail(function(err) {
           process.stderr.write(err.message + '\n');
@@ -90,7 +140,7 @@ function handleInput(input) {
   } else {
     var json;
 
-    switch (commander.format) {
+    switch (commander.inputFormat) {
     case 'list':
       var lines = input.split('\n');
       json = {content: {}};
@@ -115,33 +165,6 @@ function handleInput(input) {
   }
 }
 
-function parseBool(v) {
-  return v === 'true' || v === '1' ? true : false;
-}
-
-commander
-  .version('0.9.0')
-  .usage('[options] [script | uuid]')
-  .option('-u, --update <updates>', 'Update script')
-  .option('-s, --snapshot', 'Snapshot script')
-  .option('-n, --notarize', 'Notarize script')
-  .option('-e, --email <address>', 'Email')
-  .option('-S, --sign <wif>', 'Sign the digest')
-  .option(
-    '--command-auditing <bool>',
-    'Enable or disable command auditing',
-    parseBool
-  )
-  .option(
-    '--revision-auditing <bool>',
-    'Enable or disable revision auditing',
-    parseBool
-  )
-  .option('-F, --format <json | list>', 'Set input format')
-  .option('-K, --gen-key', 'Generate and print a key pair and address')
-  .option('-T, --testnet', 'Use testnet')
-  .parse(process.argv);
-
 if (commander.genKey) {
   var privateKey = new Bitcore.PrivateKey();
   var publicKey = privateKey.toPublicKey();
@@ -152,11 +175,11 @@ if (commander.genKey) {
     address = publicKey.toAddress(Bitcore.Networks.livenet);
   }
 
-  process.stdout.write(JSON.stringify({
+  handleOutput({
     private: privateKey.toWIF(),
     public: publicKey.toString(),
     address: address.toString()
-  }, null, '\t') + '\n');
+  });
 
   process.exit(0);
 }
