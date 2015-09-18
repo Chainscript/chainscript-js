@@ -442,3 +442,51 @@ Output:
 ```json
 Success
 ```
+
+Update the hashes:
+
+```bash
+chainscript chainscript:envelope:3bc3ea98-dc4f-4f1c-9def-a24331aa4b96 \
+  -u "`cshashrec src bin -r hashes`" -s
+```
+
+Output:
+
+```json
+{
+  "body": {
+    "content": {
+      "hashes": {
+        "algorithm": "sha256",
+        "files": {
+          "edb4f912b789246dc16c37e842d80543df79a307fe59088534b63a3a1dba0164": "src/Chainscript.js",
+          "23949145cec009c2606323be55f9774af456677d824150f348d0b9265ea5312b": "src/index.js",
+          "aad9233e3bb695fa40c2861164801fbb2acf346768e33d359f892af29c3711e9": "src/utils/hashFile.js",
+          "0d1242271705df458fd96b57ebd9e51d41c1f6ab46a500041552666dd237dccc": "src/utils/hashFiles.js",
+          "beacaa56259b080c5bf68a4f3c4a6cc0ea77a19bc289e8965f01a4becaebe176": "src/utils/verifyFiles.js",
+          "3f03e4709b7010e6146415434bd4a0168f65668be7cbd32cb222996b6779d3fa": "bin/chainscript",
+          "25eabaa0192f0e4decd6751e6c9e837885f781f373d46028edb0f7de56ff0463": "bin/cshashrec",
+          "6e553d5a4b469051abebc2eebc47d0c5930879d6da2a462a8ab37e8eaeb439d1": "bin/csverifyrec"
+        }
+      }
+    },
+    "x_meta": {
+      "content_digest": "680ac249316d5f865b8d598f9da9a0b0e12a499c",
+      "previous_hash": "51de25bdcacd585c47d3efcf77ddb85ea1b86f46",
+      "revision": 3,
+      "uuid": "chainscript:envelope:3bc3ea98-dc4f-4f1c-9def-a24331aa4b96"
+    }
+  },
+  "x_chainscript": {
+    "hash": "17fe5ead856001f32f9476188c7ad9e9963c5011",
+    "snapshot_url": "https://chainscript.firebaseio.com/snapshots/chainscript-envelope-3bc3ea98-dc4f-4f1c-9def-a24331aa4b96.json",
+    "snapshots_enabled": true,
+    "validation": {
+      "agent": "io.chainscript.agent",
+      "result": "success",
+      "validated_on": "2015-09-18T15:34:24+00:00",
+      "version": "0.1.alpha"
+    }
+  }
+}
+```
