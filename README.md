@@ -1,5 +1,7 @@
 # Chainscript Javascript Client
 
+Notarized: `chainscript:envelope:6d7dbde2-8007-4973-815a-a154e49814d8`
+
 ## Command line
 
 ### Install
