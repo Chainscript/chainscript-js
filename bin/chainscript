@@ -47,22 +47,6 @@ function handleError(error) {
 function run(cs) {
 
   function exec() {
-    function postfix() {
-      if (commander.notarize) {
-        cs.notarize();
-      }
-
-      if (commander.email) {
-        cs.email(commander.email);
-      }
-
-      cs
-        .run()
-        .then(function() {
-          handleOutput(cs.toJSON());
-        }).fail(handleError);
-    }
-
     if (typeof commander.commandAuditing !== 'undefined') {
       cs.script.x_chainscript.command_auditing = commander.commandAuditing;
     }
@@ -79,23 +63,27 @@ function run(cs) {
       }
     }
 
+    if (commander.sign) {
+      cs.sign(commander.sign);
+    }
+
     if (commander.snapshot) {
-      cs.script.x_chainscript = cs.script.x_chainscript || {};
-      cs.script.x_chainscript.snapshots_enabled = true;
       cs.snapshot();
     }
 
-    if (commander.sign) {
-      cs
-        .run()
-        .then(function() {
-          cs.sign(commander.sign);
-          postfix();
-        }).fail(handleError);
-
-    } else {
-      postfix();
+    if (commander.notarize) {
+      cs.notarize();
     }
+
+    if (commander.email) {
+      cs.email(commander.email);
+    }
+
+    cs
+      .run()
+      .then(function() {
+        handleOutput(cs.toJSON());
+      }).fail(handleError);
   }
 
   if (typeof cs.script.x_chainscript === 'undefined') {

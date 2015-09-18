@@ -15,13 +15,14 @@ const testResponse = {
       }
     },
     x_chainscript: {
+      snapshots_enabled: true,
       validation: {
         agent: 'io.chainscript.agent',
         version: '0.1.alpha',
         result: 'success',
         validated_on: '2015-09-15T15:52:07+00:00'
       },
-      digest: 'b0136c9923e72737a80c58d7aba140add16cdac4'
+      hash: 'b0136c9923e72737a80c58d7aba140add16cdac4'
     }
   }
 };
@@ -152,6 +153,9 @@ describe('Chainscript', () => {
                 content: {
                   name: 'Hello World'
                 }
+              },
+              x_chainscript: {
+                snapshots_enabled: true
               }
             });
         });
@@ -183,6 +187,24 @@ describe('Chainscript', () => {
         it('should return undefined if the path does not exist', () => {
           (script.get('body.content.time') === undefined)
             .should.be.exactly(true);
+        });
+
+      });
+
+      describe('#set()', () => {
+
+        beforeEach(() => {
+          script = new Chainscript(
+            {body: {content: {name: 'Hello World'}}},
+            immutable
+          );
+        });
+
+        it('should set the value at given path', () => {
+          script
+            .set('body.content.name', 'stephan')
+            .get('body.content.name')
+            .should.be.exactly('stephan');
         });
 
       });
@@ -357,18 +379,18 @@ describe('Chainscript', () => {
           script = new Chainscript(
             testResponse.body,
             immutable
-          )
-            .sign('Kx1ofTinaoNEb74pU7sfmNsmpffXH8SRbtQF28EiZ9Vij5Kbh8s8');
+          ).sign('Kx1ofTinaoNEb74pU7sfmNsmpffXH8SRbtQF28EiZ9Vij5Kbh8s8');
         });
 
-        it('should add a signature', () => {
-          const signature = script
-            .get('x_chainscript.signatures.1QAE28K4eD7TzkarH3b4FCtWE8nLizJKzZ');
-          signature.digest
-            .should.be.exactly(script.get('x_chainscript.digest'));
-          Message(script.get('x_chainscript.digest')).verify(
+        it('should add a sign_content command', () => {
+          const sig = script.get(
+            'execute.0.sign_content.1QAE28K4eD7TzkarH3b4FCtWE8nLizJKzZ'
+          );
+          sig.digest
+            .should.be.exactly(script.get('x_chainscript.hash'));
+          Message(script.get('x_chainscript.hash')).verify(
             '1QAE28K4eD7TzkarH3b4FCtWE8nLizJKzZ',
-            signature.signature).should.be.exactly(true);
+            sig.signature).should.be.exactly(true);
         });
 
       });

@@ -35,13 +35,13 @@ $ chainscript --help
 #### Dry run
 
 ```bash
-$ chainscript '{"content": "Hello, World!"}'
+$ chainscript '{"content": "Hello, World"}'
 ```
 
 Or, simply:
 
 ```bash
-$ chainscript "Hello, World!"
+$ chainscript "Hello, World"
 ```
 
 Output:
@@ -49,9 +49,10 @@ Output:
 ```json
 {
   "body": {
-    "content": "Hello, World!",
+    "content": "Hello, World",
     "x_meta": {
-      "uuid": "chainscript:envelope:70b7094d-6391-4bee-95b9-a554a00be417"
+      "uuid": "chainscript:envelope:e9400e87-3632-4023-841c-2819b7280eaa",
+      "content_digest": "f4576163aceca4d8ff5113640f78837e73df7508"
     }
   },
   "x_chainscript": {
@@ -59,10 +60,10 @@ Output:
       "agent": "io.chainscript.agent",
       "version": "0.1.alpha",
       "result": "valid",
-      "validated_on": "2015-09-16T21:00:02+00:00",
+      "validated_on": "2015-09-18T20:34:58+00:00",
       "message": "Envelope was executed without a command."
     },
-    "hash": "1743420f00b7b1ec478844a7fcd4a9030066059b"
+    "hash": "e8a075aabb8a510ae060884f3481d61ac2722ed1"
   }
 }
 ```
@@ -70,7 +71,7 @@ Output:
 #### Snapshot
 
 ```bash
-$ chainscript -s '{"content": "Hello, World!"}'
+$ chainscript -s "Hello, World"
 ```
 
 Output:
@@ -89,7 +90,7 @@ Output:
     "snapshot_url": "https://chainscript.firebaseio.com/snapshots/chainscript-envelope-d7fee738-958f-42bb-9e43-2fa00d071bef.json"
   },
   "body": {
-    "content": "Hello, World!",
+    "content": "Hello, World",
     "x_meta": {
       "uuid": "chainscript:envelope:d7fee738-958f-42bb-9e43-2fa00d071bef"
     }
@@ -105,7 +106,7 @@ Snapshot a script, sign it, notarize it, then email it. Like a boss.
 $ chainscript -sn \
   -S Kx5CcMYfJchiTt7H16BeorBJEvoCbHuCzSBynH6d4Zgdh8Uk384B \
   -e test@email.address \
-  '{"content": "Hello, World!"}'
+  "Hello, World"
 ```
 
 Output:
@@ -113,7 +114,7 @@ Output:
 ```json
 {
   "body": {
-    "content": "Hello, World!",
+    "content": "Hello, World",
     "x_meta": {
       "uuid": "chainscript:envelope:db138976-72a3-4eea-b534-9a8ab0e4ae7b"
     }
@@ -242,6 +243,11 @@ var value = new Chainscript({body: {content: {name: 'My Document'}}})
 console.log(value); // My Document
 ```
 
+#### Chainscript#set(path, value)
+
+Sets the value of a key at the specified path. Returns a new instance of
+`Chainscript` if immutable, otherwise returns the instance.
+
 #### Chainscript#snapshot()
 
 Adds a `snapshot` command to a script. Returns a new instance of `Chainscript`
@@ -316,7 +322,7 @@ cs.delta(content).run().then(function() {
 
 #### Chainscript#sign(wif)
 
-Adds a signature of the hash to a script. The private key must be in WIF
+Adds a sign_content command to the script. The private key must be in WIF
 format. Returns a new instance of `Chainscript` if immutable, otherwise
 returns the instance.
 

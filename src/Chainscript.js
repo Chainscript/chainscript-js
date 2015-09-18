@@ -171,12 +171,39 @@ export default class Chainscript {
   }
 
   /**
+   * Sets the value at specified path.
+   *
+   * @param {string} path The path of the key to set
+   * @param {any} value The value
+   * @returns {Chainscript} A new instance of Chainscript
+   */
+  set(path, value) {
+    let script;
+
+    if (this.immutable) {
+      script = JSON.parse(JSON.stringify(this.script));
+    } else {
+      script = this.script;
+    }
+
+    objectPath.set(script, path, value);
+
+    if (this.immutable) {
+      return new Chainscript(script, true);
+    }
+
+    return this;
+  }
+
+  /**
    * Adds a snapshot command
    *
    * @returns {Chainscript} A new instance of Chainscript
    */
   snapshot() {
-    return this.addCommand({snapshot: {}});
+    return this
+      .set('x_chainscript.snapshots_enabled', true)
+      .addCommand({snapshot: {}});
   }
 
   /**
@@ -249,40 +276,24 @@ export default class Chainscript {
   }
 
   /**
-   * Signs the digest.
+   * Adds a sign content command.
    *
    * @param {string} wif A private key in WIF format
    * @returns {Chainscript} A new instance of Chainscript
    */
   sign(wif) {
-    if (typeof this.script.x_chainscript === 'undefined' ||
-        typeof this.script.x_chainscript.digest === 'undefined') {
+    const digest = objectPath.get(this.script, 'x_chainscript.hash');
+
+    if (typeof digest === 'undefined') {
       throw new Error('Script has no digest');
     }
 
-    const digest = this.script.x_chainscript.digest;
     const privateKey = PrivateKey.fromWIF(wif);
     const address = privateKey.toPublicKey().toAddress().toString();
     const message = new Message(digest);
     const signature = message.sign(privateKey);
 
-    let script;
-
-    if (this.immutable) {
-      script = JSON.parse(JSON.stringify(this.script));
-    } else {
-      script = this.script;
-    }
-
-    const xChainscript = script.x_chainscript;
-    xChainscript.signatures = xChainscript.signatures || {};
-    xChainscript.signatures[address] = {digest, signature};
-
-    if (this.immutable) {
-      return new Chainscript(script, true);
-    }
-
-    return this;
+    return this.addCommand({sign_content: {[address]: {digest, signature}}});
   }
 
   getNumCommands() {
