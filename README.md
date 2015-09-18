@@ -375,7 +375,7 @@ There are two extra bundled executables:
 ```bash
 $ cshashrec --help
 
-  Usage: cshashrec [options] [...path]
+  Usage: cshashrec [options] [path...] [-- chainscript args]
 
   Options:
 
@@ -399,11 +399,15 @@ They can be used to verify files recusively.
 
 ### Example
 
-Insert hashes of files into Chainscript (normally you would also sign it):
+Insert hashes of files into Chainscript and snapshot it (normally you would also
+sign it):
 
 ```bash
-$ cshashrec src bin -r content.hashes -a sha256 | chainscript -s
+$ cshashrec src bin -r content.hashes -a sha256 -- -s
 ```
+
+As you can see, if `--` is present, `chainscript` will be executed with
+`cshashrec`'s output with the arguments after `--`.
 
 Output:
 
@@ -414,21 +418,23 @@ Output:
       "hashes": {
         "algorithm": "sha256",
         "files": {
-          "31f6cc73b41939df310b97b25458da961ee67ba68021b82ab3c79fad987605ba": "src/Chainscript.js",
+          "387d8be0374eadd1a408beee06d5aab464f5507e1f980321cdd4bf16fb3f7404": "src/Chainscript.js",
           "23949145cec009c2606323be55f9774af456677d824150f348d0b9265ea5312b": "src/index.js",
+          "ba1f2a91227553135b30eb02c5a1430d8d684967a81faa004a05692e661e93ef": "src/utils/clone.js",
+          "33b32aa8288a4757ab3f2fdc0c79f3f800e9697cc08eed094bd2a80cabdf891e": "src/utils/deepEquals.js",
           "aad9233e3bb695fa40c2861164801fbb2acf346768e33d359f892af29c3711e9": "src/utils/hashFile.js",
-          "0d1242271705df458fd96b57ebd9e51d41c1f6ab46a500041552666dd237dccc": "src/utils/hashFiles.js",
+          "2d26c8203b69c4f183d9b0ca445279d88da516c2b2dc82218d400e0cfb05bf22": "src/utils/hashFiles.js",
           "09b6784a6b00944dec9a56c3061a46b9864573f40b04179fc686937af73390f6": "src/utils/readPackageSync.js",
-          "beacaa56259b080c5bf68a4f3c4a6cc0ea77a19bc289e8965f01a4becaebe176": "src/utils/verifyFiles.js",
-          "1324dfbde390123b01c8fb56ff6a3b2c3f5003902cc316404b2dc0a0b3ca96b2": "bin/cshashrec",
-          "15aaf7bccfa61a08d89429637345848d4422c80d9dd433968b2641db4af997cd": "bin/chainscript",
-          "1e564fe0d0fb0019566d2023b44c28d0e6c69797ce0b5c9727bb0df67facd8d2": "bin/csverifyrec"
+          "830b2cda114bfdb7e7d1da8bbc3182ff477f9df9623d063c6ee681297ab7c574": "src/utils/verifyFiles.js",
+          "1387f9d92db8ed17af3cbe15580a91ac37b52cb5964e3c3d0794b96a6058fc54": "bin/chainscript",
+          "a0e603db74408ee531360b10def2e3ea6fd4d18975735b83e19b7c87099afab3": "bin/cshashrec",
+          "3d7359dde623acb6a009bf9e1e12808debc6d1d1322827df634ef832546d35df": "bin/csverifyrec"
         }
       }
     },
     "x_meta": {
-      "uuid": "chainscript:envelope:14f1ab16-5185-400d-b7c6-b2b7c3872cfc",
-      "content_digest": "35140ba89a271419a259122506263a376c482b34"
+      "uuid": "chainscript:envelope:6ca0289a-56d3-40c7-8468-2bf49bafd4a8",
+      "content_digest": "a087ce3ea8661da31f73d65cd3b282e509232b7e"
     }
   },
   "x_chainscript": {
@@ -436,11 +442,11 @@ Output:
       "agent": "io.chainscript.agent",
       "version": "0.1.alpha",
       "result": "success",
-      "validated_on": "2015-09-18T21:05:19+00:00"
+      "validated_on": "2015-09-18T22:42:27+00:00"
     },
-    "hash": "26f2eb1b89c4ec42eae8c9eebe7293c6d85e237f",
+    "hash": "82fa189ac18c344cd2773a836242e8c6c2650a3e",
     "snapshots_enabled": true,
-    "snapshot_url": "https://chainscript.firebaseio.com/snapshots/chainscript-envelope-14f1ab16-5185-400d-b7c6-b2b7c3872cfc.json"
+    "snapshot_url": "https://chainscript.firebaseio.com/snapshots/chainscript-envelope-6ca0289a-56d3-40c7-8468-2bf49bafd4a8.json"
   }
 }
 ```
@@ -448,9 +454,11 @@ Output:
 Verify files:
 
 ```bash
-$ chainscript chainscript:envelope:14f1ab16-5185-400d-b7c6-b2b7c3872cfc \
-  | csverifyrec -r body.content.hashes
+$ csverifyrec -r body.content.hashes -- chainscript:envelope:6ca0289a-56d3-40c7-8468-2bf49bafd4a8
 ```
+
+As you can see, if `--` is present, `cshashrec` will be executed with
+`chainscript`'s output with the arguments after `--`.
 
 Output:
 
@@ -461,9 +469,11 @@ Success
 Update the hashes:
 
 ```bash
-chainscript chainscript:envelope:14f1ab16-5185-400d-b7c6-b2b7c3872cfc \
-  -u "`cshashrec src bin -r hashes`" -s
+$ cshashrec src bin -r hashes -a sha256 -- -u @ -s chainscript:envelope:6ca0289a-56d3-40c7-8468-2bf49bafd4a8
 ```
+
+As you can see, you can use the special value `@` in `chainscript`'s arguments
+to replace it with the output of `cshashrec`.
 
 Output:
 

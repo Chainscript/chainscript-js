@@ -2,6 +2,7 @@
 /*eslint-disable */
 
 var path = require('path');
+var execFileSync = require('child_process').execFileSync;
 var commander = require('commander');
 var readPackageSync = require(path.resolve(
   __dirname,
@@ -13,14 +14,30 @@ function parseBool(v) {
   return v === 'true' || v === '1' ? true : false;
 }
 
+var paths;
+var args = [];
+var chainscriptArgs = [];
+var execChainscript = false;
+
+process.argv.forEach(function(arg) {
+  if (arg === '--') {
+    execChainscript = true;
+    return;
+  }
+
+  if (execChainscript) {
+    chainscriptArgs.push(arg);
+  } else {
+    args.push(arg);
+  }
+});
+
 commander
   .version(readPackageSync('version'))
-  .usage('[options] [...path]')
+  .usage('[options] [path...] [-- chainscript args]')
   .option('-a, --algorithm <name>', 'hash algorithm (default md5)')
   .option('-r, --root <path>', 'JSON root path')
-  .parse(process.argv);
-
-var paths;
+  .parse(args);
 
 if (commander.args.length > 0) {
   paths = commander.args.map(function(p) {
@@ -30,12 +47,45 @@ if (commander.args.length > 0) {
   paths = [process.cwd()];
 }
 
+function handleOutput(output) {
+  process.stdout.write(JSON.stringify(output, null, '\t') + '\n');
+  process.exit(0);
+}
+
+function handleError(err) {
+  process.stderr.write(err.message + '\n');
+  process.exit(1);
+}
+
 hashFiles(process.cwd(), paths, commander.algorithm, commander.root)
   .then(function(json) {
-    process.stdout.write(JSON.stringify(json, null, '\t') + '\n');
-    process.exit(0);
+    if (execChainscript) {
+      var hasAt = false;
+
+      for (var i = 0; i < chainscriptArgs.length; i++) {
+        var arg = chainscriptArgs[i];
+
+        if (arg === '@') {
+          chainscriptArgs[i] = JSON.stringify(json);
+          hasAt = true;
+        }
+      }
+      try {
+        execFileSync(
+          path.resolve(__dirname, './chainscript'),
+          chainscriptArgs,
+          {
+            input: hasAt ? null : JSON.stringify(json),
+            stdio: [null, process.stdout, process.stderr]
+          }
+        );
+      } catch(err) {
+        handleError(err);
+      }
+
+      return;
+    }
+    
+    handleOutput(json);
   })
-  .catch(function(err) {
-    process.stderr.write(err.message + '\n');
-    process.exit(1);
-  });
+  .catch(handleError);

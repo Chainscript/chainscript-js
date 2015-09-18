@@ -65,7 +65,7 @@ function handleOutput(output) {
   process.exit(0);
 }
 
-function handleError(error) {
+function handleError(err) {
   process.stderr.write(err.message + '\n');
   process.exit(1);
 }

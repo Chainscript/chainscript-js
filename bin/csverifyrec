@@ -2,6 +2,7 @@
 /*eslint-disable */
 
 var path = require('path');
+var execFileSync = require('child_process').execFileSync;
 var commander = require('commander');
 var readPackageSync = require(path.resolve(
   __dirname,
@@ -9,11 +10,22 @@ var readPackageSync = require(path.resolve(
 ));
 var verifyFiles = require(path.resolve(__dirname, '../lib/utils/verifyFiles'));
 
-commander
-  .version(readPackageSync('version'))
-  .usage('[options]')
-  .option('-r, --root <path>', 'JSON root path')
-  .parse(process.argv);
+var args = [];
+var chainscriptArgs = [];
+var execChainscript = false;
+
+process.argv.forEach(function(arg) {
+  if (arg === '--') {
+    execChainscript = true;
+    return;
+  }
+
+  if (execChainscript) {
+    chainscriptArgs.push(arg);
+  } else {
+    args.push(arg);
+  }
+});
 
 function handleInput(input) {
   try {
@@ -23,17 +35,50 @@ function handleInput(input) {
         process.stdout.write('Success\n');
         process.exit(0);
       })
-      .catch(function(err) {
-        process.stderr.write(err.message + '\n');
-        process.exit(1);
-      });
+      .catch(handleError);
   } catch(err) {
-    process.stderr.write(err.message + '\n');
-    process.exit(1);
+    handleError(err);
   }
 }
 
-if (commander.args.length === 0) {
+function handleOutput(output) {
+  process.stdout.write(JSON.stringify(output, null, '\t') + '\n');
+  process.exit(0);
+}
+
+function handleError(err) {
+  process.stderr.write(err.message + '\n');
+  process.exit(1);
+}
+
+if (execChainscript) {
+  try {
+    var input = execFileSync(
+      path.resolve(__dirname, './chainscript'),
+      chainscriptArgs,
+      {
+        stdio: [process.stdin, null, process.stderr],
+        encoding: 'utf8'
+      }
+    );
+  } catch(err) {
+    handleError(err);
+  }
+}
+
+commander
+  .version(readPackageSync('version'))
+  .usage('[options] [-- chainscript args]')
+  .option('-r, --root <path>', 'JSON root path')
+  .parse(args);
+
+if (input) {
+  if (commander.args.length > 0) {
+    commander.outputHelp();
+    process.exit(1);
+  }
+  handleInput(input);
+} else if (commander.args.length === 0) {
   process.stdin.setEncoding('utf8');
 
   var input = '';
