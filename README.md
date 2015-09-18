@@ -78,22 +78,23 @@ Output:
 
 ```json
 {
+  "body": {
+    "content": "Hello, World",
+    "x_meta": {
+      "uuid": "chainscript:envelope:2cd688b7-60e7-4e5b-b05f-1a32358d6a4b",
+      "content_digest": "f4576163aceca4d8ff5113640f78837e73df7508"
+    }
+  },
   "x_chainscript": {
-    "snapshots_enabled": true,
     "validation": {
       "agent": "io.chainscript.agent",
       "version": "0.1.alpha",
       "result": "success",
-      "validated_on": "2015-09-16T21:00:30+00:00"
+      "validated_on": "2015-09-18T20:36:11+00:00"
     },
-    "hash": "7903464ac9c9d1fa268efc9e8264b476483251c5",
-    "snapshot_url": "https://chainscript.firebaseio.com/snapshots/chainscript-envelope-d7fee738-958f-42bb-9e43-2fa00d071bef.json"
-  },
-  "body": {
-    "content": "Hello, World",
-    "x_meta": {
-      "uuid": "chainscript:envelope:d7fee738-958f-42bb-9e43-2fa00d071bef"
-    }
+    "hash": "02b53f02929c419393afbae0586667546d859d89",
+    "snapshots_enabled": true,
+    "snapshot_url": "https://chainscript.firebaseio.com/snapshots/chainscript-envelope-2cd688b7-60e7-4e5b-b05f-1a32358d6a4b.json"
   }
 }
 ```
@@ -105,7 +106,7 @@ Snapshot a script, sign it, notarize it, then email it. Like a boss.
 ```bash
 $ chainscript -sn \
   -S Kx5CcMYfJchiTt7H16BeorBJEvoCbHuCzSBynH6d4Zgdh8Uk384B \
-  -e test@email.address \
+  -e stephan.florquin@gmail.com \
   "Hello, World"
 ```
 

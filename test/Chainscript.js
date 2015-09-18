@@ -7,22 +7,21 @@ const testResponse = {
   ok: true,
   body: {
     body: {
-      content: {
-        name: 'Hello World'
-      },
+      content: 'Hello World',
       x_meta: {
-        uuid: 'chainscript:document:1323e127-e659-4ab7-9f53-e82b6dbaf12d'
+        uuid: 'chainscript:envelope:a04c92b4-bdd6-4515-be8e-ceb210e512e8',
+        content_digest: 'afeade0f531f82d67cf4bd2e7fcf217e3a841702'
       }
     },
     x_chainscript: {
-      snapshots_enabled: true,
       validation: {
         agent: 'io.chainscript.agent',
         version: '0.1.alpha',
-        result: 'success',
-        validated_on: '2015-09-15T15:52:07+00:00'
+        result: 'valid',
+        validated_on: '2015-09-18T20:52:44+00:00',
+        message: 'Envelope was executed without a command.'
       },
-      hash: 'b0136c9923e72737a80c58d7aba140add16cdac4'
+      hash: '3321cc6f238dc4685d022f80c9aa265156a8b883'
     }
   }
 };
@@ -387,8 +386,8 @@ describe('Chainscript', () => {
             'execute.0.sign_content.1QAE28K4eD7TzkarH3b4FCtWE8nLizJKzZ'
           );
           sig.digest
-            .should.be.exactly(script.get('x_chainscript.hash'));
-          Message(script.get('x_chainscript.hash')).verify(
+            .should.be.exactly(script.get('body.x_meta.content_digest'));
+          Message(script.get('body.x_meta.content_digest')).verify(
             '1QAE28K4eD7TzkarH3b4FCtWE8nLizJKzZ',
             sig.signature).should.be.exactly(true);
         });

@@ -282,10 +282,10 @@ export default class Chainscript {
    * @returns {Chainscript} A new instance of Chainscript
    */
   sign(wif) {
-    const digest = objectPath.get(this.script, 'x_chainscript.hash');
+    const digest = objectPath.get(this.script, 'body.x_meta.content_digest');
 
     if (typeof digest === 'undefined') {
-      throw new Error('Script has no digest');
+      throw new Error('Content has no digest');
     }
 
     const privateKey = PrivateKey.fromWIF(wif);
