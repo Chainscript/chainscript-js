@@ -391,7 +391,7 @@ They can be used to verify files recusively.
 Insert hashes of files into Chainscript (normally you would also sign it):
 
 ```bash
-$ cshashrec src -r hashes -a sha256 | chainscript -s
+$ cshashrec src bin -r content.hashes -a sha256 | chainscript -s
 ```
 
 Output:
@@ -434,7 +434,7 @@ Verify files:
 
 ```bash
 $ chainscript chainscript:envelope:3bc3ea98-dc4f-4f1c-9def-a24331aa4b96 \
-  | csverifyrec -r hashes
+  | csverifyrec -r body.content.hashes
 ```
 
 Output:

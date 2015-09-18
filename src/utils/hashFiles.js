@@ -42,8 +42,13 @@ export default function hashFiles(cwd, paths, algorithm = 'md5', root = '') {
 
   const next = () => {
     if (dirs.length === 0) {
-      const json = {};
-      objectPath.set(json, 'content' + (root ? '.' + root : ''), hashes);
+      let json;
+      if (root) {
+        json = {};
+        objectPath.set(json, root || '', hashes);
+      } else {
+        json = hashes;
+      }
       deferred.resolve(json);
       return;
     }

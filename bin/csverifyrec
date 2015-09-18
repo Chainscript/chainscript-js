@@ -14,7 +14,7 @@ commander
 function handleInput(input) {
   try {
     var json = JSON.parse(input);
-    verifyFiles(process.cwd(), json.body.content, commander.root)
+    verifyFiles(process.cwd(), json, commander.root)
       .then(function() {
         process.stdout.write('Success\n');
         process.exit(0);

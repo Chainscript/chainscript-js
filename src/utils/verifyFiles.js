@@ -3,9 +3,9 @@ import objectPath from 'object-path';
 import Q from 'q';
 import hashFile from './hashFile';
 
-export default function verifyFiles(cwd, script, root) {
+export default function verifyFiles(cwd, json, root) {
   const deferred = Q.defer();
-  const top = root ? objectPath.get(script, root) : script;
+  const top = objectPath.get(json, root || '');
   const hashes = Object.keys(top.files);
   const errors = [];
 
