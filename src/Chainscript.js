@@ -4,10 +4,10 @@ import objectPath from 'object-path';
 import { PrivateKey } from 'bitcore';
 import Message from 'bitcore-message';
 
-const EXECUTE_URL = 'http://agent.chainscript.io/execute';
-const SNAPSHOTS_URL = 'https://chainscript.firebaseio.com/snapshots/';
-
 export default class Chainscript {
+
+  static EXECUTE_URL = 'http://agent.chainscript.io/execute';
+  static SNAPSHOTS_URL = 'https://chainscript.firebaseio.com/snapshots/';
 
   /**
    * Loads a script from an existing uuid
@@ -20,7 +20,7 @@ export default class Chainscript {
     const deferred = Q.defer();
 
     request
-      .get(SNAPSHOTS_URL + uuid.replace(/:/g, '-') + '.json')
+      .get(Chainscript.SNAPSHOTS_URL + uuid.replace(/:/g, '-') + '.json')
       .set('Accept', 'application/json')
       .end((err, res) => {
         if (err) {
@@ -100,7 +100,7 @@ export default class Chainscript {
     }
 
     request
-      .post(EXECUTE_URL)
+      .post(Chainscript.EXECUTE_URL)
       .send(this.script)
       .set('Accept', 'application/json')
       .end((err, res) => {

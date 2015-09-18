@@ -32,6 +32,14 @@ commander
   )
   .option('-K, --gen-key', 'Generate and print a key pair and address')
   .option('-T, --testnet', 'Use testnet')
+  .option(
+    '--execute-url <url>',
+    'Set execute url'
+  )
+  .option(
+    '--snapshots-url <url>',
+    'Set snapshots url'
+  )
   .parse(process.argv);
 
 function handleOutput(output) {
@@ -45,6 +53,14 @@ function handleError(error) {
 }
 
 function run(cs) {
+
+  if (typeof commander.executeUrl !== 'undefined') {
+    Chainscript.EXECUTE_URL = commander.executeUrl;
+  }
+
+  if (typeof commander.snapshotsUrl !== 'undefined') {
+    Chainscript.SNAPSHOTS_URL = commander.snapshotsUrl;
+  }
 
   function exec() {
     if (typeof commander.commandAuditing !== 'undefined') {

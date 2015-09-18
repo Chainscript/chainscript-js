@@ -17,17 +17,19 @@ $ chainscript --help
 
   Options:
 
-    -h, --help                         output usage information
-    -V, --version                      output the version number
-    -u, --update <updates>             Update script
-    -s, --snapshot                     Snapshot script
-    -n, --notarize                     Notarize script
-    -e, --email <address>              Email
-    -S, --sign <wif>                   Sign the hash
-    --command-auditing <bool>          Enable or disable command auditing
-    --revision-auditing <bool>         Enable or disable revision auditing
-    -K, --gen-key                      Generate and print a key pair and address
-    -T, --testnet                      Use testnet
+    -h, --help                  output usage information
+    -V, --version               output the version number
+    -u, --update <updates>      Update script
+    -s, --snapshot              Snapshot script
+    -n, --notarize              Notarize script
+    -e, --email <address>       Email
+    -S, --sign <wif>            Sign the digest
+    --command-auditing <bool>   Enable or disable command auditing
+    --revision-auditing <bool>  Enable or disable revision auditing
+    -K, --gen-key               Generate and print a key pair and address
+    -T, --testnet               Use testnet
+    --execute-url <url>         Set execute url
+    --snapshots-url <url>       Set snapshots url
 ```
 
 ### Examples
