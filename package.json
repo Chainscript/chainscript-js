@@ -21,8 +21,8 @@
     "test": "mocha --compilers js:babel/register --recursive --require should",
     "test:watch": "npm test -- --watch",
     "test:cov": "babel-node ./node_modules/isparta/bin/isparta cover ./node_modules/mocha/bin/_mocha -- --recursive --require should",
-    "verify:update": "bin/chainscript -u \"{\\\"name\\\": \\\"$npm_package_name\\\", \\\"author\\\": \\\"$npm_package_author_name\\\", \\\"version\\\": \\\"$npm_package_version\\\", \\\"homepage\\\": \\\"$npm_package_homepage\\\", \\\"repository_url\\\": \\\"$npm_package_repository_url\\\"}\" $npm_package_config_chainscript_uuid && bin/cshashrec src bin lib dist -r hashes -a sha256 -- -u @ -s $npm_package_config_chainscript_uuid -n",
-    "verify:check": "bin/csverifyrec -r body.content.hashes --  $npm_package_config_chainscript_uuid",
+    "verify:update": "chainscript -u \"{\\\"name\\\": \\\"$npm_package_name\\\", \\\"author\\\": \\\"$npm_package_author_name\\\", \\\"version\\\": \\\"$npm_package_version\\\", \\\"homepage\\\": \\\"$npm_package_homepage\\\", \\\"repository_url\\\": \\\"$npm_package_repository_url\\\"}\" $npm_package_config_chainscript_uuid && cshashrec src bin -r hashes -a sha256 -- -u @ -s $npm_package_config_chainscript_uuid -n",
+    "verify:check": "csverifyrec -r body.content.hashes --  $npm_package_config_chainscript_uuid",
     "env": "env"
   },
   "bin": {
