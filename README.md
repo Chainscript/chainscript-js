@@ -386,7 +386,7 @@ $ cshashrec --help
 
 $ csverifyrec --help
 
-  Usage: csverifyrec [options]
+  Usage: csverifyrec [options] [-- chainscript args]
 
   Options:
 
