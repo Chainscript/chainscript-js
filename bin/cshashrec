@@ -3,7 +3,10 @@
 
 var path = require('path');
 var commander = require('commander');
-var readPackageSync = require(path.resolve(__dirname, '../lib/utils/readPackageSync'));
+var readPackageSync = require(path.resolve(
+  __dirname,
+  '../lib/utils/readPackageSync'
+));
 var hashFiles = require(path.resolve(__dirname, '../lib/utils/hashFiles'));
 
 function parseBool(v) {

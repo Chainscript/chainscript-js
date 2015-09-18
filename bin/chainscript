@@ -42,6 +42,24 @@ commander
   )
   .parse(process.argv);
 
+function handleInput(input) {
+  if (input.match(/^chainscript:/)) {
+    Chainscript.load(input)
+      .then(run)
+      .fail(handleError);
+  } else {
+    var json;
+
+    try {
+      json = JSON.parse(input);
+    } catch (e) {
+      json = {content: input};
+    }
+
+    run(new Chainscript(json));
+  }
+}
+
 function handleOutput(output) {
   process.stdout.write(JSON.stringify(output, null, '\t') + '\n');
   process.exit(0);
@@ -64,11 +82,11 @@ function run(cs) {
 
   function exec() {
     if (typeof commander.commandAuditing !== 'undefined') {
-      cs.script.x_chainscript.command_auditing = commander.commandAuditing;
+      cs.set('x_chainscript.command_auditing', commander.commandAuditing);
     }
 
     if (typeof commander.revisionAuditing !== 'undefined') {
-      cs.script.x_chainscript.revision_auditing = commander.revisionAuditing;
+      cs.set('x_chainscript.revision_auditing', commander.revisionAuditing);
     }
 
     if (commander.update) {
@@ -112,24 +130,6 @@ function run(cs) {
   }
 }
 
-function handleInput(input) {
-  if (input.match(/^chainscript:/)) {
-    Chainscript.load(input)
-      .then(run)
-      .fail(handleError);
-  } else {
-    var json;
-
-    try {
-      json = JSON.parse(input);
-    } catch (e) {
-      json = {content: input};
-    }
-
-    run(new Chainscript(json));
-  }
-}
-
 if (commander.genKey) {
   var privateKey = new Bitcore.PrivateKey();
   var publicKey = privateKey.toPublicKey();
@@ -159,6 +159,7 @@ if (commander.args.length === 0) {
 
   process.stdin.on('readable', function() {
     var chunk = process.stdin.read();
+
     if (chunk !== null) {
       input += chunk.toString();
     }

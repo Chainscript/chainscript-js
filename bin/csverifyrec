@@ -3,7 +3,10 @@
 
 var path = require('path');
 var commander = require('commander');
-var readPackageSync = require(path.resolve(__dirname, '../lib/utils/readPackageSync'));
+var readPackageSync = require(path.resolve(
+  __dirname,
+  '../lib/utils/readPackageSync'
+));
 var verifyFiles = require(path.resolve(__dirname, '../lib/utils/verifyFiles'));
 
 commander
@@ -37,6 +40,7 @@ if (commander.args.length === 0) {
 
   process.stdin.on('readable', function() {
     var chunk = process.stdin.read();
+
     if (chunk !== null) {
       input += chunk.toString();
     }

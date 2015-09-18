@@ -16,6 +16,7 @@ export default function verifyFiles(cwd, json, root) {
       } else {
         deferred.resolve();
       }
+
       return;
     }
 

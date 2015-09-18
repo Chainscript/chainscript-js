@@ -3,6 +3,8 @@ import Q from 'q';
 import objectPath from 'object-path';
 import { PrivateKey } from 'bitcore';
 import Message from 'bitcore-message';
+import clone from './utils/clone';
+import deepEquals from './utils/deepEquals';
 
 export default class Chainscript {
 
@@ -31,10 +33,7 @@ export default class Chainscript {
           return deferred.reject(new Error(res.text));
         }
 
-        deferred.resolve(new Chainscript(
-          JSON.parse(JSON.stringify(res.body)),
-          immutable
-        ));
+        deferred.resolve(new Chainscript(clone(res.body), immutable));
       });
 
     return deferred.promise;
@@ -48,11 +47,11 @@ export default class Chainscript {
    */
   constructor(script = {}, immutable = false) {
     // Clone the script for safety
-    this.script = JSON.parse(JSON.stringify(script));
+    this.script = clone(script);
     this.immutable = immutable;
 
     if (!immutable) {
-      this.initial = JSON.parse(JSON.stringify(script));
+      this.initial = clone(script);
     }
   }
 
@@ -63,7 +62,7 @@ export default class Chainscript {
    */
   toJSON() {
     // Clone the script for safety
-    return JSON.parse(JSON.stringify(this.script));
+    return clone(this.script);
   }
 
   /**
@@ -72,13 +71,13 @@ export default class Chainscript {
    * @returns {Chainscript} A clone of the script
    */
   clone() {
-    const clone = new Chainscript(this.script, this.immutable);
+    const copy = new Chainscript(this.script, this.immutable);
 
     if (!this.immutable) {
-      clone.initial = JSON.parse(JSON.stringify(this.initial));
+      copy.initial = clone(this.initial);
     }
 
-    return clone;
+    return copy;
   }
 
   /**
@@ -90,9 +89,10 @@ export default class Chainscript {
     const deferred = Q.defer();
 
     if (!this.immutable) {
-      const initialContent = objectPath.get(this.initial, 'body.content', {});
-      const currentContent = objectPath.get(this.script, 'body.content', {});
-      if (JSON.stringify(initialContent) !== JSON.stringify(currentContent)) {
+      const initialContent = objectPath.get(this.initial, 'body.content');
+      const currentContent = objectPath.get(this.script, 'body.content');
+
+      if (!deepEquals(initialContent, currentContent)) {
         this.script.body = this.script.body || {};
         this.script.body.content = initialContent;
         this.delta(currentContent, true);
@@ -116,45 +116,12 @@ export default class Chainscript {
           deferred.resolve(new Chainscript(res.body, true));
         } else {
           this.script = res.body;
-          this.initial = JSON.parse(JSON.stringify(this.script));
+          this.initial = clone(this.script);
           deferred.resolve(this);
         }
       });
 
     return deferred.promise;
-  }
-
-  addCommand(command, first = false) {
-    const index = first ? 0 : this.getNumCommands();
-    let script;
-
-    if (this.immutable) {
-      script = JSON.parse(JSON.stringify(this.script));
-    } else {
-      script = this.script;
-    }
-
-    script.execute = script.execute || {};
-
-    if (first) {
-      const tmp = {};
-
-      for (const s in script.execute) {
-        if (script.execute.hasOwnProperty(s)) {
-          tmp[parseInt(s, 10) + 1] = script.execute[s];
-        }
-      }
-
-      script.execute = tmp;
-    }
-
-    script.execute[index] = command;
-
-    if (this.immutable) {
-      return new Chainscript(script, true);
-    }
-
-    return this;
   }
 
   /**
@@ -167,7 +134,7 @@ export default class Chainscript {
       return undefined;
     }
 
-    return JSON.parse(JSON.stringify(value));
+    return clone(value);
   }
 
   /**
@@ -181,7 +148,7 @@ export default class Chainscript {
     let script;
 
     if (this.immutable) {
-      script = JSON.parse(JSON.stringify(this.script));
+      script = clone(this.script);
     } else {
       script = this.script;
     }
@@ -261,15 +228,13 @@ export default class Chainscript {
     const prev = this.get('body.content');
 
     if (typeof prev === 'object' && prev && typeof next === 'object' && next) {
-      for (const s in prev) {
-        if (prev.hasOwnProperty(s)) {
-          if (typeof next[s] === 'undefined') {
-            next[s] = null;
-          } else if (JSON.stringify(prev[s]) === JSON.stringify(next[s])) {
-            delete next[s];
-          }
+      Object.keys(prev).forEach(s => {
+        if (typeof next[s] === 'undefined') {
+          next[s] = null;
+        } else if (deepEquals(prev[s], next[s])) {
+          delete next[s];
         }
-      }
+      });
     }
 
     return this.update(next, first);
@@ -297,17 +262,42 @@ export default class Chainscript {
   }
 
   getNumCommands() {
-    let numCommands = 0;
-
-    if (typeof this.script.execute !== 'undefined') {
-      for (const s in this.script.execute) {
-        if (this.script.execute.hasOwnProperty(s)) {
-          numCommands++;
-        }
-      }
+    if (typeof this.script.execute === 'undefined') {
+      return 0;
     }
 
-    return numCommands;
+    return Object.keys(this.script.execute).length;
+  }
+
+  addCommand(command, first = false) {
+    const index = first ? 0 : this.getNumCommands();
+    let script;
+
+    if (this.immutable) {
+      script = clone(this.script);
+    } else {
+      script = this.script;
+    }
+
+    script.execute = script.execute || {};
+
+    if (first) {
+      const tmp = {};
+
+      Object.keys(script.execute).forEach(s => {
+        tmp[parseInt(s, 10) + 1] = script.execute[s];
+      });
+
+      script.execute = tmp;
+    }
+
+    script.execute[index] = command;
+
+    if (this.immutable) {
+      return new Chainscript(script, true);
+    }
+
+    return this;
   }
 
 }
