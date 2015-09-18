@@ -7,10 +7,15 @@ export default function verifyFiles(cwd, script, root) {
   const deferred = Q.defer();
   const top = root ? objectPath.get(script, root) : script;
   const hashes = Object.keys(top.files);
+  const errors = [];
 
   const next = () => {
     if (hashes.length === 0) {
-      deferred.resolve();
+      if (errors.length > 0) {
+        deferred.reject(new Error(errors.map(err => err.message).join('\n')));
+      } else {
+        deferred.resolve();
+      }
       return;
     }
 
@@ -20,11 +25,11 @@ export default function verifyFiles(cwd, script, root) {
     hashFile(cwd, path.resolve(cwd, file), top.algorithm)
       .then(h => {
         if (hash !== h) {
-          deferred.reject(new Error('Mismatch: ' + file));
+          errors.push(new Error('Mismatch: ' + file));
         }
-        next();
       })
-      .catch(deferred.reject);
+      .catch(err => errors.push(err))
+      .finally(next);
   };
 
   next();
