@@ -3,6 +3,9 @@
   "version": "0.18.0",
   "description": "Client for chainscript.io",
   "main": "lib/index.js",
+  "config": {
+    "chainscript_uuid": "chainscript:envelope:6d7dbde2-8007-4973-815a-a154e49814d8"
+  },
   "scripts": {
     "build:lib": "babel src --out-dir lib",
     "build:umd": "webpack src/index.js dist/chainscript.js --config webpack.dev.config.js",
@@ -13,11 +16,14 @@
     "lint": "eslint src test",
     "preversion": "npm run clean && npm run check",
     "version": "npm run build",
-    "postversion": "git push && git push --tags && npm run clean",
+    "postversion": "git push && git push --tags && npm run verify:update && npm run clean",
     "prepublish": "npm run clean && npm run build",
     "test": "mocha --compilers js:babel/register --recursive --require should",
     "test:watch": "npm test -- --watch",
-    "test:cov": "babel-node ./node_modules/isparta/bin/isparta cover ./node_modules/mocha/bin/_mocha -- --recursive --require should"
+    "test:cov": "babel-node ./node_modules/isparta/bin/isparta cover ./node_modules/mocha/bin/_mocha -- --recursive --require should",
+    "verify:update": "bin/chainscript -u \"{\\\"name\\\": \\\"$npm_package_name\\\", \\\"author\\\": \\\"$npm_package_author_name\\\", \\\"version\\\": \\\"$npm_package_version\\\", \\\"homepage\\\": \\\"$npm_package_homepage\\\", \\\"repository_url\\\": \\\"$npm_package_repository_url\\\"}\" $npm_package_config_chainscript_uuid && bin/cshashrec src bin lib dist -r hashes -a sha256 -- -u @ -s $npm_package_config_chainscript_uuid",
+    "verify:check": "bin/csverifyrec -r body.content.hashes --  $npm_package_config_chainscript_uuid",
+    "env": "env"
   },
   "bin": {
     "chainscript": "bin/chainscript",
@@ -26,7 +32,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/Coinhive/chainscript-client.git"
+    "url": "https://github.com/Chainscript/chainscript-js.git"
   },
   "keywords": [
     "chainscript",
@@ -49,12 +55,12 @@
     "sinon": "^1.16.1",
     "webpack": "^1.12.1"
   },
-  "author": "Stephan Florquin",
+  "author": "Chainscript Team",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/Coinhive/chainscript-client/issues"
+    "url": "https://github.com/Chainscript/chainscript-js/issues"
   },
-  "homepage": "https://github.com/Coinhive/chainscript-client",
+  "homepage": "https://github.com/Chainscript/chainscript-js",
   "dependencies": {
     "bitcore": "^0.13.3",
     "bitcore-message": "^0.12.0",
