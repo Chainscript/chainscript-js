@@ -3,6 +3,7 @@
 
 var path = require('path');
 var commander = require('commander');
+var readPackageSync = require(path.resolve(__dirname, '../lib/utils/readPackageSync'));
 var hashFiles = require(path.resolve(__dirname, '../lib/utils/hashFiles'));
 
 function parseBool(v) {
@@ -10,7 +11,7 @@ function parseBool(v) {
 }
 
 commander
-  .version('0.9.0')
+  .version(readPackageSync('version'))
   .usage('[options] [...path]')
   .option('-a, --algorithm <name>', 'hash algorithm (default md5)')
   .option('-r, --root <path>', 'JSON root path')

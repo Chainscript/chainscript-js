@@ -3,10 +3,11 @@
 
 var path = require('path');
 var commander = require('commander');
+var readPackageSync = require(path.resolve(__dirname, '../lib/utils/readPackageSync'));
 var verifyFiles = require(path.resolve(__dirname, '../lib/utils/verifyFiles'));
 
 commander
-  .version('0.9.0')
+  .version(readPackageSync('version'))
   .usage('[options]')
   .option('-r, --root <path>', 'JSON root path')
   .parse(process.argv);
