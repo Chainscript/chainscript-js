@@ -53,7 +53,7 @@ Output:
   "body": {
     "content": "Hello, World",
     "x_meta": {
-      "uuid": "chainscript:envelope:e9400e87-3632-4023-841c-2819b7280eaa",
+      "uuid": "chainscript:envelope:374835af-8110-462c-a67d-804d65f2e1e9",
       "content_digest": "f4576163aceca4d8ff5113640f78837e73df7508"
     }
   },
@@ -62,10 +62,10 @@ Output:
       "agent": "io.chainscript.agent",
       "version": "0.1.alpha",
       "result": "valid",
-      "validated_on": "2015-09-18T20:34:58+00:00",
+      "validated_on": "2015-09-18T21:02:31+00:00",
       "message": "Envelope was executed without a command."
     },
-    "hash": "e8a075aabb8a510ae060884f3481d61ac2722ed1"
+    "hash": "c3317d755e89ed12e7156dd0ceb5bb1eaef3a068"
   }
 }
 ```
@@ -83,7 +83,7 @@ Output:
   "body": {
     "content": "Hello, World",
     "x_meta": {
-      "uuid": "chainscript:envelope:2cd688b7-60e7-4e5b-b05f-1a32358d6a4b",
+      "uuid": "chainscript:envelope:4d82dc1a-514a-4272-ba54-cfee368a6005",
       "content_digest": "f4576163aceca4d8ff5113640f78837e73df7508"
     }
   },
@@ -92,11 +92,11 @@ Output:
       "agent": "io.chainscript.agent",
       "version": "0.1.alpha",
       "result": "success",
-      "validated_on": "2015-09-18T20:36:11+00:00"
+      "validated_on": "2015-09-18T21:02:52+00:00"
     },
-    "hash": "02b53f02929c419393afbae0586667546d859d89",
+    "hash": "cb837da586dbb2f5963129c51f9a2633d1b788e6",
     "snapshots_enabled": true,
-    "snapshot_url": "https://chainscript.firebaseio.com/snapshots/chainscript-envelope-2cd688b7-60e7-4e5b-b05f-1a32358d6a4b.json"
+    "snapshot_url": "https://chainscript.firebaseio.com/snapshots/chainscript-envelope-4d82dc1a-514a-4272-ba54-cfee368a6005.json"
   }
 }
 ```
@@ -108,7 +108,7 @@ Snapshot a script, sign it, notarize it, then email it. Like a boss.
 ```bash
 $ chainscript -sn \
   -S Kx5CcMYfJchiTt7H16BeorBJEvoCbHuCzSBynH6d4Zgdh8Uk384B \
-  -e stephan.florquin@gmail.com \
+  -e test@email.address \
   "Hello, World"
 ```
 
@@ -119,7 +119,16 @@ Output:
   "body": {
     "content": "Hello, World",
     "x_meta": {
-      "uuid": "chainscript:envelope:db138976-72a3-4eea-b534-9a8ab0e4ae7b"
+      "uuid": "chainscript:envelope:f13ff6eb-d017-45a3-a2e8-5f7ca07da4a6",
+      "content_digest": "f4576163aceca4d8ff5113640f78837e73df7508",
+      "signatures": {
+        "1HvXn4RGQYhBSbECs29LohXJAgmNUcsXYT": {
+          "digest": "f4576163aceca4d8ff5113640f78837e73df7508",
+          "signature": "IE4EJFFWe+Apt437VBt6vq+wkTShKCwsPRD8odc9j6dXDb4zSdMA+5sCBaIECUw4cfTekI+T8jeMqAtnM+D2C0w="
+        }
+      },
+      "revision": 1,
+      "previous_hash": "ab79fa61295dcb6786a9692eeaac0ce9ae52840c"
     }
   },
   "x_chainscript": {
@@ -127,32 +136,25 @@ Output:
       "agent": "io.chainscript.agent",
       "version": "0.1.alpha",
       "result": "success",
-      "validated_on": "2015-09-16T21:03:57+00:00"
+      "validated_on": "2015-09-18T21:03:20+00:00"
     },
-    "hash": "08ded1c29581d66ba5bbe1fbca5906b0eb2449b6",
+    "hash": "7d7eeab07f76219627767037c3d1188355368969",
     "snapshots_enabled": true,
-    "snapshot_url": "https://chainscript.firebaseio.com/snapshots/chainscript-envelope-db138976-72a3-4eea-b534-9a8ab0e4ae7b.json",
-    "signatures": {
-      "1HvXn4RGQYhBSbECs29LohXJAgmNUcsXYT": {
-        "hash": "08ded1c29581d66ba5bbe1fbca5906b0eb2449b6",
-        "signature": "ICGirBtu/gycrw0gQnlMJsw7waSlZqYrGppj3tkHhDqef2XOtUIAh8XDi8KdzJfz/OeqCqpTxv64kJXhhw0AfG0="
-      }
-    },
-    "signatures_valid": true,
+    "snapshot_url": "https://chainscript.firebaseio.com/snapshots/chainscript-envelope-f13ff6eb-d017-45a3-a2e8-5f7ca07da4a6.json",
     "transactions": {
-      "chainscript:testnet3:tx:8895f3e890d36dfdae6ba67d4169f3125a67f1d7d6a7fed36a22fe3909228919": {
+      "chainscript:testnet3:tx:bbefa269768a9aeb00ab75d50d2e4774767ee5941d90924e6e08a26a4eeb0a6c": {
         "status": "broadcasted",
-        "op_return": "08ded1c29581d66ba5bbe1fbca5906b0eb2449b6",
+        "op_return": "7d7eeab07f76219627767037c3d1188355368969",
         "blockchain": "testnet3",
-        "reference": "chainscript:notarization:0fea9345-27f1-4f44-875d-35f2e89f178c",
-        "broadcasted_on": "2015-09-16T21:03:57+00:00"
+        "reference": "chainscript:notarization:b609d1c2-84a2-47f6-9eed-98fc7ab15d22",
+        "broadcasted_on": "2015-09-18T21:03:20+00:00"
       }
     },
     "notarizations": {
-      "chainscript:notarization:0fea9345-27f1-4f44-875d-35f2e89f178c": {
-        "hash": "08ded1c29581d66ba5bbe1fbca5906b0eb2449b6",
-        "evidence": "chainscript:testnet3:tx:8895f3e890d36dfdae6ba67d4169f3125a67f1d7d6a7fed36a22fe3909228919",
-        "notarized_at": "2015-09-16T21:03:57+00:00"
+      "chainscript:notarization:b609d1c2-84a2-47f6-9eed-98fc7ab15d22": {
+        "hash": "7d7eeab07f76219627767037c3d1188355368969",
+        "evidence": "chainscript:testnet3:tx:bbefa269768a9aeb00ab75d50d2e4774767ee5941d90924e6e08a26a4eeb0a6c",
+        "notarized_at": "2015-09-18T21:03:20+00:00"
       }
     },
     "notarized": true
@@ -412,17 +414,21 @@ Output:
       "hashes": {
         "algorithm": "sha256",
         "files": {
-          "edb4f912b789246dc16c37e842d80543df79a307fe59088534b63a3a1dba0164": "src/Chainscript.js",
+          "31f6cc73b41939df310b97b25458da961ee67ba68021b82ab3c79fad987605ba": "src/Chainscript.js",
           "23949145cec009c2606323be55f9774af456677d824150f348d0b9265ea5312b": "src/index.js",
           "aad9233e3bb695fa40c2861164801fbb2acf346768e33d359f892af29c3711e9": "src/utils/hashFile.js",
-          "1855a8034b683ee1a3a73ae1364362e3a73cc92ba709f0a5b096095e2f582943": "src/utils/hashFiles.js",
-          "83a669de48331cb7f965c16c494cccac9815b67335a80b38714d74c89212d055": "src/utils/verifyFiles.js"
+          "0d1242271705df458fd96b57ebd9e51d41c1f6ab46a500041552666dd237dccc": "src/utils/hashFiles.js",
+          "09b6784a6b00944dec9a56c3061a46b9864573f40b04179fc686937af73390f6": "src/utils/readPackageSync.js",
+          "beacaa56259b080c5bf68a4f3c4a6cc0ea77a19bc289e8965f01a4becaebe176": "src/utils/verifyFiles.js",
+          "1324dfbde390123b01c8fb56ff6a3b2c3f5003902cc316404b2dc0a0b3ca96b2": "bin/cshashrec",
+          "15aaf7bccfa61a08d89429637345848d4422c80d9dd433968b2641db4af997cd": "bin/chainscript",
+          "1e564fe0d0fb0019566d2023b44c28d0e6c69797ce0b5c9727bb0df67facd8d2": "bin/csverifyrec"
         }
       }
     },
     "x_meta": {
-      "uuid": "chainscript:envelope:3bc3ea98-dc4f-4f1c-9def-a24331aa4b96",
-      "content_digest": "680ac249316d5f865b8d598f9da9a0b0e12a499c"
+      "uuid": "chainscript:envelope:14f1ab16-5185-400d-b7c6-b2b7c3872cfc",
+      "content_digest": "35140ba89a271419a259122506263a376c482b34"
     }
   },
   "x_chainscript": {
@@ -430,11 +436,11 @@ Output:
       "agent": "io.chainscript.agent",
       "version": "0.1.alpha",
       "result": "success",
-      "validated_on": "2015-09-17T22:07:37+00:00"
+      "validated_on": "2015-09-18T21:05:19+00:00"
     },
-    "hash": "a81586b16ab7ee5d3d2f0356e62657ed758f5a53",
+    "hash": "26f2eb1b89c4ec42eae8c9eebe7293c6d85e237f",
     "snapshots_enabled": true,
-    "snapshot_url": "https://chainscript.firebaseio.com/snapshots/chainscript-envelope-3bc3ea98-dc4f-4f1c-9def-a24331aa4b96.json"
+    "snapshot_url": "https://chainscript.firebaseio.com/snapshots/chainscript-envelope-14f1ab16-5185-400d-b7c6-b2b7c3872cfc.json"
   }
 }
 ```
@@ -442,7 +448,7 @@ Output:
 Verify files:
 
 ```bash
-$ chainscript chainscript:envelope:3bc3ea98-dc4f-4f1c-9def-a24331aa4b96 \
+$ chainscript chainscript:envelope:14f1ab16-5185-400d-b7c6-b2b7c3872cfc \
   | csverifyrec -r body.content.hashes
 ```
 
@@ -455,7 +461,7 @@ Success
 Update the hashes:
 
 ```bash
-chainscript chainscript:envelope:3bc3ea98-dc4f-4f1c-9def-a24331aa4b96 \
+chainscript chainscript:envelope:14f1ab16-5185-400d-b7c6-b2b7c3872cfc \
   -u "`cshashrec src bin -r hashes`" -s
 ```
 
@@ -466,34 +472,35 @@ Output:
   "body": {
     "content": {
       "hashes": {
-        "algorithm": "sha256",
+        "algorithm": "md5",
         "files": {
-          "edb4f912b789246dc16c37e842d80543df79a307fe59088534b63a3a1dba0164": "src/Chainscript.js",
-          "23949145cec009c2606323be55f9774af456677d824150f348d0b9265ea5312b": "src/index.js",
-          "aad9233e3bb695fa40c2861164801fbb2acf346768e33d359f892af29c3711e9": "src/utils/hashFile.js",
-          "0d1242271705df458fd96b57ebd9e51d41c1f6ab46a500041552666dd237dccc": "src/utils/hashFiles.js",
-          "beacaa56259b080c5bf68a4f3c4a6cc0ea77a19bc289e8965f01a4becaebe176": "src/utils/verifyFiles.js",
-          "3f03e4709b7010e6146415434bd4a0168f65668be7cbd32cb222996b6779d3fa": "bin/chainscript",
-          "25eabaa0192f0e4decd6751e6c9e837885f781f373d46028edb0f7de56ff0463": "bin/cshashrec",
-          "6e553d5a4b469051abebc2eebc47d0c5930879d6da2a462a8ab37e8eaeb439d1": "bin/csverifyrec"
+          "1639f445d205268154f8ad3e497a7317": "src/Chainscript.js",
+          "30dde352b3a3d137036c55d12fee8d74": "src/index.js",
+          "d5542347814e4ef9ea5968281f956c40": "src/utils/hashFile.js",
+          "02f2224b41ae0313cd3aa41eefb26f38": "src/utils/hashFiles.js",
+          "380ae8f8bca3c42f90fcc6457da81fad": "src/utils/readPackageSync.js",
+          "212b7f215310dfea91a27c3555cc8f2c": "src/utils/verifyFiles.js",
+          "6b4a74a6b29625aefc816a7a7f9f235a": "bin/chainscript",
+          "761dc68206dccb6095f22567ea7838af": "bin/cshashrec",
+          "8e15d28e15b7801efd1c983340ff49b9": "bin/csverifyrec"
         }
       }
     },
     "x_meta": {
-      "content_digest": "680ac249316d5f865b8d598f9da9a0b0e12a499c",
-      "previous_hash": "51de25bdcacd585c47d3efcf77ddb85ea1b86f46",
-      "revision": 3,
-      "uuid": "chainscript:envelope:3bc3ea98-dc4f-4f1c-9def-a24331aa4b96"
+      "content_digest": "35140ba89a271419a259122506263a376c482b34",
+      "uuid": "chainscript:envelope:14f1ab16-5185-400d-b7c6-b2b7c3872cfc",
+      "revision": 1,
+      "previous_hash": "26f2eb1b89c4ec42eae8c9eebe7293c6d85e237f"
     }
   },
   "x_chainscript": {
-    "hash": "17fe5ead856001f32f9476188c7ad9e9963c5011",
-    "snapshot_url": "https://chainscript.firebaseio.com/snapshots/chainscript-envelope-3bc3ea98-dc4f-4f1c-9def-a24331aa4b96.json",
+    "hash": "f40f6928f223f4164e1a4be4f52373c6fec2987c",
+    "snapshot_url": "https://chainscript.firebaseio.com/snapshots/chainscript-envelope-14f1ab16-5185-400d-b7c6-b2b7c3872cfc.json",
     "snapshots_enabled": true,
     "validation": {
       "agent": "io.chainscript.agent",
       "result": "success",
-      "validated_on": "2015-09-18T15:34:24+00:00",
+      "validated_on": "2015-09-18T21:07:23+00:00",
       "version": "0.1.alpha"
     }
   }
