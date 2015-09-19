@@ -407,7 +407,7 @@ Insert hashes of files into Chainscript and snapshot it (normally you would also
 sign it):
 
 ```bash
-$ cshashrec src bin -r content.hashes -a sha256 -- -s
+$ cshashrec src bin -r content.hashes -a sha256 --  -U name:chainscript -U version:0.1.0 -s
 ```
 
 As you can see, if `--` is present, `chainscript` will be executed with
@@ -473,7 +473,7 @@ Success
 Update the hashes:
 
 ```bash
-$ cshashrec src bin -r hashes -a sha256 -- -u @ -s chainscript:envelope:6ca0289a-56d3-40c7-8468-2bf49bafd4a8
+$ cshashrec src bin -r hashes -a sha256 -- -u @ -U version:0.1.1 -s chainscript:envelope:6ca0289a-56d3-40c7-8468-2bf49bafd4a8
 ```
 
 As you can see, you can use the special value `@` in `chainscript`'s arguments
