@@ -5,8 +5,14 @@ var path = require('path');
 var commander = require('commander');
 var objectPath = require('object-path');
 var Bitcore = require('bitcore');
+var mergeDeep = require('merge-deep');
 var readPackageSync = require(path.resolve(__dirname, '../lib/utils/readPackageSync'));
 var Chainscript = require(path.resolve(__dirname, '../lib'));
+
+function collectUpdates(val, memo) {
+  memo.push(val);
+  return memo;
+}
 
 function parseBool(v) {
   return v === 'true' || v === '1' ? true : false;
@@ -15,7 +21,7 @@ function parseBool(v) {
 commander
   .version(readPackageSync('version'))
   .usage('[options] [script | uuid]')
-  .option('-u, --update <updates>', 'Update script')
+  .option('-u, --update <updates>', 'Update script', collectUpdates, [])
   .option('-s, --snapshot', 'Snapshot script')
   .option('-n, --notarize', 'Notarize script')
   .option('-e, --email <address>', 'Email')
@@ -90,11 +96,21 @@ function run(cs) {
     }
 
     if (commander.update) {
-      try {
-        cs.update(JSON.parse(commander.update));
-      } catch(e) {
-        cs.update(commander.update);
-      }
+      var updates;
+
+      commander.update.forEach(function(u) {
+        try {
+          u = JSON.parse(u);
+        } catch(e) { }
+        if (typeof updates === 'object' && updates &&
+            typeof u === 'object' && u) {
+          updates = mergeDeep(updates, u);
+        } else {
+          updates = u;
+        }
+      });
+
+      cs.update(updates);
     }
 
     if (commander.sign) {
