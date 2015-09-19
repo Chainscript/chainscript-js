@@ -1,6 +1,6 @@
 {
   "name": "chainscript",
-  "version": "0.20.3",
+  "version": "0.21.0",
   "description": "Client for chainscript.io",
   "main": "lib/index.js",
   "config": {
