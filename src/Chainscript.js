@@ -3,6 +3,7 @@ import Q from 'q';
 import objectPath from 'object-path';
 import { PrivateKey } from 'bitcore';
 import Message from 'bitcore-message';
+import { digest as jsonDigest } from 'json-hash';
 import clone from './utils/clone';
 import deepEquals from './utils/deepEquals';
 
@@ -252,7 +253,7 @@ export default class Chainscript {
    * @returns {Chainscript} A new instance of Chainscript
    */
   sign(wif) {
-    const digest = objectPath.get(this.script, 'body.x_meta.content_digest');
+    const digest = jsonDigest(objectPath.get(this.script, 'body.content'));
 
     if (typeof digest === 'undefined') {
       throw new Error('Content has no digest');

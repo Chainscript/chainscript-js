@@ -88,6 +88,30 @@ function run(cs) {
   }
 
   function exec() {
+    function post() {
+      if (commander.sign) {
+        cs.sign(commander.sign);
+      }
+
+      if (commander.snapshot) {
+        cs.snapshot();
+      }
+
+      if (commander.notarize) {
+        cs.notarize();
+      }
+
+      if (commander.email) {
+        cs.email(commander.email, commander.subject);
+      }
+
+      cs
+        .run()
+        .then(function() {
+          handleOutput(cs.toJSON());
+        }).fail(handleError);
+    }
+
     if (typeof commander.commandAuditing !== 'undefined') {
       cs.set('x_chainscript.command_auditing', commander.commandAuditing);
     }
@@ -111,30 +135,14 @@ function run(cs) {
         }
       });
 
-      cs.update(updates);
+      cs
+        .update(updates)
+        .run()
+        .then(post)
+        .fail(handleError);
+    } else {
+      post();
     }
-
-    if (commander.sign) {
-      cs.sign(commander.sign);
-    }
-
-    if (commander.snapshot) {
-      cs.snapshot();
-    }
-
-    if (commander.notarize) {
-      cs.notarize();
-    }
-
-    if (commander.email) {
-      cs.email(commander.email, commander.subject);
-    }
-
-    cs
-      .run()
-      .then(function() {
-        handleOutput(cs.toJSON());
-      }).fail(handleError);
   }
 
   if (typeof cs.script.x_chainscript === 'undefined') {
