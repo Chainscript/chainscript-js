@@ -83,7 +83,7 @@ hashFiles(process.cwd(), paths, commander.algorithm, commander.root)
           chainscriptArgs,
           {
             input: hasAt ? null : JSON.stringify(json),
-            stdio: [null, process.stdout, process.stderr]
+            stdio: [process.stdin, process.stdout, process.stderr]
           }
         );
       } catch(err) {
