@@ -1,6 +1,6 @@
 # Chainscript Javascript Client
 
-Notarized: `chainscript:envelope:22885074-b057-4070-bb43-5e7b6a431bf0` :heavy_check_mark:
+Notarization: [`chainscript:envelope:6c1bffc7-d18e-4cb6-b133-4f86a9dfb1ff`](http://agent.chainscript.io/?chainscript:envelope:6c1bffc7-d18e-4cb6-b133-4f86a9dfb1ff) :heavy_check_mark:
 
 ## Command line
 
