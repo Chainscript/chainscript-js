@@ -1,0 +1,20 @@
+{
+	"body": {
+		"content": "genesis",
+		"x_meta": {
+			"uuid": "chainscript:envelope:0ea3aa2c-ee0c-4154-9989-15000c8773f2",
+			"content_digest": "fc5f1e5be5fe647880d237be3b15cfcd32bc5413"
+		}
+	},
+	"x_chainscript": {
+		"validation": {
+			"agent": "io.chainscript.agent",
+			"version": "0.1.alpha",
+			"result": "valid",
+			"validated_on": "2015-09-19T19:38:58+00:00",
+			"message": "Envelope was executed without a command."
+		},
+		"hash": "8a29f7fe6f0233fa4fe1161505d7943d88d35733",
+		"revision_auditing": true
+	}
+}

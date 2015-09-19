@@ -16,7 +16,7 @@
     "lint": "eslint src test",
     "preversion": "npm run clean && npm run check",
     "version": "npm run build",
-    "postversion": "git push && git push --tags && npm run notarise && npm run clean",
+    "postversion": "npm run notarise && git add chainscript.json && git commit -m Notarise && git push && git push --tags && npm run clean",
     "prepublish": "npm run clean && npm run build",
     "test": "mocha --compilers js:babel/register --recursive --require should",
     "test:watch": "npm test -- --watch",
