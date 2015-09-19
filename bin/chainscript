@@ -26,6 +26,7 @@ commander
   .option('-n, --notarize', 'Notarize script')
   .option('-e, --email <address>', 'Email')
   .option('--subject <subject>', 'Email subject')
+  .option('-g, --get <path>', 'Output value at path')
   .option('-S, --sign <wif>', 'Sign the digest')
   .option(
     '--command-auditing <bool>',
@@ -68,7 +69,16 @@ function handleInput(input) {
 }
 
 function handleOutput(output) {
-  var str = JSON.stringify(output, null, '\t') + '\n';
+  if (commander.get) {
+    output = objectPath.get(output, commander.get);
+  }
+
+  if (typeof output === 'object' && output) {
+    var str = JSON.stringify(output, null, '\t') + '\n';
+  } else {
+    str = output + '\n';
+  }
+
   var res = process.stdout.write(str, function() {
     process.exit(0);
   });
