@@ -48,13 +48,20 @@ if (commander.args.length > 0) {
 }
 
 function handleOutput(output) {
-  process.stdout.write(JSON.stringify(output, null, '\t') + '\n');
-  process.exit(0);
+  var str = JSON.stringify(output, null, '\t') + '\n';
+  var res = process.stdout.write(str, function() {
+    process.exit(0);
+  });
+
+  if (!res) {
+    handleError(new Error('Failed to write output'));
+  }
 }
 
 function handleError(err) {
-  process.stderr.write(err.message + '\n');
-  process.exit(1);
+  process.stderr.write(err.message + '\n', function() {
+    process.exit(1);
+  });
 }
 
 hashFiles(process.cwd(), paths, commander.algorithm, commander.root)
