@@ -23,7 +23,7 @@
     "test:cov": "babel-node ./node_modules/isparta/bin/isparta cover ./node_modules/mocha/bin/_mocha -- --recursive --require should",
     "genesis": "./bin/chainscript genesis --revision-auditing true > chainscript.json",
     "notarize": "mv chainscript.json tmp.json && cat tmp.json | ./bin/cshashrec -r hashes -- -u @ -U \"name:$npm_package_name\" -U \"author:$npm_package_author_name\" -U \"version:$npm_package_version\" -U \"homepage:$npm_package_homepage\" -U \"repository_url:$npm_package_repository_url\" -U \"license:$npm_package_license\" -S $npm_config_chainscript_js_wif -n > chainscript.json && rm tmp.json",
-    "verify": "./bin/csverifyrec -r body.content.hashes --  $npm_package_config_chainscript_uuid",
+    "verify": "cat chainscript.json | ./bin/csverifyrec -r body.content.hashes --",
     "env": "env"
   },
   "bin": {
