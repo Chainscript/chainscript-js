@@ -8,8 +8,7 @@ import deepEquals from './utils/deepEquals';
 
 export default class Chainscript {
 
-  //static EXECUTE_URL = 'http://agent.chainscript.io/execute';
-  static EXECUTE_URL = 'http://localhost:5000/execute';
+  static EXECUTE_URL = 'http://agent.chainscript.io/execute';
   static SNAPSHOTS_URL = 'https://chainscript.firebaseio.com/snapshots/';
 
   /**
