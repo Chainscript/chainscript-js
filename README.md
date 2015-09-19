@@ -17,23 +17,26 @@ $ npm install -g chainscript
 ```bash
 $ chainscript --help
 
-  Usage: chainscript [options] <script | uuid>
+  Usage: chainscript [options] [script | uuid]
 
   Options:
 
-    -h, --help                  output usage information
-    -V, --version               output the version number
-    -u, --update <updates>      Update script
-    -s, --snapshot              Snapshot script
-    -n, --notarize              Notarize script
-    -e, --email <address>       Email
-    -S, --sign <wif>            Sign the digest
-    --command-auditing <bool>   Enable or disable command auditing
-    --revision-auditing <bool>  Enable or disable revision auditing
-    -K, --gen-key               Generate and print a key pair and address
-    -T, --testnet               Use testnet
-    --execute-url <url>         Set execute url
-    --snapshots-url <url>       Set snapshots url
+    -h, --help                    output usage information
+    -V, --version                 output the version number
+    -u, --update <updates>        Update script
+    -U, --update-key <key:value>  Update specific content key
+    -s, --snapshot                Snapshot script
+    -n, --notarize                Notarize script
+    -e, --email <address>         Email
+    --subject <subject>           Email subject
+    -g, --get <path>              Output value at path
+    -S, --sign <wif>              Sign the digest
+    --command-auditing <bool>     Enable or disable command auditing
+    --revision-auditing <bool>    Enable or disable revision auditing
+    -K, --gen-key                 Generate and print a key pair and address
+    -T, --testnet                 Use testnet
+    --execute-url <url>           Set execute url
+    --snapshots-url <url>         Set snapshots url
 ```
 
 ### Examples
@@ -422,7 +425,7 @@ Output:
       "hashes": {
         "algorithm": "sha256",
         "files": {
-          "387d8be0374eadd1a408beee06d5aab464f5507e1f980321cdd4bf16fb3f7404": "src/Chainscript.js",
+          "7ba8589465d0a82cf1b4a1064787f02efb915128493ae56a865887660e00507d": "src/Chainscript.js",
           "23949145cec009c2606323be55f9774af456677d824150f348d0b9265ea5312b": "src/index.js",
           "ba1f2a91227553135b30eb02c5a1430d8d684967a81faa004a05692e661e93ef": "src/utils/clone.js",
           "33b32aa8288a4757ab3f2fdc0c79f3f800e9697cc08eed094bd2a80cabdf891e": "src/utils/deepEquals.js",
@@ -430,15 +433,19 @@ Output:
           "2d26c8203b69c4f183d9b0ca445279d88da516c2b2dc82218d400e0cfb05bf22": "src/utils/hashFiles.js",
           "09b6784a6b00944dec9a56c3061a46b9864573f40b04179fc686937af73390f6": "src/utils/readPackageSync.js",
           "830b2cda114bfdb7e7d1da8bbc3182ff477f9df9623d063c6ee681297ab7c574": "src/utils/verifyFiles.js",
-          "1387f9d92db8ed17af3cbe15580a91ac37b52cb5964e3c3d0794b96a6058fc54": "bin/chainscript",
-          "a0e603db74408ee531360b10def2e3ea6fd4d18975735b83e19b7c87099afab3": "bin/cshashrec",
-          "3d7359dde623acb6a009bf9e1e12808debc6d1d1322827df634ef832546d35df": "bin/csverifyrec"
+          "4b6f137489985c4d6b40ea31fadfd145a5d10dcea1df1ea5c33d4c833f8b78fe": "bin/csverifyrec",
+          "09b72b9eda9c36aa6979465ed39d8e9ea60b2847900fd4bbcc5d71f5b434df22": "bin/chainscript",
+          "4da7b41223f7b43675d5a5d303e5502aa9227376e2ef1fb224286e0ed0af6152": "bin/cshashrec"
         }
-      }
+      },
+      "name": "chainscript",
+      "version": "0.1.0"
     },
     "x_meta": {
-      "uuid": "chainscript:envelope:6ca0289a-56d3-40c7-8468-2bf49bafd4a8",
-      "content_digest": "a087ce3ea8661da31f73d65cd3b282e509232b7e"
+      "uuid": "chainscript:envelope:8798b84e-8eb0-4f20-88a0-328b20a10aa5",
+      "content_digest": "ef22b069fe02f1b7d7e8690bb314dd53864d6329",
+      "revision": 1,
+      "previous_hash": "447817723d2871df4193ce0eaf790ce083a587cd"
     }
   },
   "x_chainscript": {
@@ -446,11 +453,11 @@ Output:
       "agent": "io.chainscript.agent",
       "version": "0.1.alpha",
       "result": "success",
-      "validated_on": "2015-09-18T22:42:27+00:00"
+      "validated_on": "2015-09-19T14:58:34+00:00"
     },
-    "hash": "82fa189ac18c344cd2773a836242e8c6c2650a3e",
+    "hash": "78944d58bb3fcb3c8281fe4b953830c7b8c50b34",
     "snapshots_enabled": true,
-    "snapshot_url": "https://chainscript.firebaseio.com/snapshots/chainscript-envelope-6ca0289a-56d3-40c7-8468-2bf49bafd4a8.json"
+    "snapshot_url": "https://chainscript.firebaseio.com/snapshots/chainscript-envelope-8798b84e-8eb0-4f20-88a0-328b20a10aa5.json"
   }
 }
 ```
@@ -458,7 +465,7 @@ Output:
 Verify files:
 
 ```bash
-$ csverifyrec -r body.content.hashes -- chainscript:envelope:6ca0289a-56d3-40c7-8468-2bf49bafd4a8
+$ csverifyrec -r body.content.hashes -- chainscript:envelope:8798b84e-8eb0-4f20-88a0-328b20a10aa5
 ```
 
 As you can see, if `--` is present, `cshashrec` will be executed with
@@ -473,7 +480,7 @@ Success
 Update the hashes:
 
 ```bash
-$ cshashrec src bin -r hashes -a sha256 -- -u @ -U version:0.1.1 -s chainscript:envelope:6ca0289a-56d3-40c7-8468-2bf49bafd4a8
+$ cshashrec src bin -r hashes -a sha256 -- -u @ -U version:0.1.1 -s chainscript:envelope:8798b84e-8eb0-4f20-88a0-328b20a10aa5
 ```
 
 As you can see, you can use the special value `@` in `chainscript`'s arguments
@@ -486,35 +493,39 @@ Output:
   "body": {
     "content": {
       "hashes": {
-        "algorithm": "md5",
+        "algorithm": "sha256",
         "files": {
-          "1639f445d205268154f8ad3e497a7317": "src/Chainscript.js",
-          "30dde352b3a3d137036c55d12fee8d74": "src/index.js",
-          "d5542347814e4ef9ea5968281f956c40": "src/utils/hashFile.js",
-          "02f2224b41ae0313cd3aa41eefb26f38": "src/utils/hashFiles.js",
-          "380ae8f8bca3c42f90fcc6457da81fad": "src/utils/readPackageSync.js",
-          "212b7f215310dfea91a27c3555cc8f2c": "src/utils/verifyFiles.js",
-          "6b4a74a6b29625aefc816a7a7f9f235a": "bin/chainscript",
-          "761dc68206dccb6095f22567ea7838af": "bin/cshashrec",
-          "8e15d28e15b7801efd1c983340ff49b9": "bin/csverifyrec"
+          "7ba8589465d0a82cf1b4a1064787f02efb915128493ae56a865887660e00507d": "src/Chainscript.js",
+          "23949145cec009c2606323be55f9774af456677d824150f348d0b9265ea5312b": "src/index.js",
+          "ba1f2a91227553135b30eb02c5a1430d8d684967a81faa004a05692e661e93ef": "src/utils/clone.js",
+          "33b32aa8288a4757ab3f2fdc0c79f3f800e9697cc08eed094bd2a80cabdf891e": "src/utils/deepEquals.js",
+          "aad9233e3bb695fa40c2861164801fbb2acf346768e33d359f892af29c3711e9": "src/utils/hashFile.js",
+          "2d26c8203b69c4f183d9b0ca445279d88da516c2b2dc82218d400e0cfb05bf22": "src/utils/hashFiles.js",
+          "09b6784a6b00944dec9a56c3061a46b9864573f40b04179fc686937af73390f6": "src/utils/readPackageSync.js",
+          "830b2cda114bfdb7e7d1da8bbc3182ff477f9df9623d063c6ee681297ab7c574": "src/utils/verifyFiles.js",
+          "09b72b9eda9c36aa6979465ed39d8e9ea60b2847900fd4bbcc5d71f5b434df22": "bin/chainscript",
+          "4da7b41223f7b43675d5a5d303e5502aa9227376e2ef1fb224286e0ed0af6152": "bin/cshashrec",
+          "7ff74a85c22c993cd1fbfb645bca27d17760cdf9edfb6b5d574e46738d0ecf63": "bin/csverifyrec"
         }
-      }
+      },
+      "name": "chainscript",
+      "version": "0.1.1"
     },
     "x_meta": {
-      "content_digest": "35140ba89a271419a259122506263a376c482b34",
-      "uuid": "chainscript:envelope:14f1ab16-5185-400d-b7c6-b2b7c3872cfc",
-      "revision": 1,
-      "previous_hash": "26f2eb1b89c4ec42eae8c9eebe7293c6d85e237f"
+      "content_digest": "ef22b069fe02f1b7d7e8690bb314dd53864d6329",
+      "previous_hash": "78944d58bb3fcb3c8281fe4b953830c7b8c50b34",
+      "revision": 2,
+      "uuid": "chainscript:envelope:8798b84e-8eb0-4f20-88a0-328b20a10aa5"
     }
   },
   "x_chainscript": {
-    "hash": "f40f6928f223f4164e1a4be4f52373c6fec2987c",
-    "snapshot_url": "https://chainscript.firebaseio.com/snapshots/chainscript-envelope-14f1ab16-5185-400d-b7c6-b2b7c3872cfc.json",
+    "hash": "a6d4cef3b663673dffcf3a817bd158b73a64e4cf",
+    "snapshot_url": "https://chainscript.firebaseio.com/snapshots/chainscript-envelope-8798b84e-8eb0-4f20-88a0-328b20a10aa5.json",
     "snapshots_enabled": true,
     "validation": {
       "agent": "io.chainscript.agent",
       "result": "success",
-      "validated_on": "2015-09-18T21:07:23+00:00",
+      "validated_on": "2015-09-19T15:01:41+00:00",
       "version": "0.1.alpha"
     }
   }
