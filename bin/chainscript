@@ -106,39 +106,9 @@ function handleError(err) {
 
 function run(cs) {
 
-  if (typeof commander.executeUrl !== 'undefined') {
-    Chainscript.EXECUTE_URL = commander.executeUrl;
-  }
+  // Stage 1: settings, updates
 
-  if (typeof commander.snapshotsUrl !== 'undefined') {
-    Chainscript.SNAPSHOTS_URL = commander.snapshotsUrl;
-  }
-
-  function exec() {
-    function post() {
-      if (commander.sign) {
-        cs.sign(commander.sign);
-      }
-
-      if (commander.snapshot) {
-        cs.snapshot();
-      }
-
-      if (commander.notarize) {
-        cs.notarize();
-      }
-
-      if (commander.email) {
-        cs.email(commander.email, commander.subject);
-      }
-
-      cs
-        .run()
-        .then(function() {
-          handleOutput(cs.toJSON());
-        }).fail(handleError);
-    }
-
+  function stage1() {
     if (typeof commander.commandAuditing !== 'undefined') {
       cs.set('x_chainscript.command_auditing', commander.commandAuditing);
     }
@@ -181,20 +151,56 @@ function run(cs) {
       cs
         .update(updates)
         .run()
-        .then(post)
+        .then(stage2)
         .fail(handleError);
     } else {
-      post();
+      stage2();
     }
   }
+
+  // Stage 2: sign, snapshot, notarize, email
+
+  function stage2() {
+    if (commander.sign) {
+      cs.sign(commander.sign);
+    }
+
+    if (commander.snapshot) {
+      cs.snapshot();
+    }
+
+    if (commander.notarize) {
+      cs.notarize();
+    }
+
+    if (commander.email) {
+      cs.email(commander.email, commander.subject);
+    }
+
+    cs
+      .run()
+      .then(function() {
+        handleOutput(cs.toJSON());
+      }).fail(handleError);
+  }
+
+  if (typeof commander.executeUrl !== 'undefined') {
+    Chainscript.EXECUTE_URL = commander.executeUrl;
+  }
+
+  if (typeof commander.snapshotsUrl !== 'undefined') {
+    Chainscript.SNAPSHOTS_URL = commander.snapshotsUrl;
+  }
+
+  // Dry run first if no x_chainscript
 
   if (typeof cs.script.x_chainscript === 'undefined') {
     cs
       .run()
-      .then(exec)
+      .then(stage1)
       .fail(handleError);
   } else {
-    exec();
+    stage1();
   }
 }
 
