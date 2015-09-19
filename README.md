@@ -408,7 +408,7 @@ Insert hashes of files into Chainscript and snapshot it (normally you would also
 sign it):
 
 ```bash
-$ cshashrec -r content.hashes --  -U name:chainscript -U version:0.1.0 -s
+$ cshashrec -r content.hashes -- -U name:chainscript -U version:0.1.0 -s
 ```
 
 As you can see, if `--` is present, `chainscript` will be executed with
