@@ -175,8 +175,6 @@ function run(cs) {
           objectPath.set(value, key, raw);
         }
 
-        console.log(value);
-
         updates = mergeDeep(updates, value);
       });
 
