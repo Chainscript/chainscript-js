@@ -2,6 +2,8 @@
 
 Notarization: [`chainscript:envelope:6c1bffc7-d18e-4cb6-b133-4f86a9dfb1ff`](http://agent.chainscript.io/?chainscript:envelope:6c1bffc7-d18e-4cb6-b133-4f86a9dfb1ff) :heavy_check_mark:
 
+Address: 1NryTMGRZuBruTeZ6RXLVR8xBWGJWNtDcx
+
 ## Command line
 
 ### Install
