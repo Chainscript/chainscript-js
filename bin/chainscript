@@ -14,6 +14,11 @@ function collectUpdates(val, memo) {
   return memo;
 }
 
+function collectUpdateKeys(val, memo) {
+  memo.push(val);
+  return memo;
+}
+
 function parseBool(v) {
   return v === 'true' || v === '1' ? true : false;
 }
@@ -22,6 +27,11 @@ commander
   .version(readPackageSync('version'))
   .usage('[options] [script | uuid]')
   .option('-u, --update <updates>', 'Update script', collectUpdates, [])
+  .option(
+    '-U, --update-key <key:value>',
+    'Update specific content key',
+    collectUpdateKeys, []
+  )
   .option('-s, --snapshot', 'Snapshot script')
   .option('-n, --notarize', 'Notarize script')
   .option('-e, --email <address>', 'Email')
@@ -137,19 +147,37 @@ function run(cs) {
       cs.set('x_chainscript.revision_auditing', commander.revisionAuditing);
     }
 
-    if (commander.update.length > 0) {
+    if (commander.update.length > 0 || commander.updateKey.length > 0) {
       var updates;
 
       commander.update.forEach(function(u) {
         try {
           u = JSON.parse(u);
         } catch(e) { }
+
         if (typeof updates === 'object' && updates &&
             typeof u === 'object' && u) {
           updates = mergeDeep(updates, u);
         } else {
           updates = u;
         }
+      });
+
+      commander.updateKey.forEach(function(u) {
+        var parts = u.split(':');
+        var key = parts[0];
+        var raw = parts.slice(1).join(':');
+        var value = {};
+
+        try {
+          objectPath.set(value, key, JSON.parse(raw));
+        } catch(e) {
+          objectPath.set(value, key, raw);
+        }
+
+        console.log(value);
+
+        updates = mergeDeep(updates, value);
       });
 
       cs
