@@ -258,17 +258,43 @@ describe('Chainscript', () => {
 
       describe('#email()', () => {
 
-        beforeEach(() => {
-          script = new Chainscript(
-            {body: {content: {name: 'Hello World'}}},
-            immutable
-          )
-            .email('test@example.com');
+        context('without a subject', () => {
+
+          beforeEach(() => {
+            script = new Chainscript(
+              {body: {content: {name: 'Hello World'}}},
+              immutable
+            )
+              .email('test@example.com');
+          });
+
+          it('should add a email command', () => {
+            script.get('execute.0')
+              .should.deepEqual({send_email: {to: 'test@example.com'}});
+          });
+
         });
 
-        it('should add a email command', () => {
-          script.get('execute.0')
-            .should.deepEqual({send_email: {to: 'test@example.com'}});
+        context('with a subject', () => {
+
+          beforeEach(() => {
+            script = new Chainscript(
+              {body: {content: {name: 'Hello World'}}},
+              immutable
+            )
+              .email('test@example.com', 'test');
+          });
+
+          it('should add a email command with a subject', () => {
+            script.get('execute.0')
+              .should.deepEqual({
+                send_email: {
+                  to: 'test@example.com',
+                  subject: 'test'
+                }
+              });
+          });
+
         });
 
       });

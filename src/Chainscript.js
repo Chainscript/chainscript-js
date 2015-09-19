@@ -197,9 +197,14 @@ export default class Chainscript {
    * Adds a send email command
    *
    * @param {string} to Destination email address
+   * @param {string} [subject] Subject
    * @returns {Chainscript} A new instance of Chainscript
    */
-  email(to) {
+  email(to, subject) {
+    if (subject) {
+      return this.addCommand({send_email: {to, subject}});
+    }
+
     return this.addCommand({send_email: {to}});
   }
 

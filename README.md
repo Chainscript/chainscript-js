@@ -270,7 +270,7 @@ if immutable, otherwise returns the instance.
 Adds a `notarize` command to a script. Returns a new instance of `Chainscript`
 if immutable, otherwise returns the instance.
 
-#### Chainscript#email(to)
+#### Chainscript#email(to, [subject])
 
 Adds a `send_email` command to a script. Returns a new instance of `Chainscript`
 if immutable, otherwise returns the instance.

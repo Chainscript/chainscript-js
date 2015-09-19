@@ -25,6 +25,7 @@ commander
   .option('-s, --snapshot', 'Snapshot script')
   .option('-n, --notarize', 'Notarize script')
   .option('-e, --email <address>', 'Email')
+  .option('--subject <subject>', 'Email subject')
   .option('-S, --sign <wif>', 'Sign the digest')
   .option(
     '--command-auditing <bool>',
@@ -95,7 +96,7 @@ function run(cs) {
       cs.set('x_chainscript.revision_auditing', commander.revisionAuditing);
     }
 
-    if (commander.update) {
+    if (commander.update.length > 0) {
       var updates;
 
       commander.update.forEach(function(u) {
@@ -126,7 +127,7 @@ function run(cs) {
     }
 
     if (commander.email) {
-      cs.email(commander.email);
+      cs.email(commander.email, commander.subject);
     }
 
     cs
