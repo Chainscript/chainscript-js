@@ -35,7 +35,7 @@ process.argv.forEach(function(arg) {
 commander
   .version(readPackageSync('version'))
   .usage('[options] [path...] [-- chainscript args]')
-  .option('-a, --algorithm <name>', 'hash algorithm (default md5)')
+  .option('-a, --algorithm <name>', 'hash algorithm (default sha256)')
   .option('-r, --root <path>', 'JSON root path')
   .parse(args);
 

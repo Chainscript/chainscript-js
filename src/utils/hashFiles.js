@@ -2,7 +2,15 @@ import path from 'path';
 import recursive from 'recursive-readdir';
 import Q from 'q';
 import objectPath from 'object-path';
+import ignore from 'ignore';
 import hashFile from './hashFile';
+
+const ignorer = ignore().addIgnoreFile(
+  ignore.select([
+    '.csignore',
+    '.gitignore'
+  ])
+);
 
 function hashDir(cwd, dir, hashes) {
   const deferred = Q.defer();
@@ -20,10 +28,16 @@ function hashDir(cwd, dir, hashes) {
       }
 
       const file = files.shift();
+      const relative = path.relative(cwd, file);
+
+      if (ignorer.filter([relative]).length === 0) {
+        next();
+        return;
+      }
 
       hashFile(cwd, file, hashes.algorithm)
         .then(hash => {
-          hashes.files[hash] = path.relative(cwd, file);
+          hashes.files[hash] = relative;
           next();
         })
         .catch(deferred.reject);
@@ -35,10 +49,13 @@ function hashDir(cwd, dir, hashes) {
   return deferred.promise;
 }
 
-export default function hashFiles(cwd, paths, algorithm = 'md5', root = '') {
+export default function hashFiles(cwd, paths, algorithm = 'sha256', root = '') {
   const deferred = Q.defer();
   const hashes = {algorithm, files: {}};
   const dirs = [...paths];
+
+  const originalCwd = process.cwd();
+  process.chdir(cwd);
 
   const next = () => {
     if (dirs.length === 0) {
@@ -51,6 +68,7 @@ export default function hashFiles(cwd, paths, algorithm = 'md5', root = '') {
         json = hashes;
       }
 
+      process.chdir(originalCwd);
       deferred.resolve(json);
       return;
     }
@@ -59,7 +77,10 @@ export default function hashFiles(cwd, paths, algorithm = 'md5', root = '') {
 
     hashDir(cwd, dir, hashes)
       .then(next)
-      .catch(deferred.reject);
+      .catch(() => {
+        process.chdir(originalCwd);
+        deferred.reject();
+      });
   };
 
   next();
