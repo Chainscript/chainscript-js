@@ -1,6 +1,6 @@
 # Chainscript Javascript Client
 
-Notarisation: [1NryTMGRZuBruTeZ6RXLVR8xBWGJWNtDcx](chainscript.json)
+Notarization: [1NryTMGRZuBruTeZ6RXLVR8xBWGJWNtDcx](chainscript.json)
 
 ## Command line
 
