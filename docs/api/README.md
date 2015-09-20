@@ -15,7 +15,7 @@ $ npm install --save chainscript
 ### Creating a new script
 
 ```js
-var Chainscript = require('chainscript-client');
+var Chainscript = require('chainscript');
 
 // You pass the initial script
 new Chainscript({body: {content: {name: 'My Document'}}})
@@ -38,7 +38,7 @@ new Chainscript({body: {content: {name: 'My Document'}}})
 ### Starting from an existing script
 
 ```js
-var Chainscript = require('chainscript-client');
+var Chainscript = require('chainscript');
 
 Chainscript.load('chainscript:document:3940c155-d17d-421a-b34e-8bf5a458299e')
   .then(function(cs) {
