@@ -378,9 +378,9 @@ script
 There are two extra bundled executables:
 
 ```bash
-$ cshashrec --help
+$ cshashfiles --help
 
-  Usage: cshashrec [options] [path...] [-- chainscript args]
+  Usage: cshashfiles [options] [path...] [-- chainscript args]
 
   Options:
 
@@ -389,9 +389,9 @@ $ cshashrec --help
     -a, --algorithm <name>  hash algorithm (default sha256)
     -r, --root <path>       JSON root path
 
-$ csverifyrec --help
+$ csverifyfiles --help
 
-  Usage: csverifyrec [options] [-- chainscript args]
+  Usage: csverifyfiles [options] [-- chainscript args]
 
   Options:
 
@@ -408,11 +408,11 @@ Insert hashes of files into Chainscript and snapshot it (normally you would also
 sign it):
 
 ```bash
-$ cshashrec -r content.files -- -U name:chainscript -U version:0.1.0 -s
+$ cshashfiles -r content.files -- -U name:chainscript -U version:0.1.0 -s
 ```
 
 As you can see, if `--` is present, `chainscript` will be executed with
-`cshashrec`'s output with the arguments after `--`.
+`cshashfiles`'s output with the arguments after `--`.
 
 You can have `.csignore` files to specify files that shouldn't be hashed. It
 works juste like `.gitignore`. If there are no `.csignore` files, it will use
@@ -435,8 +435,8 @@ Output:
         "QmRf9FXaSqkw3rCP3asKoc6L11KY8kzxWMqGwf3zxAZk3M": "webpack.dev.config.js",
         "QmR3uUQvGHukzSmzMXUcQnMrsnfwmkmEkeSkKwX6VfRvsL": "webpack.prod.config.js",
         "QmdF1tqX9nb3kXaqToz7mdHt5hX9Yb3YHVYKYmsrb4DXa3": "bin/chainscript",
-        "QmUzqFGm6JBRkrxjefefMuWyJzjn1uMY5rGgrYHkz8bQot": "bin/cshashrec",
-        "QmWxBC8MjsFohGR6UmBU2wp5RGwJkmCaVowJNwFsepeymt": "bin/csverifyrec",
+        "QmUzqFGm6JBRkrxjefefMuWyJzjn1uMY5rGgrYHkz8bQot": "bin/cshashfiles",
+        "QmWxBC8MjsFohGR6UmBU2wp5RGwJkmCaVowJNwFsepeymt": "bin/csverifyfiles",
         "QmdYdpXFhSU3kWpbGdMceNbJiec2YSrW7egF7qUP249JM7": "test/Chainscript.js",
         "QmVtqeJFqZkvsfvrQovfTzH2ZQoBk42XeP7sJ31LqV6aAa": "examples/change.js",
         "QmXWxAu2ZWsjPZDCeFKeeDQTcEhZ3jJF1YJZMT4VPLji7N": "examples/delta.js",
@@ -493,10 +493,10 @@ Output:
 Verify files:
 
 ```bash
-$ csverifyrec -r body.content.files -- chainscript:envelope:3f91cb19-0a11-462a-89ef-97894d24f70e
+$ csverifyfiles -r body.content.files -- chainscript:envelope:3f91cb19-0a11-462a-89ef-97894d24f70e
 ```
 
-As you can see, if `--` is present, `cshashrec` will be executed with
+As you can see, if `--` is present, `cshashfiles` will be executed with
 `chainscript`'s output with the arguments after `--`.
 
 Output:
@@ -508,11 +508,11 @@ Success
 Update the hashes:
 
 ```bash
-$ cshashrec -r files -- -u @ -U version:0.1.1 -s chainscript:envelope:3f91cb19-0a11-462a-89ef-97894d24f70e
+$ cshashfiles -r files -- -u @ -U version:0.1.1 -s chainscript:envelope:3f91cb19-0a11-462a-89ef-97894d24f70e
 ```
 
 As you can see, you can use the special value `@` in `chainscript`'s arguments
-to replace it with the output of `cshashrec`.
+to replace it with the output of `cshashfiles`.
 
 Output:
 
@@ -528,8 +528,8 @@ Output:
         "QmRf9FXaSqkw3rCP3asKoc6L11KY8kzxWMqGwf3zxAZk3M": "webpack.dev.config.js",
         "QmR3uUQvGHukzSmzMXUcQnMrsnfwmkmEkeSkKwX6VfRvsL": "webpack.prod.config.js",
         "QmdF1tqX9nb3kXaqToz7mdHt5hX9Yb3YHVYKYmsrb4DXa3": "bin/chainscript",
-        "QmUzqFGm6JBRkrxjefefMuWyJzjn1uMY5rGgrYHkz8bQot": "bin/cshashrec",
-        "QmWxBC8MjsFohGR6UmBU2wp5RGwJkmCaVowJNwFsepeymt": "bin/csverifyrec",
+        "QmUzqFGm6JBRkrxjefefMuWyJzjn1uMY5rGgrYHkz8bQot": "bin/cshashfiles",
+        "QmWxBC8MjsFohGR6UmBU2wp5RGwJkmCaVowJNwFsepeymt": "bin/csverifyfiles",
         "QmdYdpXFhSU3kWpbGdMceNbJiec2YSrW7egF7qUP249JM7": "test/Chainscript.js",
         "QmVtqeJFqZkvsfvrQovfTzH2ZQoBk42XeP7sJ31LqV6aAa": "examples/change.js",
         "QmXWxAu2ZWsjPZDCeFKeeDQTcEhZ3jJF1YJZMT4VPLji7N": "examples/delta.js",
