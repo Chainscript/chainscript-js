@@ -107,7 +107,7 @@ Output:
 
 ### Pipe the output to chainscript
 
-It is possible to pipe the output the `chainscript`, making it a powerful tool.
+It is possible to pipe the output to `chainscript`, making it a powerful tool.
 
 ```bash
 $ cshashfiles -r content.files --
