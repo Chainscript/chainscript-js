@@ -24,7 +24,12 @@
     "genesis": "./bin/chainscript genesis --revision-auditing true > chainscript.json",
     "notarize": "mv chainscript.json tmp.json && cat tmp.json | ./bin/cshashfiles -r files -- -u @ -U \"name:$npm_package_name\" -U \"author:$npm_package_author_name\" -U \"version:$npm_package_version\" -U \"homepage:$npm_package_homepage\" -U \"repository_url:$npm_package_repository_url\" -U \"license:$npm_package_license\" -S $npm_config_chainscript_js_wif -n > chainscript.json && rm tmp.json",
     "verify": "cat chainscript.json | ./bin/csverifyfiles -r body.content.files --",
-    "env": "env"
+    "env": "env",
+    "docs:clean": "rimraf _book",
+    "docs:prepare": "gitbook install",
+    "docs:build": "npm run docs:prepare && gitbook build -g rackt/redux",
+    "docs:watch": "npm run docs:prepare && gitbook serve",
+    "docs:publish": "npm run docs:clean && npm run docs:build && cd _book && git init && git commit --allow-empty -m 'Update book' && git checkout -b gh-pages && touch .nojekyll && git add . && git commit -am 'Update book' && git push git@github.com:Chainscript/chainscript-js gh-pages --force"
   },
   "bin": {
     "chainscript": "bin/chainscript",
@@ -49,6 +54,7 @@
     "babel-loader": "^5.3.2",
     "eslint": "^1.4.1",
     "eslint-config-airbnb": "0.0.8",
+    "gitbook-cli": "^0.3.6",
     "isparta": "^3.0.4",
     "mocha": "^2.3.2",
     "rimraf": "^2.4.3",

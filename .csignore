@@ -2,5 +2,6 @@
 *.log
 node_modules
 coverage
+_book
 tmp.json
 chainscript.json

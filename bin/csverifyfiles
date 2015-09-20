@@ -75,7 +75,7 @@ if (execChainscript) {
 
 commander
   .version(readPackageSync('version'))
-  .usage('[options] [-- chainscript args]')
+  .usage('[options] [hashes] [-- chainscript args]')
   .option('-r, --root <path>', 'JSON root path')
   .parse(args);
 
