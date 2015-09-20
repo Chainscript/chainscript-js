@@ -9,6 +9,8 @@ See the [full documentation](http://chainscript.github.io/chainscript-js) for us
 
 Notarization: [1NryTMGRZuBruTeZ6RXLVR8xBWGJWNtDcx](chainscript.json)
 
+Github: [https://github.com/Chainscript/chainscript-js](https://github.com/Chainscript/chainscript-js)
+
 ## Install
 
 ### Globally
