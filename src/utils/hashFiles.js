@@ -15,7 +15,7 @@ const ignorer = ignore().addIgnoreFile(
 function hashDir(cwd, dir, algorithm, hashes) {
   const deferred = Q.defer();
 
-  recursive(dir, (err, files) => {
+  recursive(dir, ['node_modules', '.git'], (err, files) => {
     if (err) {
       deferred.reject(err);
       return;
@@ -77,9 +77,9 @@ export default function hashFiles(cwd, paths, algorithm = 'sha256', root = '') {
 
     hashDir(cwd, dir, algorithm, hashes)
       .then(next)
-      .catch(() => {
+      .catch(err => {
         process.chdir(originalCwd);
-        deferred.reject();
+        deferred.reject(err);
       });
   };
 
