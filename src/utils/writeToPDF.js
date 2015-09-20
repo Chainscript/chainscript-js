@@ -6,7 +6,7 @@ import temp from 'temp';
 
 temp.track();
 
-export default function attachToPDF(
+export default function writeToPDF(
   src,
   dest,
   script,
@@ -14,7 +14,7 @@ export default function attachToPDF(
 ) {
   const deferred = Q.defer();
 
-  temp.mkdir('attach_to_pdf', (err1, dirPath) => {
+  temp.mkdir('write_to_pdf', (err1, dirPath) => {
     if (err1) {
       deferred.reject(err1);
       return;
@@ -30,8 +30,8 @@ export default function attachToPDF(
       }
 
       const cmd = 'pdftk ' + src +
-              ' attach_files ' + attachmentPath +
-              ' output ' + dest;
+                  ' attach_files ' + attachmentPath +
+                  ' output ' + dest;
 
       exec(cmd, err3 => {
         if (err3) {
@@ -42,7 +42,7 @@ export default function attachToPDF(
         deferred.resolve();
       });
     });
-
   });
+
   return deferred.promise;
 }

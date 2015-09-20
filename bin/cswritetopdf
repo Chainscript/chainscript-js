@@ -7,12 +7,12 @@ var readPackageSync = require(path.resolve(
   __dirname,
   '../lib/utils/readPackageSync'
 ));
-var attachToPDF = require(path.resolve(__dirname, '../lib/utils/attachToPDF'));
+var writeToPDF = require(path.resolve(__dirname, '../lib/utils/writeToPDF'));
 
 function handleInput(input) {
   try {
     var json = JSON.parse(input);
-    attachToPDF(
+    writeToPDF(
       path.resolve(process.cwd(), commander.args[0]),
       path.resolve(process.cwd(), commander.args[1]),
       json,
