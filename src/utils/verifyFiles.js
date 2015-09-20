@@ -36,7 +36,7 @@ export default function verifyFiles(cwd, json, root) {
       return;
     }
 
-    hashFile(cwd, path.resolve(cwd, file), algorithm)
+    hashFile(path.resolve(cwd, file), algorithm)
       .then(h => {
         if (hash !== h) {
           errors.push(new Error('Mismatch: ' + file));

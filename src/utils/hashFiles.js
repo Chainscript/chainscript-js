@@ -35,7 +35,7 @@ function hashDir(cwd, dir, algorithm, hashes) {
         return;
       }
 
-      hashFile(cwd, file, algorithm)
+      hashFile(file, algorithm)
         .then(hash => {
           hashes[hash] = relative;
           next();

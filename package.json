@@ -36,7 +36,8 @@
     "cshashfiles": "bin/cshashfiles",
     "csverifyfiles": "bin/csverifyfiles",
     "cswritetopdf": "bin/cswritetopdf",
-    "csreadfrompdf": "bin/csreadfrompdf"
+    "csreadfrompdf": "bin/csreadfrompdf",
+    "cshashpdf": "bin/cshashpdf"
   },
   "repository": {
     "type": "git",

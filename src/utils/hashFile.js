@@ -10,8 +10,10 @@ export const HASH_MAP = {
   sha512: 'sha2-512'
 };
 
-export default function hashFile(cwd, file, algorithm) {
+export default function hashFile(file, algorithm) {
   const deferred = Q.defer();
+
+  console.log(file);
 
   setImmediate(() => {
     const algorithmName = HASH_MAP[algorithm];
