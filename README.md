@@ -414,6 +414,10 @@ $ cshashrec -r content.files -- -U name:chainscript -U version:0.1.0 -s
 As you can see, if `--` is present, `chainscript` will be executed with
 `cshashrec`'s output with the arguments after `--`.
 
+You can have `.csignore` files to specify files that shouldn't be hashed. It
+works juste like `.gitignore`. If there are no `.csignore` files, it will use
+`.gitignore` files if present.
+
 Output:
 
 ```json

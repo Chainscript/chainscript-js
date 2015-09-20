@@ -1,6 +1,7 @@
 import fs from 'fs';
 import crypto from 'crypto';
 import multihash from 'multihashes';
+import bs58 from 'bs58';
 import Q from 'q';
 
 export const HASH_MAP = {
@@ -32,7 +33,8 @@ export default function hashFile(cwd, file, algorithm) {
     });
 
     stream.on('end', () => {
-      deferred.resolve(multihash.encode(hash.digest(), algorithmName));
+      const res = bs58.encode(multihash.encode(hash.digest(), algorithmName));
+      deferred.resolve(res);
     });
   });
 

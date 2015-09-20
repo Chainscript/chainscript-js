@@ -37,7 +37,7 @@ function hashDir(cwd, dir, algorithm, hashes) {
 
       hashFile(cwd, file, algorithm)
         .then(hash => {
-          hashes[hash.toString('hex')] = relative;
+          hashes[hash] = relative;
           next();
         })
         .catch(deferred.reject);

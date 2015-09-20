@@ -1,5 +1,6 @@
 import path from 'path';
 import multihash from 'multihashes';
+import bs58 from 'bs58';
 import invertHash from 'invert-hash';
 import objectPath from 'object-path';
 import Q from 'q';
@@ -26,7 +27,8 @@ export default function verifyFiles(cwd, json, root) {
 
     const hash = hashes.shift();
     const file = top[hash];
-    const algorithmName = multihash.decode(new Buffer(hash, 'hex')).name;
+    const buf = new Buffer(bs58.decode(hash));
+    const algorithmName = multihash.decode(buf).name;
     const algorithm = INVERTED_HASH_MAP[algorithmName];
 
     if (typeof algorithm === 'undefined') {
@@ -36,7 +38,7 @@ export default function verifyFiles(cwd, json, root) {
 
     hashFile(cwd, path.resolve(cwd, file), algorithm)
       .then(h => {
-        if (hash !== h.toString('hex')) {
+        if (hash !== h) {
           errors.push(new Error('Mismatch: ' + file));
         }
       })
