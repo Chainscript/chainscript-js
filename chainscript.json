@@ -1,20 +1,105 @@
 {
 	"body": {
-		"content": "genesis",
+		"content": {
+			"files": {
+				"QmdnGF95ih8hPiuUwwuRwPD69zbpRzmkpuVYG9pJed7wmV": "README.md",
+				"QmfYQUfkmnu4x9rJBcD9R2aGwgMdanLAHf6ZRrVzLHhBMv": "package.json",
+				"QmUJbYrzH7a4K1wrQXjby8hA9242gTDpsxp8Kp7JtU3m7h": "webpack.base.config.js",
+				"QmRf9FXaSqkw3rCP3asKoc6L11KY8kzxWMqGwf3zxAZk3M": "webpack.dev.config.js",
+				"QmR3uUQvGHukzSmzMXUcQnMrsnfwmkmEkeSkKwX6VfRvsL": "webpack.prod.config.js",
+				"QmbJXLWpR5VJj4SxiJZhfiP7u3P3fiHgo2dbZWY3ZRf5mq": "dist/chainscript.js",
+				"QmaYNwNSo9YBEVSoteRqs25CPjqNhUCpKewAWqsam2PNx2": "dist/chainscript.min.js",
+				"QmdF1tqX9nb3kXaqToz7mdHt5hX9Yb3YHVYKYmsrb4DXa3": "bin/chainscript",
+				"QmUzqFGm6JBRkrxjefefMuWyJzjn1uMY5rGgrYHkz8bQot": "bin/cshashrec",
+				"QmWxBC8MjsFohGR6UmBU2wp5RGwJkmCaVowJNwFsepeymt": "bin/csverifyrec",
+				"QmdYdpXFhSU3kWpbGdMceNbJiec2YSrW7egF7qUP249JM7": "test/Chainscript.js",
+				"QmPgHLVhYeRKAEFPX6wUSuYfMEUkU3KSzhP2NSQist5ReK": "lib/Chainscript.js",
+				"QmSVTAZVXA3VY6tBpoHMQZkG6wnaZFekWQ6EBc4FZdcQNF": "lib/index.js",
+				"QmWrjrVmDLes2nM8Y8JJUYJggGQexg8UUcvfKKaw5WGEhm": "lib/utils/clone.js",
+				"QmQAxwciMb9xad8grgZPbxktZztZffg6X4xxrZv25tbqEZ": "lib/utils/deepEquals.js",
+				"QmcU6P6xB44iKgxgmFK2zYpGwMqezAjacFpHtB9Uw2NKKn": "lib/utils/hashFile.js",
+				"QmcGcAGx2QVPrkwGe7SjpKUsdxjPNMUraQ1xyJwqVeQ3rX": "lib/utils/hashFiles.js",
+				"QmfMQuAiM44QUbV1B6TgfVBdsMp6mjGohnp26X9w5oYRHz": "lib/utils/readPackageSync.js",
+				"QmWKn8qFbhtE45VRoAGWaCXPvUN2TS18wp1EaLyAfBCE46": "lib/utils/verifyFiles.js",
+				"QmWfMk1nqjYzRUrBknehM5pvWfZ5L5wELJW3EfPtJLrDt8": "src/Chainscript.js",
+				"QmQjYNaJM7jmfZcg1uDnxdhEYqfnyEaULUe1K5n3FHYQFk": "src/index.js",
+				"QmasC73FhU2dySe5ybUDpaD6KPYeqFXUrTgNPKqJpkncfG": "src/utils/clone.js",
+				"QmRpTxWxZocrvu1ndTmJS4pRDw9zREXKH8badyskmRgAcM": "src/utils/deepEquals.js",
+				"QmVBv94bcG9VAD79SPMtiQ6ajp5wgdMvCQWJR9DRRAmzGZ": "src/utils/hashFile.js",
+				"QmVfws9ydJ4VgsvLDQujNb7QWzsEbhqHnFcWLio12iwR9n": "src/utils/hashFiles.js",
+				"QmNzZkoog5nRbf4p27ieEdZHbitXdFDRuDJGnPYwgoH3z5": "src/utils/readPackageSync.js",
+				"QmWPiPb3vSj9pGnkyQj5osWhHZjzh5NyF1ftwmhsMZK18t": "src/utils/verifyFiles.js",
+				"QmVtqeJFqZkvsfvrQovfTzH2ZQoBk42XeP7sJ31LqV6aAa": "examples/change.js",
+				"QmXWxAu2ZWsjPZDCeFKeeDQTcEhZ3jJF1YJZMT4VPLji7N": "examples/delta.js",
+				"QmdMirRApJmtobJAVQJ6QaQLsTLM8KNjb7hGbCQjPJEfGb": "examples/get.js",
+				"QmUZi6TVRF4bqDqgAyA8onBs2mGeys8gdqDAcHnFqqE38T": "examples/load.js",
+				"QmXr7c58PizwhjyZD4DHhep71Ppjs5Dc4xBd37JdeWDae7": "examples/multi.js",
+				"QmW1DmK7CrbmFdzmJ68NdVSiSDDxfNwj6bFk2pdGMhf5y8": "examples/mutable.js",
+				"QmTMM4hm7e8KAv18WfewV3WA3nR4hnSsthotYPxWEExicx": "examples/notarize.js",
+				"QmRd9asTK4Te5Kno3jrdgUuzCmzToDxUvrsX7ccBWAxL8e": "examples/run.js",
+				"QmVgJjGP9dCqiuJY6v2z6Mc3Tz1UgZhU67UBuycaSPLp1P": "examples/snapshot.js",
+				"QmQZeAxcag8Jz87WrcFZWajQeDjqqvbEgY7xL3ZggM339n": "examples/update.js",
+				"QmPH2SKanZ1Qh9KaT2xcaQMVGZZv3d8vqUqaxr8DMPgpPJ": "examples/browser/index.html"
+			},
+			"name": "chainscript",
+			"author": "Chainscript Team",
+			"version": "0.26.1",
+			"homepage": "https://github.com/Chainscript/chainscript-js",
+			"repository_url": "https://github.com/Chainscript/chainscript-js.git",
+			"license": "MIT"
+		},
 		"x_meta": {
 			"uuid": "chainscript:envelope:0aaaf824-4786-4c0d-8a63-3b14d98a190b",
-			"content_digest": "fc5f1e5be5fe647880d237be3b15cfcd32bc5413"
+			"content_digest": "6febd31cecb03391fa40d1ba2800635649f38145",
+			"revision": 2,
+			"previous_hash": "9925745ab96699599bf9f2e3169efb6fe06e29ab",
+			"signatures": {
+				"1NryTMGRZuBruTeZ6RXLVR8xBWGJWNtDcx": {
+					"digest": "6febd31cecb03391fa40d1ba2800635649f38145",
+					"signature": "H9F5hn0cvH6zEgI7xY0ZQZLjl+dmxBGt6H1+gwwziEdodXFRkp8NmHmgIBBUiTDXVlT8TCvJaDw6aTZDnEM0uZY="
+				}
+			}
+		},
+		"x_revisions": {
+			"1442753043687": {
+				"previous_content": "genesis",
+				"revision": 1,
+				"previous_hash": "97852b1c2758486203d260d7e8839457b10c0be1",
+				"revised_on": "2015-09-20T12:44:03+00:00"
+			},
+			"1442753044097": {
+				"description": "body/content was signed",
+				"revision": 2,
+				"previous_hash": "9925745ab96699599bf9f2e3169efb6fe06e29ab",
+				"revised_on": "2015-09-20T12:44:04+00:00"
+			}
 		}
 	},
 	"x_chainscript": {
 		"validation": {
 			"agent": "io.chainscript.agent",
 			"version": "0.1.alpha",
-			"result": "valid",
-			"validated_on": "2015-09-20T12:43:33+00:00",
-			"message": "Envelope was executed without a command."
+			"result": "success",
+			"validated_on": "2015-09-20T12:44:04+00:00"
 		},
-		"hash": "97852b1c2758486203d260d7e8839457b10c0be1",
-		"revision_auditing": true
+		"hash": "4cd7dff7efdb3f54181aa5c9f630286b12c14a12",
+		"revision_auditing": true,
+		"transactions": {
+			"chainscript:testnet3:tx:231a2de695b001f69db99526a5276050a84860d86a7feafe48ea4d78e9d15a78": {
+				"status": "broadcasted",
+				"op_return": "4cd7dff7efdb3f54181aa5c9f630286b12c14a12",
+				"blockchain": "testnet3",
+				"reference": "chainscript:notarization:df3a1d29-cae3-45a2-8f2f-6b48a63dbc4a",
+				"broadcasted_on": "2015-09-20T12:44:04+00:00"
+			}
+		},
+		"notarizations": {
+			"chainscript:notarization:df3a1d29-cae3-45a2-8f2f-6b48a63dbc4a": {
+				"hash": "4cd7dff7efdb3f54181aa5c9f630286b12c14a12",
+				"evidence": "chainscript:testnet3:tx:231a2de695b001f69db99526a5276050a84860d86a7feafe48ea4d78e9d15a78",
+				"notarized_at": "2015-09-20T12:44:04+00:00"
+			}
+		},
+		"notarized": true
 	}
 }
