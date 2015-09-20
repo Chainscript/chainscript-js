@@ -386,7 +386,7 @@ $ cshashrec --help
 
     -h, --help              output usage information
     -V, --version           output the version number
-    -a, --algorithm <name>  hash algorithm (default sha256)
+    -a, --algorithm <name>  hash algorithm (default sha2-256)
     -r, --root <path>       JSON root path
 
 $ csverifyrec --help
@@ -421,7 +421,7 @@ Output:
   "body": {
     "content": {
       "hashes": {
-        "algorithm": "sha256",
+        "algorithm": "sha2-256",
         "files": {
           "e7d1194ec29988b0051258a53f3e9abc8001a3fb6d9c7fb59df1434ebe217514": "README.md",
           "3689c692e1bcecc39de1d6c6b1746df0e17107e852c19e7b1329aa1399929b1b": "chainscript.json",
@@ -517,7 +517,7 @@ Output:
   "body": {
     "content": {
       "hashes": {
-        "algorithm": "sha256",
+        "algorithm": "sha2-256",
         "files": {
           "015b34604126d8b0e177d5d2114f0245b67d680b6d19fb853daa4e4d7c23b881": "README.md",
           "3689c692e1bcecc39de1d6c6b1746df0e17107e852c19e7b1329aa1399929b1b": "chainscript.json",

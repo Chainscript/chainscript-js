@@ -49,7 +49,7 @@ function hashDir(cwd, dir, hashes) {
   return deferred.promise;
 }
 
-export default function hashFiles(cwd, paths, algorithm = 'sha256', root = '') {
+export default function hashFiles(cwd, paths, algorithm = 'sha2-256', root = '') {
   const deferred = Q.defer();
   const hashes = {algorithm, files: {}};
   const dirs = [...paths];
