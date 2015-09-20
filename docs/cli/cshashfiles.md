@@ -43,7 +43,7 @@ Base58 keeps the digests compact and human readable.
 ### Ignoring files
 
 You can have `.csignore` files to specify files that shouldn't be hashed. It
-works juste like `.gitignore`. If there are no `.csignore` files, it will use
+works just like `.gitignore`. If there are no `.csignore` files, it will use
 `.gitignore` files if present.
 
 Ex:
