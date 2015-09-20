@@ -34,7 +34,9 @@
   "bin": {
     "chainscript": "bin/chainscript",
     "cshashfiles": "bin/cshashfiles",
-    "csverifyfiles": "bin/csverifyfiles"
+    "csverifyfiles": "bin/csverifyfiles",
+    "cswritetopdf": "bin/cswritetopdf",
+    "csreadfrompdf": "bin/csreadfrompdf"
   },
   "repository": {
     "type": "git",
