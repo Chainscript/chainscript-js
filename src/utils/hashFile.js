@@ -1,11 +1,25 @@
 import fs from 'fs';
 import crypto from 'crypto';
+import multihash from 'multihashes';
 import Q from 'q';
+
+export const HASH_MAP = {
+  sha1: 'sha1',
+  sha256: 'sha2-256',
+  sha512: 'sha2-512'
+};
 
 export default function hashFile(cwd, file, algorithm) {
   const deferred = Q.defer();
 
   setImmediate(() => {
+    const algorithmName = HASH_MAP[algorithm];
+
+    if (typeof algorithmName === 'undefined') {
+      deferred.reject(new Error('Unsupported algorithm: ' + algorithm));
+      return;
+    }
+
     const hash = crypto.createHash(algorithm);
     const stream = fs.createReadStream(file);
 
@@ -18,7 +32,7 @@ export default function hashFile(cwd, file, algorithm) {
     });
 
     stream.on('end', () => {
-      deferred.resolve(hash.digest('hex'));
+      deferred.resolve(multihash.encode(hash.digest(), algorithmName));
     });
   });
 

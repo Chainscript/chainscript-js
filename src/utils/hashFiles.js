@@ -12,7 +12,7 @@ const ignorer = ignore().addIgnoreFile(
   ])
 );
 
-function hashDir(cwd, dir, hashes) {
+function hashDir(cwd, dir, algorithm, hashes) {
   const deferred = Q.defer();
 
   recursive(dir, (err, files) => {
@@ -35,9 +35,9 @@ function hashDir(cwd, dir, hashes) {
         return;
       }
 
-      hashFile(cwd, file, hashes.algorithm)
+      hashFile(cwd, file, algorithm)
         .then(hash => {
-          hashes.files[hash] = relative;
+          hashes[hash.toString('hex')] = relative;
           next();
         })
         .catch(deferred.reject);
@@ -49,9 +49,9 @@ function hashDir(cwd, dir, hashes) {
   return deferred.promise;
 }
 
-export default function hashFiles(cwd, paths, algorithm = 'sha2-256', root = '') {
+export default function hashFiles(cwd, paths, algorithm = 'sha256', root = '') {
   const deferred = Q.defer();
-  const hashes = {algorithm, files: {}};
+  const hashes = {};
   const dirs = [...paths];
 
   const originalCwd = process.cwd();
@@ -75,7 +75,7 @@ export default function hashFiles(cwd, paths, algorithm = 'sha2-256', root = '')
 
     const dir = dirs.shift();
 
-    hashDir(cwd, dir, hashes)
+    hashDir(cwd, dir, algorithm, hashes)
       .then(next)
       .catch(() => {
         process.chdir(originalCwd);
