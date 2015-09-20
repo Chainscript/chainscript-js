@@ -38,3 +38,7 @@ $ npm test
 ```bash
 $ npm run build
 ```
+
+## License
+
+MIT
