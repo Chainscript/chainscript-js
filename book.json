@@ -1,5 +1,17 @@
 {
   "structure": {
     "summary": "docs/README.md"
+  },
+  "links": {
+    "sidebar": {
+      "Made by Chainscript.io": "http://chainscript.io",
+      "Github Repo": "https://github.com/Chainscript/chainscript-js"
+    }
+  },
+  "plugins": ["edit-link"],
+  "pluginsConfig": {
+    "edit-link": {
+      "base": "https://github.com/Chainscript/chainscript-js/edit/master"
+    }
   }
 }

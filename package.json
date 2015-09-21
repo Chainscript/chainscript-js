@@ -59,6 +59,7 @@
     "eslint": "^1.4.1",
     "eslint-config-airbnb": "0.0.8",
     "gitbook-cli": "^0.3.6",
+    "gitbook-plugin-edit-link": "^1.4.1",
     "isparta": "^3.0.4",
     "mocha": "^2.3.2",
     "rimraf": "^2.4.3",
