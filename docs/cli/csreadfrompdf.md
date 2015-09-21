@@ -3,9 +3,6 @@
 A CLI tool to read a Chainscript attached to a PDF file. See
 [cswritetopdf](cswritetopdf.md).
 
-**Requires [pdftk](https://www.pdflabs.com/tools/pdftk-server) to be
-installed.**
-
 ## Install
 
 ```bash
@@ -23,7 +20,6 @@ $ csreadfrompdf --help
 
     -h, --help                    output usage information
     -V, --version                 output the version number
-    -n, --attachment-name <name>  attachment name (default chainscript.json)
 ```
 
 ## Examples

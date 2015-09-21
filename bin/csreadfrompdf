@@ -29,10 +29,6 @@ function handleError(err) {
 commander
   .version(readPackageSync('version'))
   .usage('[options] input')
-  .option(
-    '-n, --attachment-name <name>',
-    'attachment name (default chainscript.json)'
-  )
   .parse(process.argv);
 
 if (commander.args.length !== 1) {
@@ -41,10 +37,7 @@ if (commander.args.length !== 1) {
 }
 
 try {
-  readFromPDF(
-    path.resolve(process.cwd(), commander.args[0]),
-    commander.attachmentName
-  )
+  readFromPDF(path.resolve(process.cwd(), commander.args[0]))
     .then(handleOutput)
     .catch(handleError);
 } catch(err) {

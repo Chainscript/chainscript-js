@@ -13,8 +13,6 @@ export const HASH_MAP = {
 export default function hashFile(file, algorithm) {
   const deferred = Q.defer();
 
-  console.log(file);
-
   setImmediate(() => {
     const algorithmName = HASH_MAP[algorithm];
 

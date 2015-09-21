@@ -15,8 +15,7 @@ function handleInput(input) {
     writeToPDF(
       path.resolve(process.cwd(), commander.args[0]),
       path.resolve(process.cwd(), commander.args[1]),
-      json,
-      commander.attachmentName
+      json
     )
       .then(function() {
         process.exit(0);
@@ -36,10 +35,6 @@ function handleError(err) {
 commander
   .version(readPackageSync('version'))
   .usage('[options] input output [json]')
-  .option(
-    '-n, --attachment-name <name>',
-    'attachment name (default chainscript.json)'
-  )
   .parse(process.argv);
 
 if (commander.args.length < 2 || commander.args.length > 3) {

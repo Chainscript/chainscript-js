@@ -1,41 +1,40 @@
-import { exec } from 'child_process';
 import fs from 'fs';
-import path from 'path';
 import Q from 'q';
-import temp from 'temp';
 
-temp.track();
-
-export default function readFromPDF(src, name = 'chainscript.json') {
+export default function readFromPDF(src) {
   const deferred = Q.defer();
 
-  temp.mkdir('read_from_pdf', (err1, dirPath) => {
-    if (err1) {
-      deferred.reject(err1);
+  fs.readFile(src, (err, data) => {
+    if (err) {
+      deferred.reject(err);
       return;
     }
 
-    const cmd = 'pdftk ' + src + ' unpack_files output ' + dirPath;
+    const begin = data.indexOf('/Chainscript (');
 
-    exec(cmd, err2 => {
-      if (err2) {
-        deferred.reject(err2);
-        return;
-      }
+    if (begin < 0) {
+      deferred.resolve(null);
+      return;
+    }
 
-      fs.readFile(path.join(dirPath, name), 'utf8', (err3, data) => {
-        if (err3) {
-          deferred.reject(err3);
-          return;
-        }
+    let end = data.indexOf(')', begin);
 
-        try {
-          deferred.resolve(JSON.parse(data));
-        } catch (err4) {
-          deferred.reject(err4);
-        }
-      });
-    });
+    while (data[end - 1] === '\\') {
+      end = data.indexOf(')', end + 1);
+    }
+
+    const str = data
+      .slice(begin + 14, end)
+      .toString()
+      .replace(/\\\(/g, '(')
+      .replace(/\\\)/g, ')')
+      .replace(/\\\\/g, '\\'); // TODO: check this is good enough
+
+    try {
+      deferred.resolve(JSON.parse(str));
+    } catch (jsonErr) {
+      deferred.reject(jsonErr);
+    }
   });
 
   return deferred.promise;

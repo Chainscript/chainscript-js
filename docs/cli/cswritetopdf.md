@@ -2,9 +2,6 @@
 
 A CLI tool to attach a Chainscript to a PDF file.
 
-**Requires [pdftk](https://www.pdflabs.com/tools/pdftk-server) to be
-installed.**
-
 ## Install
 
 ```bash
@@ -22,7 +19,6 @@ $ cswritetopdf --help
 
     -h, --help                    output usage information
     -V, --version                 output the version number
-    -n, --attachment-name <name>  attachment name (default chainscript.json)
 ```
 
 ## Examples
