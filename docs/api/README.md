@@ -35,7 +35,7 @@ new Chainscript({body: {content: {name: 'My Document'}}})
   });
 ```
 
-### Starting from an existing script
+### Working with a previously snapshotted script
 
 ```js
 var Chainscript = require('chainscript');

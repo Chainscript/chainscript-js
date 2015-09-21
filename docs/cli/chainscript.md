@@ -164,7 +164,7 @@ Output:
 }
 ```
 
-### Use existing script
+### Working with a previously snapshotted script
 
 Simply pass a Chainscript UUID instead of a script:
 
