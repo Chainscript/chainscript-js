@@ -4,8 +4,8 @@
 			"files": {
 				"QmV6NDt464CRzDgYGb3TeBfQa9yZ3JF6nHevRu8iUor4nr": "LICENSE.md",
 				"QmdivJMpCDMDrp2rMYQu97Q7YYw85LmFx19voPvRCkusFT": "README.md",
-				"QmZ4di5uKTQXazgCe4PQysrpnFvRn3i9NsbZzpeXY9yCNS": "book.json",
-				"QmNmVmAMr46mYpyXXvzoyJzyih5vVe67PcBTDQVZFmHoaX": "package.json",
+				"QmdYwuoeNDJRAR6RTfJmVRaEexeJZUt9oLYRFwogz2gxvS": "book.json",
+				"QmbkZxop2eGJA3f7PsKxtH8qnoj2TKBANCwbr98dF4FEBx": "package.json",
 				"QmUJbYrzH7a4K1wrQXjby8hA9242gTDpsxp8Kp7JtU3m7h": "webpack.base.config.js",
 				"QmRf9FXaSqkw3rCP3asKoc6L11KY8kzxWMqGwf3zxAZk3M": "webpack.dev.config.js",
 				"QmR3uUQvGHukzSmzMXUcQnMrsnfwmkmEkeSkKwX6VfRvsL": "webpack.prod.config.js",
@@ -20,9 +20,9 @@
 				"QmaYNwNSo9YBEVSoteRqs25CPjqNhUCpKewAWqsam2PNx2": "dist/chainscript.min.js",
 				"QmdYdpXFhSU3kWpbGdMceNbJiec2YSrW7egF7qUP249JM7": "test/Chainscript.js",
 				"QmPL8FrYxirgwXEWP7FaFzxQmr96yGnqdkQ4a81T4bMqpB": "docs/README.md",
-				"QmXWKjT1AStUxGM8vDcRf39GzxqbyMgQgMe2c9gkJBaAZ1": "docs/api/README.md",
+				"QmdYG45MUE7EDwiTHoZaWTgGyy614zWRaoAJvb6ZW56oLY": "docs/api/README.md",
 				"QmUqQZZDshDQbLHZe5JNZtqUC6zs2shMW3TBAt7jmLJqLx": "docs/cli/README.md",
-				"QmZokG6HgETknGCkqWouWi6k7SPpGUtaYG6YJZVj2tL8HC": "docs/cli/chainscript.md",
+				"Qmf5SHe9rKVcSuPggbVBdhwPzCdBRBjurrkomzJFmECTPn": "docs/cli/chainscript.md",
 				"QmTgjY6mzWoFBvRmcH2Aq4VaXN3szjiWiZ132d9MFEqtn4": "docs/cli/cshashfiles.md",
 				"QmNb1pq4frUNX3Z7YfggQACNUtKuNe9C8mn6MkVzpQJa5o": "docs/cli/cshashpdf.md",
 				"Qmci3y8iasmyWUFpbVqTzzZSG6piYrJi9pgFcFTfjX4A31": "docs/cli/csreadfrompdf.md",
@@ -47,11 +47,11 @@
 				"QmT8a3NgjzBJ5U4DyrUbibQqBKz1QzSR5QZPJLYGTwo1Bp": "lib/utils/hashFile.js",
 				"QmWD4eu3MsFPdmHbQsRU7xP2GB2qW63AFD28hz9NmmeoYz": "lib/utils/hashFiles.js",
 				"QmcerSVm66yb2ar6MCyobG1oEeJAjgV8k7yNLeZfoCVqNC": "lib/utils/hashPDF.js",
-				"QmT1ynCCK74kp2rJrRg9NKdgXHvDKUxFEyLsisFE9JNLpL": "lib/utils/readFromPDF.js",
+				"QmYf323xLcUsLD1WXGCjffeazGipJX9LanUJ6NJb2e9nwb": "lib/utils/readFromPDF.js",
 				"QmfMQuAiM44QUbV1B6TgfVBdsMp6mjGohnp26X9w5oYRHz": "lib/utils/readPackageSync.js",
 				"QmPn1DRMSbuUAC2WcjnbW7EpjC3sbBvDaEMThyMfJryzu2": "lib/utils/verifyFiles.js",
 				"QmXwdELyxUgc7wvWbg4FDb7Tejih4cBH5Lnssux9b4i6n8": "lib/utils/verifyPDF.js",
-				"Qmc6CyQi3hk7z7VT6ysiNfphcvRa9YiHocqjsWcRNXSnWr": "lib/utils/writeToPDF.js",
+				"QmeCrobkYstJ2DJWqsv1kbpxW17ni85vwL82J6dgtmKHnD": "lib/utils/writeToPDF.js",
 				"QmWfMk1nqjYzRUrBknehM5pvWfZ5L5wELJW3EfPtJLrDt8": "src/Chainscript.js",
 				"QmQjYNaJM7jmfZcg1uDnxdhEYqfnyEaULUe1K5n3FHYQFk": "src/index.js",
 				"QmasC73FhU2dySe5ybUDpaD6KPYeqFXUrTgNPKqJpkncfG": "src/utils/clone.js",
@@ -59,28 +59,28 @@
 				"QmZxLn8ep3m3fCftNaz2xF4N4jZz6gqR2R5cn1ebD6moQY": "src/utils/hashFile.js",
 				"QmW3w4hu5SDPFfzJsZsFr6THJqaDoyUCQdXHp1FFcXLcfe": "src/utils/hashFiles.js",
 				"QmdYoWbqHoF5mpkwbsbAUhci4ePPYcXEyWbH9ChUnmEJhV": "src/utils/hashPDF.js",
-				"Qme5mUWwc82exV4gDRoDxKh9GM6XzNyApyo4ptewWyAJ6C": "src/utils/readFromPDF.js",
+				"QmUg3fjosNs8wQfMubF3rZ7KR6s6nPA4im5An417t4y6hu": "src/utils/readFromPDF.js",
 				"QmNzZkoog5nRbf4p27ieEdZHbitXdFDRuDJGnPYwgoH3z5": "src/utils/readPackageSync.js",
 				"QmSvqxrU79J2b84u5QTWKmNeYfRhkDEeJPN7BBdzmX1vQu": "src/utils/verifyFiles.js",
 				"QmZy4ALhV5PbVp3C4fg4wNjf7kdqqayL9PxMMWafbVJXtz": "src/utils/verifyPDF.js",
-				"QmXBn8dCHc35CKLPVyFvyZaHVxCzt2GPGu3HtnGxWaCHpS": "src/utils/writeToPDF.js"
+				"QmNeaWxGfzxRnuau9eTGozygP8gEpdzTmcFkijoJpTruRL": "src/utils/writeToPDF.js"
 			},
 			"name": "chainscript",
 			"author": "Chainscript Team",
-			"version": "0.30.0",
+			"version": "0.30.1",
 			"homepage": "https://github.com/Chainscript/chainscript-js",
 			"repository_url": "https://github.com/Chainscript/chainscript-js.git",
 			"license": "MIT"
 		},
 		"x_meta": {
 			"uuid": "chainscript:envelope:c211359e-6774-44b7-83b8-50b324858854",
-			"content_digest": "c718311caf5750b6e973a088d94198b81e2b1ea3",
-			"revision": 6,
-			"previous_hash": "28631ca98f0ebad5d963e0e2cc7cab9cee94a410",
+			"content_digest": "67d81f1664ee836f29315f5942c89b0dd1c3a32f",
+			"revision": 8,
+			"previous_hash": "a7bd2def19cabbdc4f8369b58c100dc12a4eca1c",
 			"signatures": {
 				"1NryTMGRZuBruTeZ6RXLVR8xBWGJWNtDcx": {
-					"digest": "c718311caf5750b6e973a088d94198b81e2b1ea3",
-					"signature": "IJRxO8HsxPm5XYs9wu2OvMspN6ex70z5JNCqcAUTz+ltKVg9PLu2E09jU5d10vxpVzQV9EVbY//PwPLZV3A8Gvo="
+					"digest": "67d81f1664ee836f29315f5942c89b0dd1c3a32f",
+					"signature": "IO7q0Ms6+PHYXfTRTAcfpKMEFDl+kJGjAr/Iii51EavvbfxN8o19AXwj9K4Wnj3dRy+ps485kWdaxt0a+PMjmiQ="
 				}
 			}
 		},
@@ -254,6 +254,89 @@
 				"revision": 6,
 				"previous_hash": "28631ca98f0ebad5d963e0e2cc7cab9cee94a410",
 				"revised_on": "2015-09-21T17:47:55+00:00"
+			},
+			"1442926045321": {
+				"previous_content": {
+					"files": {
+						"QmV6NDt464CRzDgYGb3TeBfQa9yZ3JF6nHevRu8iUor4nr": "LICENSE.md",
+						"QmdivJMpCDMDrp2rMYQu97Q7YYw85LmFx19voPvRCkusFT": "README.md",
+						"QmdYwuoeNDJRAR6RTfJmVRaEexeJZUt9oLYRFwogz2gxvS": "book.json",
+						"QmbkZxop2eGJA3f7PsKxtH8qnoj2TKBANCwbr98dF4FEBx": "package.json",
+						"QmUJbYrzH7a4K1wrQXjby8hA9242gTDpsxp8Kp7JtU3m7h": "webpack.base.config.js",
+						"QmRf9FXaSqkw3rCP3asKoc6L11KY8kzxWMqGwf3zxAZk3M": "webpack.dev.config.js",
+						"QmR3uUQvGHukzSmzMXUcQnMrsnfwmkmEkeSkKwX6VfRvsL": "webpack.prod.config.js",
+						"QmdF1tqX9nb3kXaqToz7mdHt5hX9Yb3YHVYKYmsrb4DXa3": "bin/chainscript",
+						"QmUzqFGm6JBRkrxjefefMuWyJzjn1uMY5rGgrYHkz8bQot": "bin/cshashfiles",
+						"QmR3jbdyQfH4aFg2yzpWv3fMP7ieE3gganDuA5vQDFNHEF": "bin/cshashpdf",
+						"QmYHDPDjfEmbcocjRtqh3dDW4qNUQhHqR7oHE1RVm1ZRWq": "bin/csreadfrompdf",
+						"QmYtphpk7earsqBGsrAg8UymJ6GsMCteEE8AETRJoNYf2h": "bin/csverifyfiles",
+						"QmS8L1CDLQg4XqtrmFL71P1Bsjf1Usi4CXPwxvrr7g11Pi": "bin/csverifypdf",
+						"QmfPkPfrHLtBMJPdvRofbMvw4vj34yxxqh4cpu89srMs54": "bin/cswritetopdf",
+						"QmbJXLWpR5VJj4SxiJZhfiP7u3P3fiHgo2dbZWY3ZRf5mq": "dist/chainscript.js",
+						"QmaYNwNSo9YBEVSoteRqs25CPjqNhUCpKewAWqsam2PNx2": "dist/chainscript.min.js",
+						"QmdYdpXFhSU3kWpbGdMceNbJiec2YSrW7egF7qUP249JM7": "test/Chainscript.js",
+						"QmPL8FrYxirgwXEWP7FaFzxQmr96yGnqdkQ4a81T4bMqpB": "docs/README.md",
+						"QmdYG45MUE7EDwiTHoZaWTgGyy614zWRaoAJvb6ZW56oLY": "docs/api/README.md",
+						"QmUqQZZDshDQbLHZe5JNZtqUC6zs2shMW3TBAt7jmLJqLx": "docs/cli/README.md",
+						"Qmf5SHe9rKVcSuPggbVBdhwPzCdBRBjurrkomzJFmECTPn": "docs/cli/chainscript.md",
+						"QmTgjY6mzWoFBvRmcH2Aq4VaXN3szjiWiZ132d9MFEqtn4": "docs/cli/cshashfiles.md",
+						"QmNb1pq4frUNX3Z7YfggQACNUtKuNe9C8mn6MkVzpQJa5o": "docs/cli/cshashpdf.md",
+						"Qmci3y8iasmyWUFpbVqTzzZSG6piYrJi9pgFcFTfjX4A31": "docs/cli/csreadfrompdf.md",
+						"QmdYmwuHmbv4Y1pgwVepP8ErhbBLTzDzzAXkETVjCpwXoF": "docs/cli/csverifyfiles.md",
+						"QmbRNvNJqpgrW2ksAPdZzpAk9EaNMG3eDyiCeLonoq9Zo5": "docs/cli/csverifypdf.md",
+						"QmZKSotBTcngje7afKPvZ56uMFfvwVWfW86UzPknBPBY5M": "docs/cli/cswritetopdf.md",
+						"QmVtqeJFqZkvsfvrQovfTzH2ZQoBk42XeP7sJ31LqV6aAa": "examples/change.js",
+						"QmXWxAu2ZWsjPZDCeFKeeDQTcEhZ3jJF1YJZMT4VPLji7N": "examples/delta.js",
+						"QmdMirRApJmtobJAVQJ6QaQLsTLM8KNjb7hGbCQjPJEfGb": "examples/get.js",
+						"QmUZi6TVRF4bqDqgAyA8onBs2mGeys8gdqDAcHnFqqE38T": "examples/load.js",
+						"QmXr7c58PizwhjyZD4DHhep71Ppjs5Dc4xBd37JdeWDae7": "examples/multi.js",
+						"QmW1DmK7CrbmFdzmJ68NdVSiSDDxfNwj6bFk2pdGMhf5y8": "examples/mutable.js",
+						"QmTMM4hm7e8KAv18WfewV3WA3nR4hnSsthotYPxWEExicx": "examples/notarize.js",
+						"QmRd9asTK4Te5Kno3jrdgUuzCmzToDxUvrsX7ccBWAxL8e": "examples/run.js",
+						"QmVgJjGP9dCqiuJY6v2z6Mc3Tz1UgZhU67UBuycaSPLp1P": "examples/snapshot.js",
+						"QmQZeAxcag8Jz87WrcFZWajQeDjqqvbEgY7xL3ZggM339n": "examples/update.js",
+						"QmPH2SKanZ1Qh9KaT2xcaQMVGZZv3d8vqUqaxr8DMPgpPJ": "examples/browser/index.html",
+						"QmPgHLVhYeRKAEFPX6wUSuYfMEUkU3KSzhP2NSQist5ReK": "lib/Chainscript.js",
+						"QmSVTAZVXA3VY6tBpoHMQZkG6wnaZFekWQ6EBc4FZdcQNF": "lib/index.js",
+						"QmWrjrVmDLes2nM8Y8JJUYJggGQexg8UUcvfKKaw5WGEhm": "lib/utils/clone.js",
+						"QmQAxwciMb9xad8grgZPbxktZztZffg6X4xxrZv25tbqEZ": "lib/utils/deepEquals.js",
+						"QmT8a3NgjzBJ5U4DyrUbibQqBKz1QzSR5QZPJLYGTwo1Bp": "lib/utils/hashFile.js",
+						"QmWD4eu3MsFPdmHbQsRU7xP2GB2qW63AFD28hz9NmmeoYz": "lib/utils/hashFiles.js",
+						"QmcerSVm66yb2ar6MCyobG1oEeJAjgV8k7yNLeZfoCVqNC": "lib/utils/hashPDF.js",
+						"QmYf323xLcUsLD1WXGCjffeazGipJX9LanUJ6NJb2e9nwb": "lib/utils/readFromPDF.js",
+						"QmfMQuAiM44QUbV1B6TgfVBdsMp6mjGohnp26X9w5oYRHz": "lib/utils/readPackageSync.js",
+						"QmPn1DRMSbuUAC2WcjnbW7EpjC3sbBvDaEMThyMfJryzu2": "lib/utils/verifyFiles.js",
+						"QmXwdELyxUgc7wvWbg4FDb7Tejih4cBH5Lnssux9b4i6n8": "lib/utils/verifyPDF.js",
+						"QmeCrobkYstJ2DJWqsv1kbpxW17ni85vwL82J6dgtmKHnD": "lib/utils/writeToPDF.js",
+						"QmWfMk1nqjYzRUrBknehM5pvWfZ5L5wELJW3EfPtJLrDt8": "src/Chainscript.js",
+						"QmQjYNaJM7jmfZcg1uDnxdhEYqfnyEaULUe1K5n3FHYQFk": "src/index.js",
+						"QmasC73FhU2dySe5ybUDpaD6KPYeqFXUrTgNPKqJpkncfG": "src/utils/clone.js",
+						"QmRpTxWxZocrvu1ndTmJS4pRDw9zREXKH8badyskmRgAcM": "src/utils/deepEquals.js",
+						"QmZxLn8ep3m3fCftNaz2xF4N4jZz6gqR2R5cn1ebD6moQY": "src/utils/hashFile.js",
+						"QmW3w4hu5SDPFfzJsZsFr6THJqaDoyUCQdXHp1FFcXLcfe": "src/utils/hashFiles.js",
+						"QmdYoWbqHoF5mpkwbsbAUhci4ePPYcXEyWbH9ChUnmEJhV": "src/utils/hashPDF.js",
+						"QmUg3fjosNs8wQfMubF3rZ7KR6s6nPA4im5An417t4y6hu": "src/utils/readFromPDF.js",
+						"QmNzZkoog5nRbf4p27ieEdZHbitXdFDRuDJGnPYwgoH3z5": "src/utils/readPackageSync.js",
+						"QmSvqxrU79J2b84u5QTWKmNeYfRhkDEeJPN7BBdzmX1vQu": "src/utils/verifyFiles.js",
+						"QmZy4ALhV5PbVp3C4fg4wNjf7kdqqayL9PxMMWafbVJXtz": "src/utils/verifyPDF.js",
+						"QmNeaWxGfzxRnuau9eTGozygP8gEpdzTmcFkijoJpTruRL": "src/utils/writeToPDF.js"
+					},
+					"name": "chainscript",
+					"author": "Chainscript Team",
+					"version": "0.30.1",
+					"homepage": "https://github.com/Chainscript/chainscript-js",
+					"repository_url": "https://github.com/Chainscript/chainscript-js.git",
+					"license": "MIT"
+				},
+				"revision": 7,
+				"previous_hash": "dff26926f0ca1f1086185bafe1b4ca372288cec1",
+				"revised_on": "2015-09-22T12:47:25+00:00"
+			},
+			"1442926046670": {
+				"description": "body/content was signed",
+				"revision": 8,
+				"previous_hash": "a7bd2def19cabbdc4f8369b58c100dc12a4eca1c",
+				"revised_on": "2015-09-22T12:47:26+00:00"
 			}
 		}
 	},
@@ -262,9 +345,9 @@
 			"agent": "io.chainscript.agent",
 			"version": "0.1.alpha",
 			"result": "success",
-			"validated_on": "2015-09-21T17:47:55+00:00"
+			"validated_on": "2015-09-22T12:47:27+00:00"
 		},
-		"hash": "dff26926f0ca1f1086185bafe1b4ca372288cec1",
+		"hash": "cc27c00060a0fb17068f91dacefecb4fcf84e60b",
 		"revision_auditing": true,
 		"transactions": {
 			"chainscript:testnet3:tx:57f3c80acb2e3cb04f7bd3d8b9fdcbe8566faa9dbb9a2d524205d919066059fd": {
@@ -287,6 +370,13 @@
 				"blockchain": "testnet3",
 				"reference": "chainscript:notarization:0f70c174-4ef0-4dd1-b4af-bac9e2a3d53f",
 				"broadcasted_on": "2015-09-21T17:47:55+00:00"
+			},
+			"chainscript:testnet3:tx:681865ce49e8ddbb0bd708502292f46a4cad010a19ebd81ff32c014a310f6b9b": {
+				"status": "broadcasted",
+				"op_return": "cc27c00060a0fb17068f91dacefecb4fcf84e60b",
+				"blockchain": "testnet3",
+				"reference": "chainscript:notarization:8b242f18-a291-4a6a-8ff0-28974d38e57b",
+				"broadcasted_on": "2015-09-22T12:47:27+00:00"
 			}
 		},
 		"notarizations": {
@@ -304,6 +394,11 @@
 				"hash": "dff26926f0ca1f1086185bafe1b4ca372288cec1",
 				"evidence": "chainscript:testnet3:tx:c8e642d78c9320186cf73180b6a3c9c2590b25b2f8862cd4cd9b64eba4a542f9",
 				"notarized_at": "2015-09-21T17:47:55+00:00"
+			},
+			"chainscript:notarization:8b242f18-a291-4a6a-8ff0-28974d38e57b": {
+				"hash": "cc27c00060a0fb17068f91dacefecb4fcf84e60b",
+				"evidence": "chainscript:testnet3:tx:681865ce49e8ddbb0bd708502292f46a4cad010a19ebd81ff32c014a310f6b9b",
+				"notarized_at": "2015-09-22T12:47:27+00:00"
 			}
 		},
 		"notarized": true
