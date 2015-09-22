@@ -1,6 +1,30 @@
 import fs from 'fs';
 import Q from 'q';
 
+/**
+ * We look for these to find meta data location
+ */
+const META_SEARCH = [
+  '/ModDate',
+  '/CreationDate',
+  '/Creator',
+  '/Title',
+  '/Producer',
+  '/Author'
+];
+
+const NEW_LINE_CODES = [
+  '\n'.charCodeAt(),
+  '\r'.charCodeAt()
+];
+
+function encodeScript(script) {
+  return JSON.stringify(script)
+    .replace(/\\/g, '\\\\')
+    .replace(/\(/g, '\\(')
+    .replace(/\)/g, '\\)');
+}
+
 export default function writeToPDF(
   src,
   dest,
@@ -21,14 +45,13 @@ export default function writeToPDF(
     if (begin > -1) {
       let end = data.indexOf(')', begin);
 
-      while (data[end - 1] === '\\') {
+      while (data[end - 1] === '\\'.charCodeAt()) {
         end = data.indexOf(')', end + 1);
       }
 
       end++;
 
-      if (data[end] === '\n'.charCodeAt() ||
-          data[end] === '\r'.charCodeAt()) {
+      if (NEW_LINE_CODES.indexOf(data[end]) >= 0) {
         end++;
       }
 
@@ -37,7 +60,13 @@ export default function writeToPDF(
     }
 
     if (script) {
-      begin = buffer.indexOf('/ModDate');
+      for (let i = 0; i < META_SEARCH.length; i++) {
+        begin = buffer.indexOf(META_SEARCH[i]);
+
+        if (begin >= 0) {
+          break;
+        }
+      }
 
       if (begin < 0) {
         deferred.reject(new Error('Could not find metadata'));
@@ -45,22 +74,16 @@ export default function writeToPDF(
       }
 
       begin = buffer.indexOf(')', begin) + 1;
-      let newLine = '';
 
-      if (buffer[begin] === '\n'.charCodeAt()) {
-        newLine = '\n';
-        begin++;
-      } else if (buffer[begin] === '\r'.charCodeAt()) {
-        newLine = '\r';
+      const newLine = NEW_LINE_CODES.reduce((prev, c) => {
+        return buffer[begin] === c ? String.fromCharCode(c) : prev;
+      }, '');
+
+      if (newLine) {
         begin++;
       }
 
-      const str = '/Chainscript (' +
-                  JSON.stringify(script)
-                      .replace(/\\/g, '\\\\')
-                      .replace(/\(/g, '\\(')
-                      .replace(/\)/g, '\\)') +
-                  ')' + newLine;
+      const str = '/Chainscript (' + encodeScript(script) + ')' + newLine;
 
       buffer = Buffer.concat([
         buffer.slice(0, begin),

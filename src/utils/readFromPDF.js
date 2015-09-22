@@ -1,6 +1,15 @@
 import fs from 'fs';
 import Q from 'q';
 
+function decodeScript(data) {
+  return JSON.parse(
+    data
+      .replace(/\\\(/g, '(')
+      .replace(/\\\)/g, ')')
+      .replace(/\\\\/g, '\\')
+    );
+}
+
 export default function readFromPDF(src) {
   const deferred = Q.defer();
 
@@ -23,15 +32,11 @@ export default function readFromPDF(src) {
       end = data.indexOf(')', end + 1);
     }
 
-    const str = data
-      .slice(begin + 14, end)
-      .toString()
-      .replace(/\\\(/g, '(')
-      .replace(/\\\)/g, ')')
-      .replace(/\\\\/g, '\\'); // TODO: check this is good enough
+    const str = data.slice(begin + 14, end).toString();
 
     try {
-      deferred.resolve(JSON.parse(str));
+      const script = decodeScript(str);
+      deferred.resolve(script);
     } catch (jsonErr) {
       deferred.reject(jsonErr);
     }
