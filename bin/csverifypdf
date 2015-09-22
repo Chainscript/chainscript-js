@@ -18,7 +18,7 @@ function handleError(err) {
 
 commander
   .version(readPackageSync('version'))
-  .usage('[options] [hashes] [-- chainscript args]')
+  .usage('[options] input')
   .option('-r, --root <path>', 'JSON root path (default body.content.hash)')
   .parse(process.argv);
 

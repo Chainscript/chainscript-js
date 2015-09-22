@@ -13,7 +13,7 @@ $ npm install -g chainscript
 ```bash
 $ csverifypdf --help
 
-  Usage: csverifypdf [options] [hashes] [-- chainscript args]
+  Usage: csverifypdf [options] input
 
   Options:
 
@@ -24,10 +24,10 @@ $ csverifypdf --help
 
 ## Examples
 
-### Inject a hash into a PDF then verify it
+### Inject a chainscript with a hash into a PDF then verify it
 
 ```bash
-$ cshashpdf document.pdf -r body.content.hash | cswritetopdf document.pdf output.pdf
+$ cshashpdf document.pdf -- | cswritetopdf document.pdf output.pdf
 $ csverifypdf output.pdf 
 ```
 
