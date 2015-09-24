@@ -1,4 +1,4 @@
-import { readdir, stat } from 'fs';
+import { readdir, lstat } from 'fs';
 import { join } from 'path';
 import Q from 'q';
 
@@ -27,7 +27,7 @@ export default function walkDir(dir, filter, fileCb) {
         return;
       }
 
-      stat(file, (statErr, stats) => {
+      lstat(file, (statErr, stats) => {
         if (statErr) {
           deferred.reject(statErr);
           return;
@@ -35,7 +35,7 @@ export default function walkDir(dir, filter, fileCb) {
 
         if (stats.isDirectory()) {
           walkDir(file, filter, fileCb).then(next).catch(deferred.reject);
-        } else if (fileCb) {
+        } else if (!stats.isSymbolicLink() && fileCb) {
           fileCb(file).then(next).catch(deferred.reject);
         } else {
           next();
