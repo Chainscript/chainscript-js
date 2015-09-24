@@ -89,13 +89,9 @@ function handleOutput(output) {
     str = output + '\n';
   }
 
-  var res = process.stdout.write(str, function() {
+  process.stdout.write(str, function() {
     process.exit(0);
   });
-
-  if (!res) {
-    handleError(new Error('Failed to write output'));
-  }
 }
 
 function handleError(err) {

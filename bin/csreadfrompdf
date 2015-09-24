@@ -11,13 +11,9 @@ var readFromPDF = require(path.resolve(__dirname, '../lib/utils/readFromPDF'));
 
 function handleOutput(output) {
   var str = JSON.stringify(output, null, '\t') + '\n';
-  var res = process.stdout.write(str, function() {
+  process.stdout.write(str, function() {
     process.exit(0);
   });
-
-  if (!res) {
-    handleError(new Error('Failed to write output'));
-  }
 }
 
 function handleError(err) {

@@ -1,8 +1,8 @@
 import path from 'path';
-import recursive from 'recursive-readdir';
 import Q from 'q';
 import objectPath from 'object-path';
 import ignore from 'ignore';
+import walkDir from './walkDir';
 import hashFile from './hashFile';
 
 const ignorer = ignore().addIgnoreFile(
@@ -13,40 +13,12 @@ const ignorer = ignore().addIgnoreFile(
 );
 
 function hashDir(cwd, dir, algorithm, hashes) {
-  const deferred = Q.defer();
-
-  recursive(dir, ['node_modules', '.git'], (err, files) => {
-    if (err) {
-      deferred.reject(err);
-      return;
-    }
-
-    const next = () => {
-      if (files.length === 0) {
-        deferred.resolve();
-        return;
-      }
-
-      const file = files.shift();
-      const relative = path.relative(cwd, file);
-
-      if (ignorer.filter([relative]).length === 0) {
-        next();
-        return;
-      }
-
-      hashFile(file, algorithm)
-        .then(hash => {
-          hashes[hash] = relative;
-          next();
-        })
-        .catch(deferred.reject);
-    };
-
-    next();
-  });
-
-  return deferred.promise;
+  return walkDir(dir, files =>
+    ignorer.filter(files.map(f => path.relative(cwd, f)))
+  , file =>
+    hashFile(file, algorithm)
+      .then(hash => hashes[hash] = path.relative(cwd, file))
+  );
 }
 
 export default function hashFiles(cwd, paths, algorithm = 'sha256', root = '') {
