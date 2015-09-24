@@ -10,7 +10,7 @@ export const HASH_MAP = {
   sha512: 'sha2-512'
 };
 
-export default function hashFile(file, algorithm) {
+export default function hashFile(input, algorithm) {
   const deferred = Q.defer();
 
   setImmediate(() => {
@@ -22,17 +22,15 @@ export default function hashFile(file, algorithm) {
     }
 
     const hash = crypto.createHash(algorithm);
-    const stream = fs.createReadStream(file);
+    const reader = typeof input === 'string' ?
+                   fs.createReadStream(input) :
+                   input;
 
-    stream.on('error', err => {
-      deferred.reject(err);
-    });
+    reader.on('error', deferred.reject);
 
-    stream.on('data', data => {
-      hash.update(data);
-    });
+    reader.on('data', data => hash.update(data));
 
-    stream.on('end', () => {
+    reader.on('end', () => {
       const res = bs58.encode(multihash.encode(hash.digest(), algorithmName));
       deferred.resolve(res);
     });
