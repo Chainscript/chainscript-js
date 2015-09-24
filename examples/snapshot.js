@@ -14,6 +14,6 @@ new Chainscript({
   .then(function(cs) {
     console.log(cs.toJSON());
   })
-  .fail(function(err) {
+  .catch(function(err) {
     console.error(err.message);
   });

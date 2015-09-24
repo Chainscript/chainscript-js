@@ -1,5 +1,4 @@
 import path from 'path';
-import Q from 'q';
 import objectPath from 'object-path';
 import ignore from 'ignore';
 import walkDir from './walkDir';
@@ -22,40 +21,32 @@ function hashDir(cwd, dir, algorithm, hashes) {
 }
 
 export default function hashFiles(cwd, paths, algorithm = 'sha256', root = '') {
-  const deferred = Q.defer();
-  const hashes = {};
-  const dirs = [...paths];
+  return new Promise((resolve, reject) => {
+    const hashes = {};
+    const dirs = [...paths];
 
-  const originalCwd = process.cwd();
-  process.chdir(cwd);
+    const next = () => {
+      if (dirs.length === 0) {
+        let json;
 
-  const next = () => {
-    if (dirs.length === 0) {
-      let json;
+        if (root) {
+          json = {};
+          objectPath.set(json, root || '', hashes);
+        } else {
+          json = hashes;
+        }
 
-      if (root) {
-        json = {};
-        objectPath.set(json, root || '', hashes);
-      } else {
-        json = hashes;
+        resolve(json);
+        return;
       }
 
-      process.chdir(originalCwd);
-      deferred.resolve(json);
-      return;
-    }
+      const dir = dirs.shift();
 
-    const dir = dirs.shift();
+      hashDir(cwd, dir, algorithm, hashes)
+        .then(next)
+        .catch(reject);
+    };
 
-    hashDir(cwd, dir, algorithm, hashes)
-      .then(next)
-      .catch(err => {
-        process.chdir(originalCwd);
-        deferred.reject(err);
-      });
-  };
-
-  next();
-
-  return deferred.promise;
+    next();
+  });
 }

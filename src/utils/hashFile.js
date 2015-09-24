@@ -2,7 +2,6 @@ import fs from 'fs';
 import crypto from 'crypto';
 import multihash from 'multihashes';
 import bs58 from 'bs58';
-import Q from 'q';
 
 export const HASH_MAP = {
   sha1: 'sha1',
@@ -11,13 +10,11 @@ export const HASH_MAP = {
 };
 
 export default function hashFile(input, algorithm) {
-  const deferred = Q.defer();
-
-  setImmediate(() => {
+  return new Promise((resolve, reject) => {
     const algorithmName = HASH_MAP[algorithm];
 
     if (typeof algorithmName === 'undefined') {
-      deferred.reject(new Error('Unsupported algorithm: ' + algorithm));
+      reject(new Error('Unsupported algorithm: ' + algorithm));
       return;
     }
 
@@ -26,15 +23,13 @@ export default function hashFile(input, algorithm) {
                    fs.createReadStream(input) :
                    input;
 
-    reader.on('error', deferred.reject);
+    reader.on('error', reject);
 
     reader.on('data', data => hash.update(data));
 
     reader.on('end', () => {
       const res = bs58.encode(multihash.encode(hash.digest(), algorithmName));
-      deferred.resolve(res);
+      resolve(res);
     });
   });
-
-  return deferred.promise;
 }

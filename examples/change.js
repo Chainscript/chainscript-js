@@ -36,6 +36,6 @@ new Chainscript({body: {content: {name: 'My Document'}}}, true)
   .then(function(cs) {
     console.log(cs.get('body.content'));
   })
-  .fail(function(err) {
+  .catch(function(err) {
     console.error(err.message);
   });

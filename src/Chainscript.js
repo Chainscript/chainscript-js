@@ -1,5 +1,4 @@
 import request from 'superagent';
-import Q from 'q';
 import objectPath from 'object-path';
 import { PrivateKey } from 'bitcore';
 import Message from 'bitcore-message';
@@ -19,24 +18,24 @@ export default class Chainscript {
    * @returns {Promise} A promise that resolves with a new Chainscript
    */
   static load = (uuid, immutable = false) => {
-    const deferred = Q.defer();
+    return new Promise((resolve, reject) => {
+      request
+        .get(Chainscript.SNAPSHOTS_URL + uuid.replace(/:/g, '-') + '.json')
+        .set('Accept', 'application/json')
+        .end((err, res) => {
+          if (err) {
+            reject(err);
+            return;
+          }
 
-    request
-      .get(Chainscript.SNAPSHOTS_URL + uuid.replace(/:/g, '-') + '.json')
-      .set('Accept', 'application/json')
-      .end((err, res) => {
-        if (err) {
-          return deferred.reject(err);
-        }
+          if (!res.ok) {
+            reject(new Error(res.text));
+            return;
+          }
 
-        if (!res.ok) {
-          return deferred.reject(new Error(res.text));
-        }
-
-        deferred.resolve(new Chainscript(clone(res.body), immutable));
-      });
-
-    return deferred.promise;
+          resolve(new Chainscript(clone(res.body), immutable));
+        });
+    });
   };
 
   /**
@@ -86,42 +85,42 @@ export default class Chainscript {
    * @returns {Promise} A promise that resolves with a new Chainscript
    */
   run() {
-    const deferred = Q.defer();
+    return new Promise((resolve, reject) => {
+      if (!this.immutable) {
+        const initialContent = objectPath.get(this.initial, 'body.content');
+        const currentContent = objectPath.get(this.script, 'body.content');
 
-    if (!this.immutable) {
-      const initialContent = objectPath.get(this.initial, 'body.content');
-      const currentContent = objectPath.get(this.script, 'body.content');
-
-      if (!deepEquals(initialContent, currentContent)) {
-        this.script.body = this.script.body || {};
-        this.script.body.content = initialContent;
-        this.delta(currentContent, true);
+        if (!deepEquals(initialContent, currentContent)) {
+          this.script.body = this.script.body || {};
+          this.script.body.content = initialContent;
+          this.delta(currentContent, true);
+        }
       }
-    }
 
-    request
-      .post(Chainscript.EXECUTE_URL)
-      .send(this.script)
-      .set('Accept', 'application/json')
-      .end((err, res) => {
-        if (err) {
-          return deferred.reject(err);
-        }
+      request
+        .post(Chainscript.EXECUTE_URL)
+        .send(this.script)
+        .set('Accept', 'application/json')
+        .end((err, res) => {
+          if (err) {
+            reject(err);
+            return;
+          }
 
-        if (!res.ok) {
-          return deferred.reject(new Error(res.text));
-        }
+          if (!res.ok) {
+            reject(new Error(res.text));
+            return;
+          }
 
-        if (this.immutable) {
-          deferred.resolve(new Chainscript(res.body, true));
-        } else {
-          this.script = res.body;
-          this.initial = clone(this.script);
-          deferred.resolve(this);
-        }
-      });
-
-    return deferred.promise;
+          if (this.immutable) {
+            resolve(new Chainscript(res.body, true));
+          } else {
+            this.script = res.body;
+            this.initial = clone(this.script);
+            resolve(this);
+          }
+        });
+    });
   }
 
   /**

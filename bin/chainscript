@@ -64,7 +64,7 @@ function handleInput(input) {
   if (input.match(/^chainscript:/)) {
     Chainscript.load(input)
       .then(run)
-      .fail(handleError);
+      .catch(handleError);
   } else {
     var json;
 
@@ -148,7 +148,7 @@ function run(cs) {
         .update(updates)
         .run()
         .then(stage2)
-        .fail(handleError);
+        .catch(handleError);
     } else {
       stage2();
     }
@@ -177,7 +177,7 @@ function run(cs) {
       .run()
       .then(function() {
         handleOutput(cs.toJSON());
-      }).fail(handleError);
+      }).catch(handleError);
   }
 
   if (typeof commander.executeUrl !== 'undefined') {
@@ -194,7 +194,7 @@ function run(cs) {
     cs
       .run()
       .then(stage1)
-      .fail(handleError);
+      .catch(handleError);
   } else {
     stage1();
   }
