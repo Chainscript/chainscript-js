@@ -8,6 +8,7 @@
   },
   "scripts": {
     "build:lib": "babel src --out-dir lib",
+    "build:lib:watch": "babel src --out-dir lib --watch",
     "build:umd": "webpack src/index.js dist/chainscript.js --config webpack.dev.config.js",
     "build:umd:min": "webpack src/index.js dist/chainscript.min.js -p --config webpack.prod.config.js",
     "build": "npm run build:lib && npm run build:umd && npm run build:umd:min",
