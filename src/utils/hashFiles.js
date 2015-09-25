@@ -5,10 +5,7 @@ import walkDir from './walkDir';
 import hashFile from './hashFile';
 
 const ignorer = ignore().addIgnoreFile(
-  ignore.select([
-    '.csignore',
-    '.gitignore'
-  ])
+  ignore.select(['.csignore', '.gitignore'])
 );
 
 function hashDir(cwd, dir, algorithm, hashes) {
@@ -21,32 +18,25 @@ function hashDir(cwd, dir, algorithm, hashes) {
 }
 
 export default function hashFiles(cwd, paths, algorithm = 'sha256', root = '') {
-  return new Promise((resolve, reject) => {
-    const hashes = {};
-    const dirs = [...paths];
+  const hashes = {};
+  const dirs = [...paths];
 
-    const next = () => {
-      if (dirs.length === 0) {
-        let json;
+  const next = () => {
+    if (dirs.length === 0) {
+      let json;
 
-        if (root) {
-          json = {};
-          objectPath.set(json, root || '', hashes);
-        } else {
-          json = hashes;
-        }
-
-        resolve(json);
-        return;
+      if (root) {
+        json = {};
+        objectPath.set(json, root || '', hashes);
+      } else {
+        json = hashes;
       }
 
-      const dir = dirs.shift();
+      return json;
+    }
 
-      hashDir(cwd, dir, algorithm, hashes)
-        .then(next)
-        .catch(reject);
-    };
+    return hashDir(cwd, dirs.shift(), algorithm, hashes).then(next);
+  };
 
-    next();
-  });
+  return next();
 }

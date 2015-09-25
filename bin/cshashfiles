@@ -73,6 +73,7 @@ hashFiles(process.cwd(), paths, commander.algorithm, commander.root)
           hasAt = true;
         }
       }
+
       try {
         execFileSync(
           path.resolve(__dirname, './chainscript'),

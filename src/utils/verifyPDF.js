@@ -9,36 +9,31 @@ import { HASH_MAP } from './hashFile';
 const INVERTED_HASH_MAP = invertHash(HASH_MAP);
 
 export default function verifyPDF(src, root = 'body.content.hash') {
-  return new Promise((resolve, reject) => {
-    let hash;
-    let algorithm;
+  let hash;
+  let algorithm;
 
-    readFromPDF(src)
-      .then(json => {
-        if (!json) {
-          reject(new Error('Failed'));
-          return null;
-        }
+  return readFromPDF(src)
+    .then(json => {
+      if (!json) {
+        throw new Error('Failed');
+      }
 
-        hash = objectPath.get(json, root);
-        const buf = new Buffer(bs58.decode(hash));
-        const algorithmName = multihash.decode(buf).name;
-        algorithm = INVERTED_HASH_MAP[algorithmName];
+      hash = objectPath.get(json, root);
+      const buf = new Buffer(bs58.decode(hash));
+      const algorithmName = multihash.decode(buf).name;
+      algorithm = INVERTED_HASH_MAP[algorithmName];
 
-        if (typeof algorithm === 'undefined') {
-          reject(new Error('Unsupported algorithm: ' + algorithmName));
-          return null;
-        }
+      if (typeof algorithm === 'undefined') {
+        throw new Error('Unsupported algorithm: ' + algorithmName);
+      }
 
-        return hashPDF(src, algorithm, null);
-      })
-      .then(h => {
-        if (hash === h) {
-          resolve();
-        } else {
-          reject(new Error('Failed'));
-        }
-      })
-      .catch(reject);
-  });
+      return hashPDF(src, algorithm, null);
+    })
+    .then(h => {
+      if (hash === h) {
+        return true;
+      }
+
+      throw new Error('Failed');
+    });
 }

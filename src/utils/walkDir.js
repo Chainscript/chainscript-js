@@ -1,47 +1,39 @@
-import { readdir, lstat } from 'fs';
+import fs from 'fs';
 import { join } from 'path';
+import promisify from './promisify';
+
+const readdir = promisify(fs.readdir);
+const lstat = promisify(fs.lstat);
 
 export default function walkDir(dir, filter, fileCb) {
-  return new Promise((resolve, reject) => {
-    readdir(dir, (err, fileList) => {
-      if (err) {
-        reject(err);
-        return;
-      }
-
+  return readdir(dir)
+    .then(fileList => {
       let files = fileList.map(f => join(dir, f));
       files = filter ? filter(files) : files;
 
-      function next() {
+      const next = () => {
         if (files.length < 1) {
-          resolve();
-          return;
+          return true;
         }
 
         const file = files.shift();
 
         if (!file) {
-          next();
-          return;
+          return next();
         }
 
-        lstat(file, (statErr, stats) => {
-          if (statErr) {
-            reject(statErr);
-            return;
-          }
+        return lstat(file)
+          .then(stats => {
+            if (stats.isDirectory()) {
+              return walkDir(file, filter, fileCb).then(next);
+            } else if (!stats.isSymbolicLink() && fileCb) {
+              return fileCb(file).then(next);
+            }
 
-          if (stats.isDirectory()) {
-            walkDir(file, filter, fileCb).then(next).catch(reject);
-          } else if (!stats.isSymbolicLink() && fileCb) {
-            fileCb(file).then(next).catch(reject);
-          } else {
-            next();
-          }
-        });
-      }
+            return next();
+          });
+      };
 
-      next();
+      return next();
     });
-  });
 }

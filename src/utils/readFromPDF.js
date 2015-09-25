@@ -1,18 +1,15 @@
 import fs from 'fs';
+import promisify from './promisify';
+
+const readFile = promisify(fs.readFile);
 
 export default function readFromPDF(src) {
-  return new Promise((resolve, reject) => {
-    fs.readFile(src, (err, data) => {
-      if (err) {
-        reject(err);
-        return;
-      }
-
+  return readFile(src)
+    .then(data => {
       let start = data.indexOf('\n% Chainscript: ');
 
       if (start < 0) {
-        resolve(null);
-        return;
+        return null;
       }
 
       start += 16;
@@ -20,10 +17,9 @@ export default function readFromPDF(src) {
       const str = data.slice(start, end).toString();
 
       try {
-        resolve(JSON.parse(str));
-      } catch (jsonErr) {
-        reject(jsonErr);
+        return JSON.parse(str);
+      } catch (err) {
+        return err;
       }
     });
-  });
 }

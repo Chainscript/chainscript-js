@@ -4,6 +4,7 @@ import { PrivateKey } from 'bitcore';
 import Message from 'bitcore-message';
 import clone from './utils/clone';
 import deepEquals from './utils/deepEquals';
+import promisify from './utils/promisify';
 
 export default class Chainscript {
 
@@ -18,24 +19,18 @@ export default class Chainscript {
    * @returns {Promise} A promise that resolves with a new Chainscript
    */
   static load = (uuid, immutable = false) => {
-    return new Promise((resolve, reject) => {
-      request
-        .get(Chainscript.SNAPSHOTS_URL + uuid.replace(/:/g, '-') + '.json')
-        .set('Accept', 'application/json')
-        .end((err, res) => {
-          if (err) {
-            reject(err);
-            return;
-          }
+    const req = request
+      .get(Chainscript.SNAPSHOTS_URL + uuid.replace(/:/g, '-') + '.json')
+      .set('Accept', 'application/json');
 
-          if (!res.ok) {
-            reject(new Error(res.text));
-            return;
-          }
+    return promisify(req.end.bind(req))()
+      .then(res => {
+        if (!res.ok) {
+          throw new Error(res.text);
+        }
 
-          resolve(new Chainscript(clone(res.body), immutable));
-        });
-    });
+        return new Chainscript(clone(res.body), immutable);
+      });
   };
 
   /**
@@ -85,42 +80,37 @@ export default class Chainscript {
    * @returns {Promise} A promise that resolves with a new Chainscript
    */
   run() {
-    return new Promise((resolve, reject) => {
-      if (!this.immutable) {
-        const initialContent = objectPath.get(this.initial, 'body.content');
-        const currentContent = objectPath.get(this.script, 'body.content');
+    if (!this.immutable) {
+      const initialContent = objectPath.get(this.initial, 'body.content');
+      const currentContent = objectPath.get(this.script, 'body.content');
 
-        if (!deepEquals(initialContent, currentContent)) {
-          this.script.body = this.script.body || {};
-          this.script.body.content = initialContent;
-          this.delta(currentContent, true);
-        }
+      if (!deepEquals(initialContent, currentContent)) {
+        this.script.body = this.script.body || {};
+        this.script.body.content = initialContent;
+        this.delta(currentContent, true);
       }
+    }
 
-      request
-        .post(Chainscript.EXECUTE_URL)
-        .send(this.script)
-        .set('Accept', 'application/json')
-        .end((err, res) => {
-          if (err) {
-            reject(err);
-            return;
-          }
+    const req = request
+      .post(Chainscript.EXECUTE_URL)
+      .send(this.script)
+      .set('Accept', 'application/json');
 
-          if (!res.ok) {
-            reject(new Error(res.text));
-            return;
-          }
+    return promisify(req.end.bind(req))()
+      .then(res => {
+        if (!res.ok) {
+          throw new Error(res.text);
+        }
 
-          if (this.immutable) {
-            resolve(new Chainscript(res.body, true));
-          } else {
-            this.script = res.body;
-            this.initial = clone(this.script);
-            resolve(this);
-          }
-        });
-    });
+        if (this.immutable) {
+          return new Chainscript(res.body, true);
+        }
+
+        this.script = res.body;
+        this.initial = clone(this.script);
+
+        return this;
+      });
   }
 
   /**
