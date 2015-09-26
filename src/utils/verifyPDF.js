@@ -1,3 +1,4 @@
+import { PassThrough } from 'stream';
 import multihash from 'multihashes';
 import bs58 from 'bs58';
 import invertHash from 'invert-hash';
@@ -11,8 +12,21 @@ const INVERTED_HASH_MAP = invertHash(HASH_MAP);
 export default function verifyPDF(input, root = 'body.content.hash', toJson) {
   let hash;
   let algorithm;
+  let input1;
+  let input2;
 
-  return readFromPDF(input)
+  if (typeof input === 'string') {
+    input1 = input;
+    input2 = input;
+  } else {
+    input1 = new PassThrough();
+    input2 = new PassThrough();
+
+    input.pipe(input1);
+    input.pipe(input2);
+  }
+
+  return readFromPDF(input1)
     .then(json => {
       if (!json) {
         throw new Error('Failed');
@@ -27,7 +41,7 @@ export default function verifyPDF(input, root = 'body.content.hash', toJson) {
         throw new Error('Unsupported algorithm: ' + algorithmName);
       }
 
-      return hashPDF(input, algorithm, null);
+      return hashPDF(input2, algorithm, null);
     })
     .then(h => {
       if (hash === h) {

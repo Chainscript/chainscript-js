@@ -3,8 +3,8 @@ import fs from 'fs';
 export default function readFromPDF(input) {
   return new Promise((resolve, reject) => {
     const reader = typeof input === 'string' ?
-                     fs.createReadStream(input) :
-                     input;
+                   fs.createReadStream(input) :
+                   input;
 
     let buffer = new Buffer([]);
 
