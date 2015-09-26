@@ -1,25 +1,33 @@
 import fs from 'fs';
-import promisify from './promisify';
 
-const readFile = promisify(fs.readFile);
+export default function readFromPDF(input) {
+  return new Promise((resolve, reject) => {
+    const reader = typeof input === 'string' ?
+                     fs.createReadStream(input) :
+                     input;
 
-export default function readFromPDF(src) {
-  return readFile(src)
-    .then(data => {
-      let start = data.indexOf('\n% Chainscript: ');
+    let buffer = new Buffer([]);
+
+    reader.on('error', reject);
+
+    reader.on('data', data => buffer = Buffer.concat([buffer, data]));
+
+    reader.on('end', () => {
+      let start = buffer.indexOf('\n% Chainscript: ');
 
       if (start < 0) {
-        return null;
+        resolve(null);
       }
 
       start += 16;
-      const end = data.indexOf('\n', start);
-      const str = data.slice(start, end).toString();
+      const end = buffer.indexOf('\n', start);
+      const str = buffer.slice(start, end).toString();
 
       try {
-        return JSON.parse(str);
+        resolve(JSON.parse(str));
       } catch (err) {
-        return err;
+        reject(err);
       }
     });
+  });
 }
