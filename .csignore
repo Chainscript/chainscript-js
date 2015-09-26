@@ -1,0 +1,8 @@
+.*
+*.log
+*.pdf
+node_modules
+coverage
+_book
+tmp.json
+chainscript.json

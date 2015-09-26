@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Browser Example</title>
+  <script src="../../dist/chainscript.js"></script>
+</head>
+<body>
+  <textarea id="output" style="width: 100%; height: 300px;">
+  </textarea>
+  <button id="snapshot">snapshot</button>
+  <button id="notarize">notarize</button>
+  <button id="run">run</button>
+
+  <script>
+    var script = new Chainscript({body: {content: {name: 'New Document'}}});
+    var output = document.getElementById('output');
+
+    function render() {
+      output.innerHTML = JSON.stringify(script.toJSON(), null, '  ');
+    }
+
+    render();
+
+    document.getElementById('snapshot').addEventListener('click', function() {
+      script = new Chainscript(JSON.parse(output.innerHTML)).snapshot();
+      render();
+    });
+
+    document.getElementById('notarize').addEventListener('click', function() {
+      script = new Chainscript(JSON.parse(output.innerHTML)).notarize();
+      render();
+    });
+
+    document.getElementById('run').addEventListener('click', function() {
+      script.run()
+        .then(function(s) {
+          script = s;
+          render();
+        })
+        .catch(function(err) {
+          alert(err.message);
+        });
+    });
+  </script>
+</body>
+</html>
