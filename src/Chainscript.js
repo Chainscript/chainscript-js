@@ -123,7 +123,11 @@ export default class Chainscript {
       return undefined;
     }
 
-    return clone(value);
+    if (this.immutable) {
+      return clone(value);
+    }
+
+    return value;
   }
 
   /**
@@ -204,7 +208,7 @@ export default class Chainscript {
    * @returns {Chainscript} A new instance of Chainscript
    */
   change(fn) {
-    const next = this.get('body.content');
+    const next = clone(this.get('body.content'));
 
     fn(next);
 

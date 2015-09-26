@@ -2,6 +2,7 @@ import sinon from 'sinon';
 import request from 'superagent';
 import Message from 'bitcore-message';
 import Chainscript from '../src/Chainscript';
+import clone from '../src/utils/clone';
 
 const testResponse = {
   ok: true,
@@ -360,7 +361,7 @@ describe('Chainscript', () => {
               }
             }
           }, immutable);
-          content = script.get('body.content');
+          content = clone(script.get('body.content'));
         });
 
 
