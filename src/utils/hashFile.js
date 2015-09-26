@@ -14,8 +14,7 @@ export default function hashFile(input, algorithm) {
     const algorithmName = HASH_MAP[algorithm];
 
     if (typeof algorithmName === 'undefined') {
-      reject(new Error('Unsupported algorithm: ' + algorithm));
-      return;
+      throw new Error('Unsupported algorithm: ' + algorithm);
     }
 
     const hash = crypto.createHash(algorithm);
