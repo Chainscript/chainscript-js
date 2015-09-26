@@ -29,6 +29,10 @@ export default class Chainscript {
           throw new Error(res.text);
         }
 
+        if (!res.body) {
+          throw new Error('Not found');
+        }
+
         return new Chainscript(clone(res.body), immutable);
       });
   };
@@ -100,6 +104,10 @@ export default class Chainscript {
       .then(res => {
         if (!res.ok) {
           throw new Error(res.text);
+        }
+
+        if (!res.body) {
+          throw new Error('Not found');
         }
 
         if (this.immutable) {
