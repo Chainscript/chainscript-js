@@ -29,6 +29,10 @@ export default function verifyPDF(input, root = 'body.content.hash', toJson) {
   return readFromPDF(input1)
     .then(json => {
       if (!json) {
+        if (toJson) {
+          return {verified: false, wants: hash, has: null};
+        }
+
         throw new Error('Failed');
       }
 
