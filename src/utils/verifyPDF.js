@@ -8,7 +8,7 @@ import { HASH_MAP } from './hashFile';
 
 const INVERTED_HASH_MAP = invertHash(HASH_MAP);
 
-export default function verifyPDF(src, root = 'body.content.hash') {
+export default function verifyPDF(src, root = 'body.content.hash', toJson) {
   let hash;
   let algorithm;
 
@@ -31,7 +31,15 @@ export default function verifyPDF(src, root = 'body.content.hash') {
     })
     .then(h => {
       if (hash === h) {
+        if (toJson) {
+          return {verified: true, wants: hash, has: h};
+        }
+
         return true;
+      }
+
+      if (toJson) {
+        return {verified: false, wants: hash, has: h};
       }
 
       throw new Error('Failed');
