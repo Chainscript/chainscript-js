@@ -32,7 +32,7 @@ export default function hashFiles(cwd, paths, algorithm = 'sha256', root = '') {
         json = hashes;
       }
 
-      return json;
+      return Promise.resolve(json);
     }
 
     return hashDir(cwd, dirs.shift(), algorithm, hashes).then(next);
