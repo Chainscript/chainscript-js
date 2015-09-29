@@ -18,7 +18,7 @@ export default function verifyFiles(cwd, json, root) {
         throw new Error(errors.map(err => err.message).join('\n'));
       }
 
-      return true;
+      return Promise.resolve(true);
     }
 
     const hash = hashes.shift();
