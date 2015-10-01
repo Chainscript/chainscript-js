@@ -1,4 +1,4 @@
-# Chainscript Javascript Client
+# Chainscript Javascript Toolkit
 
 <img src="http://chainscript.io/assets/images/chainscript-512.png" width="128" height="auto" title="Chainscript Logo">
 
